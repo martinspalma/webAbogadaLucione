@@ -263,89 +263,75 @@
                             </div>
                         </div>
                     </div>
-                   
-                 <!-- ============================================= -->
-<!-- FORMULARIO SIMPLIFICADO Y FUNCIONAL -->
-<!-- ============================================= -->
-<div class="contact-form">
-    <h3><i class="fas fa-paper-plane"></i> Envíe su Consulta</h3>
-    
-    <form id="contactForm" method="POST">
-        
-        <!-- SOLO campos esenciales para Web3Forms -->
-        <input type="hidden" name="access_key" value="cd2ed93c-93a4-4f47-aae9-0f555317949b">
-        <input type="hidden" name="subject" value="Nueva Consulta - Lucione & Asociados">
-        
-        <!-- NO usar redirect ni replyto por ahora -->
-        <input type="hidden" name="redirect" value="false">
-        
-        <!-- REMOVER el campo replyto completamente -->
-        <!-- <input type="hidden" name="replyto" value="%email%"> -->
-        
-        <!-- Campos del formulario SIN patrones complicados -->
-        <div class="form-group">
-            <input type="text" 
-                   name="name" 
-                   placeholder="Nombre completo*" 
-                   required
-                   aria-label="Nombre completo">
-        </div>
-        
-        <div class="form-group">
-            <input type="email" 
-                   name="email" 
-                   placeholder="Email*" 
-                   required
-                   aria-label="Correo electrónico">
-        </div>
-        
-        <div class="form-group">
-            <input type="tel" 
-                   name="phone" 
-                   placeholder="Teléfono (opcional)"
-                   aria-label="Número de teléfono">
-        </div>
-        
-        <div class="form-group">
-            <select name="service" aria-label="Tipo de consulta" required>
-                <option value="">Seleccione tipo de consulta*</option>
-                <option value="Divorcios">Divorcios</option>
-                <option value="Sucesiones">Sucesiones</option>
-                <option value="Amparos de Salud">Amparos de Salud</option>
-                <option value="Accidentes de Tránsito">Accidentes de Tránsito</option>
-                <option value="Reclamos Laborales">Reclamos Laborales</option>
-                <option value="Otros">Otra consulta</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <textarea name="message" 
-                      placeholder="Describa brevemente su consulta*" 
-                      rows="6" 
-                      required
-                      aria-label="Mensaje de consulta"></textarea>
-        </div>
-        
-        <div class="form-check">
-            <input type="checkbox" 
-                   id="privacy" 
-                   name="privacy" 
-                   required>
-            <label for="privacy">
-                <i class="fas fa-user-shield"></i> 
-                Acepto la política de privacidad*
-            </label>
-        </div>
-        
-        <!-- Contenedor para mensajes -->
-        <div id="form-status"></div>
-        
-        <button type="submit" class="btn btn-primary" id="submit-btn">
-            <i class="fas fa-paper-plane"></i> Enviar Consulta
-        </button>
-        
-    </form>
-</div>   
+
+                    <!-- ============================================= -->
+                    <!-- FORMULARIO SIMPLIFICADO Y FUNCIONAL -->
+                    <!-- ============================================= -->
+                    <div class="contact-form">
+                        <h3><i class="fas fa-paper-plane"></i> Envíe su Consulta</h3>
+
+                        <form id="contactForm" method="POST">
+
+                            <!-- SOLO campos esenciales para Web3Forms -->
+                            <input type="hidden" name="access_key" value="cd2ed93c-93a4-4f47-aae9-0f555317949b">
+                            <input type="hidden" name="subject" value="Nueva Consulta - Lucione & Asociados">
+
+                            <!-- NO usar redirect ni replyto por ahora -->
+                            <input type="hidden" name="redirect" value="http://127.0.0.1:5500/gracias.html">
+
+                            <!-- REMOVER el campo replyto completamente -->
+                            <!-- <input type="hidden" name="replyto" value="%email%"> -->
+
+                            <!-- Campos del formulario SIN patrones complicados -->
+                            <div class="form-group">
+                                <input type="text" name="name" placeholder="Nombre completo*" required
+                                    aria-label="Nombre completo">
+                            </div>
+
+                            <div class="form-group">
+                                <input type="email" name="email" placeholder="Email*" required
+                                    aria-label="Correo electrónico">
+                            </div>
+
+                            <div class="form-group">
+                                <input type="tel" name="phone" placeholder="Teléfono (opcional)"
+                                    aria-label="Número de teléfono">
+                            </div>
+
+                            <div class="form-group">
+                                <select name="service" aria-label="Tipo de consulta" required>
+                                    <option value="">Seleccione tipo de consulta*</option>
+                                    <option value="Divorcios">Divorcios</option>
+                                    <option value="Sucesiones">Sucesiones</option>
+                                    <option value="Amparos de Salud">Amparos de Salud</option>
+                                    <option value="Accidentes de Tránsito">Accidentes de Tránsito</option>
+                                    <option value="Reclamos Laborales">Reclamos Laborales</option>
+                                    <option value="Otros">Otra consulta</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <textarea name="message" placeholder="Describa brevemente su consulta*" rows="6"
+                                    required aria-label="Mensaje de consulta"></textarea>
+                            </div>
+
+                            <div class="form-check">
+                                <input type="checkbox" id="privacy" name="privacy" required>
+                                <label for="privacy">
+                                    <i class="fas fa-user-shield"></i>
+                                    Acepto la política de privacidad*
+                                </label>
+                            </div>
+
+                            <!-- Contenedor para mensajes -->
+                            <div id="form-status"></div>
+
+                            <button type="submit" class="btn btn-primary" id="submit-btn">
+                                <i class="fas fa-paper-plane"></i> Enviar Consulta
+                            </button>
+
+                        </form>
+                    </div>
 
 
                 </div>

@@ -63,14 +63,14 @@ function initContactForm() {
         console.warn('⚠️ Formulario de contacto no encontrado');
         return;
     }
-    
+
     console.log('🔄 Inicializando sistema de formulario...');
-    
+
     // Elementos del DOM
     const formStatus = document.getElementById('form-status');
     const submitBtn = document.getElementById('submit-btn');
     const originalBtnText = submitBtn.innerHTML;
-    
+
     // Configuraciones
     const SERVICES = {
         WEB3FORMS: {
@@ -82,18 +82,18 @@ function initContactForm() {
             backup: true
         }
     };
-    
+
     // Función para mostrar mensajes
     function showStatus(message, type = 'info') {
         if (!formStatus) return;
-        
+
         const icons = {
             success: 'check-circle',
             error: 'exclamation-circle',
             info: 'info-circle',
             warning: 'exclamation-triangle'
         };
-        
+
         formStatus.innerHTML = `
             <div class="form-notification ${type}">
                 <div class="notification-content">
@@ -103,7 +103,7 @@ function initContactForm() {
             </div>
         `;
         formStatus.style.display = 'block';
-        
+
         // Auto-ocultar mensajes informativos después de 5 segundos
         if (type !== 'success') {
             setTimeout(() => {
@@ -111,11 +111,11 @@ function initContactForm() {
             }, 5000);
         }
     }
-    
+
     // Función para estado de carga
     function setLoading(isLoading) {
         if (!submitBtn) return;
-        
+
         if (isLoading) {
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
@@ -124,17 +124,17 @@ function initContactForm() {
             submitBtn.innerHTML = originalBtnText;
         }
     }
-    
+
     // Función para enviar a Web3Forms (PRIMER INTENTO)
     async function sendToWeb3Forms(formData) {
         console.log('🔵 Intentando Web3Forms...');
-        
+
         const payload = new FormData();
-        
+
         // Añadir campos obligatorios de Web3Forms
         payload.append('access_key', SERVICES.WEB3FORMS.accessKey);
         payload.append('subject', 'Nueva Consulta - Lucione & Asociados');
-        
+
         // Añadir campos del formulario
         const fields = ['name', 'email', 'phone', 'service', 'message', 'privacy'];
         fields.forEach(field => {
@@ -143,35 +143,35 @@ function initContactForm() {
                 payload.append(field, value);
             }
         });
-        
+
         // Opciones adicionales
         payload.append('from_name', 'Sitio Web Lucione & Asociados');
-        
+
         console.log('📤 Enviando a Web3Forms...', {
             access_key: SERVICES.WEB3FORMS.accessKey.substring(0, 10) + '...',
             fields: Array.from(payload.keys())
         });
-        
+
         const response = await fetch(SERVICES.WEB3FORMS.url, {
             method: 'POST',
             body: payload
         });
-        
+
         return await response.json();
     }
-    
+
     // Función para enviar a FormSubmit (SEGUNDO INTENTO)
     async function sendToFormSubmit(formData) {
         console.log('🟡 Intentando FormSubmit.co...');
-        
+
         const payload = new FormData();
-        
+
         // Configuración de FormSubmit
         payload.append('_subject', 'Nueva Consulta - Lucione & Asociados');
         payload.append('_template', 'table');
         payload.append('_captcha', 'false');
         payload.append('_cc', 'lucioneyasociados@gmail.com');
-        
+
         // Mapear campos (FormSubmit usa nombres diferentes)
         const fieldMap = {
             'name': 'nombre',
@@ -181,80 +181,83 @@ function initContactForm() {
             'message': 'mensaje',
             'privacy': 'acepto_privacidad'
         };
-        
+
         Object.entries(fieldMap).forEach(([original, mapped]) => {
             const value = formData.get(original);
             if (value) {
                 payload.append(mapped, value);
             }
         });
-        
+
         const response = await fetch(SERVICES.FORM_SUBMIT.url, {
             method: 'POST',
             body: payload
         });
-        
+
         return await response.json();
     }
-    
+
     // Event listener principal
-    contactForm.addEventListener('submit', async function(e) {
+    contactForm.addEventListener('submit', async function (e) {
         e.preventDefault();
-        
+
         console.log('🚀 Iniciando envío de formulario...');
         setLoading(true);
         showStatus('Procesando su consulta...', 'info');
-        
+
         try {
             // Obtener datos del formulario
             const formData = new FormData(this);
-            
+
             // Validación básica
             const email = formData.get('email');
             const name = formData.get('name');
-            
+
             if (!email || !name) {
                 throw new Error('Por favor, complete los campos requeridos');
             }
-            
+
             // INTENTO 1: Web3Forms
             let result = await sendToWeb3Forms(formData);
-            
+
             // Si Web3Forms falla, intentar FormSubmit
             if (!result.success && SERVICES.FORM_SUBMIT.backup) {
                 console.log('⚠️ Web3Forms falló, intentando FormSubmit...');
                 showStatus('Usando servicio alternativo...', 'warning');
-                
+
                 result = await sendToFormSubmit(formData);
-                
+
                 // FormSubmit tiene diferente formato de respuesta
                 if (result.success || result.message === 'success') {
                     result.success = true;
                 }
             }
-            
+
             // Manejar resultado final
             if (result.success) {
                 console.log('✅ Formulario enviado exitosamente');
                 showStatus('✅ ¡Consulta enviada! La Dra. Lucione se contactará pronto.', 'success');
-                
-                // Limpiar formulario después de 2 segundos
+
+                contactForm.reset();
+
+                // Redireccionar después de 2 segundos
                 setTimeout(() => {
-                    contactForm.reset();
-                    if (formStatus) formStatus.style.display = 'none';
+                    window.location.href = 'gracias.html';
                 }, 2000);
+
                 
+
             } else {
                 // Ambos servicios fallaron
                 throw new Error(result.message || 'No se pudo enviar el formulario');
             }
-            
+
         } catch (error) {
             console.error('❌ Error crítico:', error);
-            
+
             // Mensajes de error amigables
             let userMessage = 'Error al enviar. ';
-            
+
             if (error.message.includes('Network') || !navigator.onLine) {
                 userMessage = 'Sin conexión a internet. ';
             } else if (error.message.includes('Failed to fetch')) {
@@ -264,34 +267,34 @@ function initContactForm() {
             } else {
                 userMessage += error.message;
             }
-            
+
             userMessage += 'Por favor, contáctenos por teléfono: +54 11 4321-5678';
-            
+
             showStatus(`❌ ${userMessage}`, 'error');
-            
+
         } finally {
             setLoading(false);
         }
     });
-    
+
     // Validación en tiempo real para mejor UX
     const requiredFields = contactForm.querySelectorAll('[required]');
     requiredFields.forEach(field => {
-        field.addEventListener('input', function() {
+        field.addEventListener('input', function () {
             if (this.checkValidity()) {
                 this.style.borderColor = '#38a169';
             } else {
                 this.style.borderColor = '#cbd5e0';
             }
         });
-        
-        field.addEventListener('blur', function() {
+
+        field.addEventListener('blur', function () {
             if (!this.value.trim() && this.hasAttribute('required')) {
                 this.style.borderColor = '#e53e3e';
             }
         });
     });
-    
+
     console.log('✅ Sistema de formulario inicializado');
 }
 

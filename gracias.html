@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta Enviada - Lucione & Asociados</title>
+    <title>Consulta Recibida - Lucione & Asociados</title>
+
+    <!-- Mismas dependencias que index.html -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background: #f8f9fa;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -15,53 +22,238 @@
             margin: 0;
             padding: 20px;
         }
-        .success-container {
+
+        .success-card {
             background: white;
-            padding: 3rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 4rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
             text-align: center;
-            max-width: 600px;
+            max-width: 650px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
         }
+
+        .success-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(135deg, var(--accent-color), var(--highlight-color));
+        }
+
         .success-icon {
-            font-size: 4rem;
-            color: #28a745;
-            margin-bottom: 1.5rem;
-        }
-        h1 {
-            color: #1a365d;
-            font-family: 'Playfair Display', serif;
-            margin-bottom: 1rem;
-        }
-        p {
-            color: #4a5568;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-        .btn {
-            display: inline-block;
-            background: #1a365d;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #38a169, #2f855a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
             color: white;
-            padding: 1rem 2rem;
-            text-decoration: none;
-            border-radius: 30px;
-            margin-top: 1rem;
-            transition: all 0.3s ease;
+            font-size: 3.5rem;
+            box-shadow: 0 10px 25px rgba(56, 161, 105, 0.3);
         }
-        .btn:hover {
-            background: #2d4a7c;
-            transform: translateY(-2px);
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .success-subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .success-content {
+            text-align: left;
+            margin: 2.5rem 0;
+            padding: 2rem;
+            background: rgba(184, 134, 11, 0.03);
+            border-left: 4px solid var(--highlight-color);
+            border-radius: 0 10px 10px 0;
+        }
+
+        .success-content p {
+            color: var(--text-color);
+            line-height: 1.8;
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-info-box {
+            background: rgba(44, 82, 130, 0.05);
+            border: 1px solid rgba(44, 82, 130, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .contact-info-box h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-info-box p {
+            color: var(--secondary-color);
+            margin: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .contact-info-box i {
+            color: var(--accent-color);
+            width: 20px;
+        }
+
+        .btn-container {
+            margin-top: 2.5rem;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+            color: white;
+            padding: 1.2rem 2.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(44, 82, 130, 0.3);
+        }
+
+        .btn-back:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(44, 82, 130, 0.4);
+        }
+
+        .auto-redirect {
+            margin-top: 1.5rem;
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .auto-redirect span {
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        /* Animaciones */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-card {
+            animation: fadeInUp 0.6s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .success-card {
+                padding: 2.5rem 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .success-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .success-card {
+                padding: 2rem 1rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .btn-back {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
+
 <body>
-    <div class="success-container">
-        <div class="success-icon">✅</div>
-        <h1>¡Consulta Enviada con Éxito!</h1>
-        <p><strong>Gracias por contactar al Estudio Jurídico Lucione & Asociados.</strong></p>
-        <p>Su consulta ha sido recibida correctamente. La Dra. Florencia Antonella Lucione revisará su caso y se contactará con usted en un plazo máximo de 24-48 horas hábiles.</p>
-        <p>Recibirá una copia de este mensaje en su correo electrónico.</p>
-        <a href="index.html" class="btn">Volver al Sitio Principal</a>
+    <div class="success-card">
+        <div class="success-icon">
+            <i class="fas fa-check"></i>
+        </div>
+
+        <h1>¡Consulta Recibida con Éxito!</h1>
+        <p class="success-subtitle">Gracias por confiar en Lucione & Asociados</p>
+
+        <div class="success-content">
+            <p><strong>Estimado/a cliente,</strong></p>
+            <p>Su consulta ha sido recibida correctamente en nuestro sistema. La <strong>Dra. Florencia Antonella Lucione</strong> revisará personalmente su caso.</p>
+            <p>Recibirá una respuesta en un plazo máximo de <strong>24-48 horas hábiles</strong>.</p>
+            <p>También hemos enviado una copia de este mensaje a su correo electrónico para su registro.</p>
+        </div>
+
+        <div class="contact-info-box">
+            <h3><i class="fas fa-clock"></i> ¿Consulta urgente?</h3>
+            <p><i class="fas fa-phone"></i> +54 11 4321-5678 (Oficina)</p>
+            <p><i class="fab fa-whatsapp"></i> +54 9 11 9876-5432 (WhatsApp)</p>
+            <p><i class="fas fa-envelope"></i> lucioneyasociados@gmail.com</p>
+        </div>
+
+        <div class="btn-container">
+            <a href="index.html" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Volver al Sitio Principal
+            </a>
+            <div class="auto-redirect">
+                Será redirigido automáticamente en <span id="countdown">10</span> segundos
+            </div>
+        </div>
     </div>
+
+    <script>
+        // Contador para redirección automática
+        let seconds = 10;
+        const countdownElement = document.getElementById('countdown');
+        const countdownInterval = setInterval(() => {
+            seconds--;
+            countdownElement.textContent = seconds;
+            
+            if (seconds <= 0) {
+                clearInterval(countdownInterval);
+                window.location.href = 'index.html';
+            }
+        }, 1000);
+    </script>
 </body>
+
 </html>
