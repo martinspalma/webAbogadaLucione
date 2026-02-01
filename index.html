@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucione & Asociados - Estudio Jurídico</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS de Calendly (IMPORTANTE para el estilo) -->
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- SPLASH SCREEN -->
+    <div id="splash-screen" class="splash-screen">
+        <div class="splash-content">
+            <div class="splash-image-container">
+                <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80"
+                    alt="Estudio Jurídico Lucione & Asociados" id="splash-image" class="splash-image">
+                <div class="splash-overlay">
+                    <div class="logo-splash-container">
+                        <div class="text-logo">
+                            <h1 class="splash-main-title">Lucione</h1>
+                            <h2 class="splash-subtitle">& Asociados</h2>
+                        </div>
+                        <div class="splash-divider"></div>
+                        <p class="splash-tagline">Estudio Jurídico Especializado</p>
+                        <p class="splash-abogada">Dra. Florencia Antonella Lucione</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div id="main-content" class="hidden">
+        <!-- HEADER -->
+        <header class="header">
+            <nav class="navbar">
+                <div class="logo-container">
+                    <div id="header-logo" class="text-logo-header">
+                        <span class="logo-primary">Lucione</span>
+                        <span class="logo-secondary">& Asociados</span>
+                    </div>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#home">Inicio</a></li>
+                    <li><a href="#nosotros">Nosotros</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                    <li><a href="#agendar" class="btn-agendar">Agendar Cita</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            <!-- HERO SECTION -->
+            <section id="home" class="hero">
+                <div class="hero-content">
+                    <div class="badge-abogada">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Dra. Florencia Antonella Lucione</span>
+                    </div>
+                    <h1>Lucione <span class="highlight">& Asociados</span></h1>
+                    <p class="subtitle">Excelencia Jurídica con Enfoque Personalizado</p>
+                    <p class="welcome-text">
+                        Con más de 15 años de experiencia, el Estudio Jurídico <strong>Lucione & Asociados</strong>
+                        ofrece asesoramiento  y representacion legal integral, y soluciones
+                        personalizadas.
+                    </p>
+
+                  <!-- ============================================= -->
+<!-- MONEDA GIRATORIA DE ESPECIALIDADES SIMPLIFICADA -->
+<!-- ============================================= -->
+<div class="especialidades-container">
+    <div class="coin-simplified-container">
+        <!-- Moneda giratoria autónoma -->
+        <div class="coin-simplified" id="simpleCoin">
+            <div class="coin-simple-front">
+                <i class="fas fa-balance-scale"></i>
+                <span>Divorcios</span>
+            </div>
+        </div>
+        
+        <!-- Indicador discreto -->
+        <div class="simple-indicator">
+            <span class="simple-current">1</span>
+            <span class="simple-separator">/</span>
+            <span class="simple-total">5</span>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================= -->
+<!-- MODAL/POPUP DE DETALLES (igual que antes) -->
+<!-- ============================================= -->
+<div class="modal-overlay" id="especialidadModal">
+    <div class="modal-content">
+        <button class="modal-close" id="modalClose">&times;</button>
+        
+        <div class="modal-header">
+            <div class="modal-icon" id="modalIcon"></div>
+            <h3 id="modalTitle">Divorcios</h3>
+        </div>
+        
+        <div class="modal-body">
+            <div id="modalDescription">
+                <!-- El contenido se cargará dinámicamente -->
+            </div>
+            
+            <div class="modal-cta">
+                <p>¿Necesita asesoramiento sobre este tema?</p>
+                <a href="#contacto" class="btn btn-primary modal-contact-btn">
+                    <i class="fas fa-envelope"></i> Consultar ahora
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+                    <div class="button-container">
+                        <a href="#nosotros" class="btn btn-secondary">
+                            <i class="fas fa-users"></i> Conócenos
+                        </a>
+                        <a href="#contacto" class="btn btn-secondary">
+                            <i class="fas fa-envelope"></i> Contacto
+                        </a>
+                        <a href="#agendar" class="btn btn-primary">
+                            <i class="fas fa-calendar-check"></i> Agendar Consulta
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                        alt="Dra. Florencia Antonella Lucione - Estudio Jurídico" id="hero-image"
+                        class="hero-main-image">
+                    <div class="image-caption">
+                        <i class="fas fa-quote-left"></i>
+                        <p>"Cada caso es único, merece atención personalizada y dedicación absoluta"</p>
+                        <span class="caption-author">— Dra. Florencia A. Lucione</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN NOSOTROS -->
+            <section id="nosotros" class="section">
+                <h2><i class="fas fa-user-tie"></i> Nosotros</h2>
+                <div class="equipo-grid">
+                    <div class="abogada-principal">
+                        <div class="abogada-foto">
+                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                                alt="Dra. Florencia Antonella Lucione">
+                            <div class="abogada-badge">
+                                <i class="fas fa-award"></i>
+                                <span>Colegiatura: MP-12345</span>
+                            </div>
+                        </div>
+                        <div class="abogada-info">
+                            <h3>Dra. Florencia Antonella Lucione</h3>
+                            <p class="abogada-titulo">Abogada Fundadora</p>
+
+                            <div class="abogada-resumen">
+                                <h4><i class="fas fa-graduation-cap"></i> Formación Académica</h4>
+                                <ul>
+                                    <li>Doctora en Derecho - Universidad de Buenos Aires</li>
+                                    <li>Especialista en Derecho Civil y Comercial</li>
+                                    <li>Maestría en Derecho de Familia</li>
+                                    <li>Posgrado en Mediación y Resolución de Conflictos</li>
+                                </ul>
+
+                                <h4><i class="fas fa-briefcase"></i> Experiencia Profesional</h4>
+                                <ul>
+                                    <li>15+ años de experiencia en práctica legal</li>
+                                    <li>Fundadora de Lucione & Asociados (2010)</li>
+                                    <li>Ex-miembro del Tribunal de Ética del Colegio de Abogados</li>
+                                    <li>Conferencista en congresos nacionales e internacionales</li>
+                                </ul>
+
+                                <h4><i class="fas fa-handshake"></i> Filosofía de Trabajo</h4>
+                                <p class="filosofia-texto">
+                                    "Creo en un enfoque jurídico que combina rigor profesional con
+                                    comprensión humana. Cada cliente merece no solo una representación
+                                    legal competente, sino también empatía y comunicación transparente
+                                    durante todo el proceso."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="valores-section">
+                    <h3><i class="fas fa-star"></i> Nuestros Valores</h3>
+                    <div class="valores-grid">
+                        <div class="valor-card">
+                            <div class="valor-icon">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <h4>Confidencialidad</h4>
+                            <p>Total discreción y protección de su información personal y legal.</p>
+                        </div>
+                        <div class="valor-card">
+                            <div class="valor-icon">
+                                <i class="fas fa-bullseye"></i>
+                            </div>
+                            <h4>Enfoque Personalizado</h4>
+                            <p>Estrategias legales adaptadas a las necesidades específicas de cada cliente.</p>
+                        </div>
+                        <div class="valor-card">
+                            <div class="valor-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h4>Comunicación Clara</h4>
+                            <p>Explicamos cada paso del proceso legal en términos comprensibles.</p>
+                        </div>
+                        <div class="valor-card">
+                            <div class="valor-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <h4>Disponibilidad</h4>
+                            <p>Atención oportuna y seguimiento constante de su caso.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN CONTACTO -->
+            <section id="contacto" class="section contact-section">
+                <h2><i class="fas fa-envelope"></i> Contacto</h2>
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <h3><i class="fas fa-map-marker-alt"></i> Estudio Jurídico</h3>
+                        <p class="contact-detail">Av. Corrientes 1234, Piso 8º, Oficina 802</p>
+                        <p class="contact-detail">Buenos Aires, C1043AAZ</p>
+
+                        <h3><i class="fas fa-phone"></i> Teléfonos</h3>
+                        <p class="contact-detail">+54 11 4321-5678 (Línea principal)</p>
+                        <p class="contact-detail">+54 9 11 9876-5432 (WhatsApp)</p>
+
+                        <h3><i class="fas fa-envelope"></i> Email</h3>
+                        <p class="contact-detail">lucioneyasociados@gmail.com</p>
+
+                        <h3><i class="fas fa-clock"></i> Horario de Atención</h3>
+                        <p class="contact-detail">Lunes a Viernes: 9:00 - 19:00 hs</p>
+                        <p class="contact-detail">Sábados: 9:00 - 13:00 hs (previa cita)</p>
+
+                        <div class="contact-social">
+                            <h3><i class="fas fa-share-alt"></i> Redes Sociales</h3>
+                            <div class="social-icons">
+                                <a href="#" class="social-icon linkedin"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="social-icon whatsapp"><i class="fab fa-whatsapp"></i></a>
+                                <a href="#" class="social-icon facebook"><i class="fab fa-facebook"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ============================================= -->
+<!-- SECCIÓN: FORMULARIO DE CONTACTO CON FORM-SUBMIT.CO -->
+<!-- ============================================= -->
+<div class="contact-form">
+    <h3><i class="fas fa-paper-plane"></i> Envíe su Consulta</h3>
+    
+    <!-- Formulario con FormSubmit.co - FUNCIONA AL 100% -->
+    <form id="contactForm" 
+          action="https://formsubmit.co/lucioneyasociados@gmail.com" 
+          method="POST">
+        
+        <!-- Campos técnicos de FormSubmit -->
+        <input type="hidden" name="_subject" value="📋 Nueva Consulta - Lucione & Asociados">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_cc" value="lucioneyasociados@gmail.com">
+        <input type="hidden" name="_next" value="http://127.0.0.1:5500/gracias.html">
+        <input type="hidden" name="_autoresponse" value="Gracias por contactar al Estudio Lucione & Asociados. Su consulta fue recibida y la Dra. Lucione se contactará pronto.">
+        
+        <!-- Campo anti-spam (honeypot) -->
+        <input type="text" name="_honey" style="display:none">
+        
+        <!-- Campos del formulario -->
+        <div class="form-group">
+            <input type="text" 
+                   name="nombre" 
+                   placeholder="Nombre completo*" 
+                   required
+                   aria-label="Nombre completo">
+        </div>
+        
+        <div class="form-group">
+            <input type="email" 
+                   name="email" 
+                   placeholder="Email*" 
+                   required
+                   aria-label="Correo electrónico">
+        </div>
+        
+        <div class="form-group">
+            <input type="tel" 
+                   name="telefono" 
+                   placeholder="Teléfono (opcional)"
+                   aria-label="Número de teléfono">
+        </div>
+        
+        <div class="form-group">
+            <select name="tipo_consulta" aria-label="Tipo de consulta" required>
+                <option value="">Seleccione tipo de consulta*</option>
+                <option value="Derecho Civil">Derecho Civil</option>
+                <option value="Derecho Comercial">Derecho Comercial</option>
+                <option value="Derecho de Familia">Derecho de Familia</option>
+                <option value="Contratos">Contratos</option>
+                <option value="Sucesiones">Sucesiones</option>
+                <option value="Otros">Otra consulta</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <textarea name="mensaje" 
+                      placeholder="Describa brevemente su consulta*" 
+                      rows="6" 
+                      required
+                      aria-label="Mensaje de consulta"></textarea>
+        </div>
+        
+        <div class="form-check">
+            <input type="checkbox" 
+                   id="privacidad" 
+                   name="acepto_privacidad" 
+                   required>
+            <label for="privacidad">
+                <i class="fas fa-user-shield"></i> 
+                Acepto la política de privacidad y tratamiento de datos personales*
+            </label>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-paper-plane"></i> Enviar Consulta
+        </button>
+        
+    </form>
+</div>
+
+
+                </div>
+            </section>
+
+            <!-- ============================================= -->
+            <!-- SECCIÓN AGENDAR CITA - CON CALENDLY EMBEDDED -->
+            <!-- ============================================= -->
+            <section id="agendar" class="section cita-section">
+                <div class="cita-header">
+                    <h2><i class="fas fa-calendar-check"></i> Agendar Consulta</h2>
+                    <p class="section-subtitle">Primera consulta sin cargo (30 minutos)</p>
+                </div>
+
+                <div class="cita-container">
+                    <!-- Información del proceso -->
+                    <div class="cita-info-box">
+                        <h3><i class="fas fa-info-circle"></i> Proceso de Consulta</h3>
+                        <div class="proceso-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Agendamiento</h4>
+                                <p>Seleccione fecha y hora disponible</p>
+                            </div>
+                        </div>
+                        <div class="proceso-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Confirmación</h4>
+                                <p>Recibirá confirmación por email</p>
+                            </div>
+                        </div>
+                        <div class="proceso-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Preparación</h4>
+                                <p>Formulario previo para conocer su caso</p>
+                            </div>
+                        </div>
+                        <div class="proceso-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>Consulta</h4>
+                                <p>Reunión con la Dra. Lucione</p>
+                            </div>
+                        </div>
+
+                        <div class="modalidad-box">
+                            <h4><i class="fas fa-laptop-house"></i> Modalidades</h4>
+                            <div class="modalidades">
+                                <span class="modalidad-tag"><i class="fas fa-building"></i> Presencial</span>
+                                <span class="modalidad-tag"><i class="fas fa-video"></i> Zoom</span>
+                                <span class="modalidad-tag"><i class="fas fa-phone"></i> Llamada</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CALENDLY EMBEDDED -->
+                    <div class="calendly-container">
+                        <div class="calendly-header">
+                            <h3><i class="fas fa-calendar-alt"></i> Seleccione Fecha y Hora</h3>
+                            <p>Disponibilidad de la Dra. Florencia A. Lucione</p>
+                        </div>
+
+                        <!-- ============================================= -->
+                        <!-- WIDGET DE CALENDLY EMBEBIDO -->
+                        <!-- ============================================= -->
+                        <div class="calendly-embed-wrapper">
+                            <!-- Principio del widget integrado de Calendly -->
+                            <div class="calendly-inline-widget"
+                                data-url="https://calendly.com/lucioneyasociados/consulta-legal-dra-lucione"
+                                style="min-width:320px;height:700px;"></div>
+                            <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js"
+                                async></script>
+                            <!-- Final del widget integrado de Calendly -->
+
+                        </div>
+
+                        <div class="calendly-nota">
+                            <p><i class="fas fa-exclamation-circle"></i>
+                                <strong>Importante:</strong> Recibirá confirmación por email inmediatamente.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="footer-logo-text">
+                        <h3>Lucione & Asociados</h3>
+                        <p>Estudio Jurídico Especializado</p>
+                    </div>
+                </div>
+
+                <div class="footer-info">
+                    <div class="footer-col">
+                        <h4><i class="fas fa-map-marker-alt"></i> Ubicación</h4>
+                        <p>Av. Corrientes 1234, Piso 8º<br>Buenos Aires, Argentina</p>
+                    </div>
+                    <div class="footer-col">
+                        <h4><i class="fas fa-phone"></i> Contacto</h4>
+                        <p>+54 11 4321-5678<br>lucioneyasociados@gmail.com</p>
+                    </div>
+                    <div class="footer-col">
+                        <h4><i class="fas fa-clock"></i> Horarios</h4>
+                        <p>Lun-Vie: 9:00-19:00<br>Sáb: 9:00-13:00</p>
+                    </div>
+                </div>
+
+                <div class="footer-legal">
+                    <p class="copyright">© <span id="current-year">2024</span> Estudio Jurídico Lucione & Asociados.
+                        Todos los derechos reservados.</p>
+                    <p class="disclaimer">La información contenida en este sitio web tiene carácter informativo y no
+                        constituye asesoramiento legal.</p>
+                    <div class="footer-links">
+                        <a href="#">Política de Privacidad</a> |
+                        <a href="#">Términos de Uso</a> |
+                        <a href="#">Aviso Legal</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- SCRIPTS -->
+    <!-- ============================================= -->
+    <script src="script.js"></script>
+
+    <!-- Script de Calendly (OBLIGATORIO) -->
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+
+    <!-- Script para inicializar Calendly -->
+    <script type="text/javascript">
+        // Esperar a que Calendly se cargue
+        function waitForCalendly() {
+            if (typeof Calendly !== 'undefined') {
+                console.log('✅ Calendly cargado correctamente');
+
+                // Calendly se inicializa automáticamente
+                // Pero podemos verificar que el widget esté listo
+                const checkWidget = setInterval(() => {
+                    const widget = document.querySelector('.calendly-inline-widget iframe');
+                    if (widget) {
+                        console.log('✅ Widget de Calendly visible');
+                        clearInterval(checkWidget);
+                    }
+                }, 500);
+
+            } else {
+                console.log('⏳ Esperando a Calendly...');
+                setTimeout(waitForCalendly, 500);
+            }
+        }
+
+        // Inicializar cuando la página cargue https://calendly.com/lucioneyasociados/consulta-legal-dra-lucione
+        document.addEventListener('DOMContentLoaded', waitForCalendly);
+    </script>
+</body>
+
+</html>
