@@ -76,58 +76,58 @@
                     <p class="subtitle">Excelencia Jurídica con Enfoque Personalizado</p>
                     <p class="welcome-text">
                         Con más de 15 años de experiencia, el Estudio Jurídico <strong>Lucione & Asociados</strong>
-                        ofrece asesoramiento  y representacion legal integral, y soluciones
+                        ofrece asesoramiento y representacion legal integral, y soluciones
                         personalizadas.
                     </p>
 
-                  <!-- ============================================= -->
-<!-- MONEDA GIRATORIA DE ESPECIALIDADES SIMPLIFICADA -->
-<!-- ============================================= -->
-<div class="especialidades-container">
-    <div class="coin-simplified-container">
-        <!-- Moneda giratoria autónoma -->
-        <div class="coin-simplified" id="simpleCoin">
-            <div class="coin-simple-front">
-                <i class="fas fa-balance-scale"></i>
-                <span>Divorcios</span>
-            </div>
-        </div>
-        
-        <!-- Indicador discreto -->
-        <div class="simple-indicator">
-            <span class="simple-current">1</span>
-            <span class="simple-separator">/</span>
-            <span class="simple-total">5</span>
-        </div>
-    </div>
-</div>
+                    <!-- ============================================= -->
+                    <!-- MONEDA GIRATORIA DE ESPECIALIDADES SIMPLIFICADA -->
+                    <!-- ============================================= -->
+                    <div class="especialidades-container">
+                        <div class="coin-simplified-container">
+                            <!-- Moneda giratoria autónoma -->
+                            <div class="coin-simplified" id="simpleCoin">
+                                <div class="coin-simple-front">
+                                    <i class="fas fa-balance-scale"></i>
+                                    <span>Divorcios</span>
+                                </div>
+                            </div>
 
-<!-- ============================================= -->
-<!-- MODAL/POPUP DE DETALLES (igual que antes) -->
-<!-- ============================================= -->
-<div class="modal-overlay" id="especialidadModal">
-    <div class="modal-content">
-        <button class="modal-close" id="modalClose">&times;</button>
-        
-        <div class="modal-header">
-            <div class="modal-icon" id="modalIcon"></div>
-            <h3 id="modalTitle">Divorcios</h3>
-        </div>
-        
-        <div class="modal-body">
-            <div id="modalDescription">
-                <!-- El contenido se cargará dinámicamente -->
-            </div>
-            
-            <div class="modal-cta">
-                <p>¿Necesita asesoramiento sobre este tema?</p>
-                <a href="#contacto" class="btn btn-primary modal-contact-btn">
-                    <i class="fas fa-envelope"></i> Consultar ahora
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
+                            <!-- Indicador discreto -->
+                            <div class="simple-indicator">
+                                <span class="simple-current">1</span>
+                                <span class="simple-separator">/</span>
+                                <span class="simple-total">5</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ============================================= -->
+                    <!-- MODAL/POPUP DE DETALLES (igual que antes) -->
+                    <!-- ============================================= -->
+                    <div class="modal-overlay" id="especialidadModal">
+                        <div class="modal-content">
+                            <button class="modal-close" id="modalClose">&times;</button>
+
+                            <div class="modal-header">
+                                <div class="modal-icon" id="modalIcon"></div>
+                                <h3 id="modalTitle">Divorcios</h3>
+                            </div>
+
+                            <div class="modal-body">
+                                <div id="modalDescription">
+                                    <!-- El contenido se cargará dinámicamente -->
+                                </div>
+
+                                <div class="modal-cta">
+                                    <p>¿Necesita asesoramiento sobre este tema?</p>
+                                    <a href="#contacto" class="btn btn-primary modal-contact-btn">
+                                        <i class="fas fa-envelope"></i> Consultar ahora
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="button-container">
                         <a href="#nosotros" class="btn btn-secondary">
                             <i class="fas fa-users"></i> Conócenos
@@ -263,32 +263,29 @@
                             </div>
                         </div>
                     </div>
-                    <!-- ============================================= -->
-<!-- SECCIÓN: FORMULARIO DE CONTACTO CON FORM-SUBMIT.CO -->
+                   
+                 <!-- ============================================= -->
+<!-- FORMULARIO SIMPLIFICADO Y FUNCIONAL -->
 <!-- ============================================= -->
 <div class="contact-form">
     <h3><i class="fas fa-paper-plane"></i> Envíe su Consulta</h3>
     
-    <!-- Formulario con FormSubmit.co - FUNCIONA AL 100% -->
-    <form id="contactForm" 
-          action="https://formsubmit.co/lucioneyasociados@gmail.com" 
-          method="POST">
+    <form id="contactForm" method="POST">
         
-        <!-- Campos técnicos de FormSubmit -->
-        <input type="hidden" name="_subject" value="📋 Nueva Consulta - Lucione & Asociados">
-        <input type="hidden" name="_template" value="table">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_cc" value="lucioneyasociados@gmail.com">
-        <input type="hidden" name="_next" value="http://127.0.0.1:5500/gracias.html">
-        <input type="hidden" name="_autoresponse" value="Gracias por contactar al Estudio Lucione & Asociados. Su consulta fue recibida y la Dra. Lucione se contactará pronto.">
+        <!-- SOLO campos esenciales para Web3Forms -->
+        <input type="hidden" name="access_key" value="cd2ed93c-93a4-4f47-aae9-0f555317949b">
+        <input type="hidden" name="subject" value="Nueva Consulta - Lucione & Asociados">
         
-        <!-- Campo anti-spam (honeypot) -->
-        <input type="text" name="_honey" style="display:none">
+        <!-- NO usar redirect ni replyto por ahora -->
+        <input type="hidden" name="redirect" value="false">
         
-        <!-- Campos del formulario -->
+        <!-- REMOVER el campo replyto completamente -->
+        <!-- <input type="hidden" name="replyto" value="%email%"> -->
+        
+        <!-- Campos del formulario SIN patrones complicados -->
         <div class="form-group">
             <input type="text" 
-                   name="nombre" 
+                   name="name" 
                    placeholder="Nombre completo*" 
                    required
                    aria-label="Nombre completo">
@@ -304,25 +301,25 @@
         
         <div class="form-group">
             <input type="tel" 
-                   name="telefono" 
+                   name="phone" 
                    placeholder="Teléfono (opcional)"
                    aria-label="Número de teléfono">
         </div>
         
         <div class="form-group">
-            <select name="tipo_consulta" aria-label="Tipo de consulta" required>
+            <select name="service" aria-label="Tipo de consulta" required>
                 <option value="">Seleccione tipo de consulta*</option>
-                <option value="Derecho Civil">Derecho Civil</option>
-                <option value="Derecho Comercial">Derecho Comercial</option>
-                <option value="Derecho de Familia">Derecho de Familia</option>
-                <option value="Contratos">Contratos</option>
+                <option value="Divorcios">Divorcios</option>
                 <option value="Sucesiones">Sucesiones</option>
+                <option value="Amparos de Salud">Amparos de Salud</option>
+                <option value="Accidentes de Tránsito">Accidentes de Tránsito</option>
+                <option value="Reclamos Laborales">Reclamos Laborales</option>
                 <option value="Otros">Otra consulta</option>
             </select>
         </div>
         
         <div class="form-group">
-            <textarea name="mensaje" 
+            <textarea name="message" 
                       placeholder="Describa brevemente su consulta*" 
                       rows="6" 
                       required
@@ -331,21 +328,24 @@
         
         <div class="form-check">
             <input type="checkbox" 
-                   id="privacidad" 
-                   name="acepto_privacidad" 
+                   id="privacy" 
+                   name="privacy" 
                    required>
-            <label for="privacidad">
+            <label for="privacy">
                 <i class="fas fa-user-shield"></i> 
-                Acepto la política de privacidad y tratamiento de datos personales*
+                Acepto la política de privacidad*
             </label>
         </div>
         
-        <button type="submit" class="btn btn-primary">
+        <!-- Contenedor para mensajes -->
+        <div id="form-status"></div>
+        
+        <button type="submit" class="btn btn-primary" id="submit-btn">
             <i class="fas fa-paper-plane"></i> Enviar Consulta
         </button>
         
     </form>
-</div>
+</div>   
 
 
                 </div>
