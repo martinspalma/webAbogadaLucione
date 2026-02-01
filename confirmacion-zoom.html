@@ -3,130 +3,581 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✅ Confirmación - Dra. Lucione</title>
+    <title>✅ Confirmación de Cita - Dra. Lucione</title>
+    
+    <!-- Usar los mismos estilos que tu sitio principal -->
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
     <style>
-        /* Todos los estilos anteriores que te pasé */
-        /* Copia todo el CSS del archivo anterior aquí */
+        /* Estilos específicos para esta página */
+        .confirmation-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 2rem 1rem;
+        }
+        
+        .confirmation-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+        
+        .confirmation-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        .confirmation-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .confirmation-icon {
+            font-size: 4.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--highlight-color);
+        }
+        
+        .confirmation-content {
+            padding: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .confirmation-content {
+                padding: 2rem 1.5rem;
+            }
+            
+            .confirmation-header {
+                padding: 2rem 1rem;
+            }
+            
+            .confirmation-header h1 {
+                font-size: 2.2rem;
+            }
+        }
+        
+        /* Estilos para las tarjetas de información */
+        .info-card-critical {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .zoom-data-display {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            border: 2px solid #e9ecef;
+        }
+        
+        .data-row {
+            display: flex;
+            align-items: center;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .data-label {
+            font-weight: bold;
+            color: var(--primary-color);
+            min-width: 150px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .data-value {
+            font-family: monospace;
+            font-size: 1.2rem;
+            color: #1565c0;
+            background: #e3f2fd;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            margin-left: 1rem;
+        }
+        
+        /* Botones de acción */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 200px;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .btn-zoom {
+            background: linear-gradient(135deg, #2d8cff, #0066cc);
+            color: white;
+        }
+        
+        .btn-support {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-download {
+            background: white;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* Pasos */
+        .step-container {
+            display: flex;
+            margin-bottom: 1.5rem;
+            align-items: flex-start;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--highlight-color), #d4af37);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+        
+        .step-content h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Alerta de contingencia */
+        .contingency-alert {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .contingency-alert h3 {
+            color: #721c24;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* Panel de recomendaciones */
+        .recommendations-panel {
+            background: rgba(184, 134, 11, 0.05);
+            border-left: 3px solid var(--highlight-color);
+            padding: 1.5rem;
+            border-radius: 0 10px 10px 0;
+            margin: 2rem 0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                width: 100%;
+            }
+            
+            .data-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .data-value {
+                margin-left: 0;
+                width: 100%;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Todo el HTML anterior -->
-        <!-- Copia todo el HTML del archivo anterior aquí -->
+    <div class="confirmation-page">
+        <div class="confirmation-container">
+            <!-- Encabezado -->
+            <div class="confirmation-header">
+                <div class="confirmation-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h1>✅ ¡CONSULTA CONFIRMADA!</h1>
+                <p class="subtitle">Dra. Florencia Antonella Lucione</p>
+                <p class="splash-tagline">Estudio Jurídico Especializado</p>
+            </div>
+            
+            <!-- Contenido principal -->
+            <div class="confirmation-content">
+                <!-- Información básica -->
+                <div class="info-card">
+                    <h2><i class="fas fa-calendar-check"></i> Detalles de su consulta</h2>
+                    
+                    <div class="data-row">
+                        <div class="data-label">
+                            <i class="fas fa-user-tie"></i> Abogada:
+                        </div>
+                        <div>Dra. Florencia Antonella Lucione</div>
+                    </div>
+                    
+                    <div class="data-row">
+                        <div class="data-label">
+                            <i class="fas fa-calendar-day"></i> Fecha:
+                        </div>
+                        <div id="appointment-date">[Se confirmará por email]</div>
+                    </div>
+                    
+                    <div class="data-row">
+                        <div class="data-label">
+                            <i class="fas fa-clock"></i> Horario:
+                        </div>
+                        <div id="appointment-time">[Se confirmará por email]</div>
+                    </div>
+                    
+                    <div class="data-row">
+                        <div class="data-label">
+                            <i class="fas fa-video"></i> Modalidad:
+                        </div>
+                        <div>Videollamada por Zoom</div>
+                    </div>
+                </div>
+                
+                <!-- INFORMACIÓN CRÍTICA DE ZOOM -->
+                <div class="info-card-critical">
+                    <h2><i class="fas fa-exclamation-triangle"></i> ⚠️ INFORMACIÓN CRÍTICA</h2>
+                    <p class="subtitle">Guarde estos datos. Son esenciales para unirse a la consulta.</p>
+                    
+                    <div class="zoom-data-display">
+                        <div class="data-row">
+                            <div class="data-label">
+                                <i class="fas fa-hashtag"></i> Meeting ID:
+                            </div>
+                            <div class="data-value" id="meeting-id">[Lo recibirá por email]</div>
+                        </div>
+                        
+                        <div class="data-row">
+                            <div class="data-label">
+                                <i class="fas fa-key"></i> Contraseña:
+                            </div>
+                            <div class="data-value" id="zoom-password">[Lo recibirá por email]</div>
+                        </div>
+                        
+                        <button onclick="copyZoomData()" class="action-btn btn-download" style="margin-top: 1rem;">
+                            <i class="far fa-copy"></i> Copiar datos al portapapeles
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Cómo unirse -->
+                <h2><i class="fas fa-video"></i> 🎯 Cómo unirse a la videollamada</h2>
+                
+                <div class="step-container">
+                    <div class="step-number">A</div>
+                    <div class="step-content">
+                        <h4>Opción Recomendada (si recibió el email)</h4>
+                        <p>1. Revise su email (incluyendo carpeta de spam/correo no deseado)</p>
+                        <p>2. Haga clic en el enlace de Zoom que recibió</p>
+                        <p>3. Únase 5 minutos antes de su horario</p>
+                    </div>
+                </div>
+                
+                <div class="step-container">
+                    <div class="step-number">B</div>
+                    <div class="step-content">
+                        <h4>Opción Manual (si NO recibió el email)</h4>
+                        <p>1. Abra la aplicación Zoom en su dispositivo</p>
+                        <p>2. Haga clic en <strong>"Unirse"</strong></p>
+                        <p>3. Ingrese el <strong>Meeting ID:</strong> <span id="meeting-id-text">[del email]</span></p>
+                        <p>4. Ingrese la <strong>Contraseña:</strong> <span id="password-text">[del email]</span></p>
+                        <p>5. Espere en la sala de espera virtual</p>
+                    </div>
+                </div>
+                
+                <!-- Botones de acción -->
+                <div class="action-buttons">
+                    <a href="https://zoom.us/join" class="action-btn btn-zoom" target="_blank">
+                        <i class="fab fa-zoom"></i> Unirse por Zoom
+                    </a>
+                    
+                    <a href="https://zoom.us/download" class="action-btn btn-download" target="_blank">
+                        <i class="fas fa-download"></i> Descargar Zoom
+                    </a>
+                </div>
+                
+                <!-- Protocolo de contingencia -->
+                <div class="contingency-alert">
+                    <h3><i class="fas fa-phone-alt"></i> 🚨 PROTOCOLO DE CONTINGENCIA</h3>
+                    <p><strong>SI NO PUEDE UNIRSE O NO RECIBIÓ EL EMAIL CON LOS DATOS DE ZOOM:</strong></p>
+                    
+                    <div style="margin: 1.5rem 0; font-size: 1.1rem;">
+                        <p><i class="fas fa-phone"></i> <strong>Teléfono directo:</strong></p>
+                        <p><a href="tel:+541143215678" style="color: #721c24; font-weight: bold; font-size: 1.3rem;">
+                            +54 11 4321-5678
+                        </a></p>
+                        
+                        <p style="margin-top: 1rem;"><i class="fab fa-whatsapp"></i> <strong>WhatsApp inmediato:</strong></p>
+                        <p><a href="https://wa.me/5491198765432" style="color: #721c24; font-weight: bold; font-size: 1.3rem;">
+                            +54 9 11 9876-5432
+                        </a></p>
+                    </div>
+                    
+                    <p><em>Por favor mencione: su nombre completo y horario de cita programada.</em></p>
+                </div>
+                
+                <!-- Recomendaciones -->
+                <div class="recommendations-panel">
+                    <h3><i class="fas fa-lightbulb"></i> 💡 RECOMENDACIONES PARA UNA BUENA CONSULTA</h3>
+                    <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                        <li>Únase 5 minutos antes de su horario programado</li>
+                        <li>Pruebe su micrófono y cámara web previamente</li>
+                        <li>Asegúrese de tener buena conexión a internet</li>
+                        <li>Tenga a mano sus documentos relacionados con el caso</li>
+                        <li>Prepare sus preguntas por anticipado</li>
+                        <li>Elija un lugar tranquilo y privado para la videollamada</li>
+                    </ul>
+                </div>
+                
+                <!-- Volver al sitio -->
+                <div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e2e8f0;">
+                    <a href="https://martinspalma.github.io/webAbogadaLucione/" class="action-btn" 
+                       style="background: var(--primary-color); color: white; max-width: 300px;">
+                        <i class="fas fa-home"></i> Volver al sitio principal
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
     
     <script>
         // =============================================
-        // CAPTURADOR DE DATOS MEJORADO
+        // SCRIPT MEJORADO PARA CAPTURAR DATOS
         // =============================================
         
-        // 1. Intentar obtener datos de la URL
-        const urlParams = new URLSearchParams(window.location.search);
+        // Función para obtener parámetros de la URL
+        function getUrlParameter(name) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            const results = regex.exec(window.location.href);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
         
-        // 2. Si no hay datos en URL, buscar en localStorage (por si viene de otra página)
-        let meetingId = urlParams.get('meetingId') || localStorage.getItem('calendly_meeting_id');
-        let password = urlParams.get('password') || localStorage.getItem('calendly_password');
-        let fecha = urlParams.get('fecha') || localStorage.getItem('calendly_fecha');
-        let horario = urlParams.get('horario') || localStorage.getItem('calendly_horario');
-        
-        // 3. Si aún no hay datos, mostrar instrucciones genéricas
-        if (!meetingId || meetingId === 'null') {
-            meetingId = '[Lo recibirá por email]';
-            password = '[Lo recibirá por email]';
+        // Intentar obtener datos de diferentes fuentes
+        function loadZoomData() {
+            let meetingId = null;
+            let password = null;
+            let date = null;
+            let time = null;
             
-            // Mostrar alerta
-            document.querySelector('.zoom-data').innerHTML += `
-                <div class="alert alert-warning" style="margin-top: 1rem;">
-                    <i class="fas fa-info-circle"></i>
-                    <strong>Los datos de Zoom llegarán por email en 1-2 minutos.</strong>
-                    <p>Si no los recibe, use el protocolo de contingencia abajo.</p>
-                </div>
-            `;
-        } else {
-            // Guardar en localStorage por si acaso
-            localStorage.setItem('calendly_meeting_id', meetingId);
-            localStorage.setItem('calendly_password', password);
-            if (fecha) localStorage.setItem('calendly_fecha', fecha);
-            if (horario) localStorage.setItem('calendly_horario', horario);
-        }
-        
-        // 4. Actualizar la página
-        document.getElementById('meetingId').textContent = meetingId;
-        document.getElementById('password').textContent = password;
-        document.getElementById('meetingIdText').textContent = meetingId;
-        document.getElementById('passwordText').textContent = password;
-        
-        if (fecha && fecha !== 'null') {
-            document.getElementById('fecha').textContent = fecha;
-        }
-        
-        if (horario && horario !== 'null') {
-            document.getElementById('horario').textContent = horario;
-        }
-        
-        // 5. Intentar extraer datos del referer (si viene de Calendly)
-        setTimeout(() => {
-            if (document.referrer.includes('calendly.com')) {
-                console.log('Viene de Calendly, buscando datos en la página...');
-                
-                // Podría intentar leer datos de la URL del referer
-                const refererUrl = new URL(document.referrer);
-                const refererParams = new URLSearchParams(refererUrl.search);
-                
-                // Intentar con diferentes nombres de parámetros
-                const possibleMeetingIds = [
-                    refererParams.get('meeting_id'),
-                    refererParams.get('meetingId'),
-                    refererParams.get('id'),
-                    refererParams.get('zoom_id')
-                ];
-                
-                const possiblePasswords = [
-                    refererParams.get('password'),
-                    refererParams.get('pass'),
-                    refererParams.get('zoom_password')
-                ];
-                
-                const foundMeetingId = possibleMeetingIds.find(id => id && id !== 'null');
-                const foundPassword = possiblePasswords.find(pass => pass && pass !== 'null');
-                
-                if (foundMeetingId && meetingId === '[Lo recibirá por email]') {
-                    meetingId = foundMeetingId;
-                    password = foundPassword || '[Consulte email]';
-                    
-                    document.getElementById('meetingId').textContent = meetingId;
-                    document.getElementById('password').textContent = password;
-                    document.getElementById('meetingIdText').textContent = meetingId;
-                    document.getElementById('passwordText').textContent = password;
-                    
-                    localStorage.setItem('calendly_meeting_id', meetingId);
-                    localStorage.setItem('calendly_password', password);
-                }
+            // 1. Intentar desde parámetros URL
+            meetingId = getUrlParameter('meetingId') || 
+                       getUrlParameter('meeting_id') || 
+                       getUrlParameter('id');
+            
+            password = getUrlParameter('password') || 
+                      getUrlParameter('pass') || 
+                      getUrlParameter('zoom_password');
+            
+            date = getUrlParameter('fecha') || 
+                  getUrlParameter('date');
+            
+            time = getUrlParameter('horario') || 
+                  getUrlParameter('time') || 
+                  getUrlParameter('hora');
+            
+            // 2. Intentar desde localStorage (si viene de otra página)
+            if (!meetingId) {
+                meetingId = localStorage.getItem('lucione_meeting_id');
+                password = localStorage.getItem('lucione_zoom_password');
+                date = localStorage.getItem('lucione_appointment_date');
+                time = localStorage.getItem('lucione_appointment_time');
             }
-        }, 1000);
+            
+            // 3. Si tenemos datos, mostrarlos y guardarlos
+            if (meetingId && meetingId !== 'null') {
+                // Actualizar la página
+                document.getElementById('meeting-id').textContent = meetingId;
+                document.getElementById('meeting-id-text').textContent = meetingId;
+                document.getElementById('zoom-password').textContent = password || '[Consultar email]';
+                document.getElementById('password-text').textContent = password || '[Consultar email]';
+                
+                if (date && date !== 'null') {
+                    document.getElementById('appointment-date').textContent = date;
+                }
+                
+                if (time && time !== 'null') {
+                    document.getElementById('appointment-time').textContent = time;
+                }
+                
+                // Guardar en localStorage
+                localStorage.setItem('lucione_meeting_id', meetingId);
+                if (password) localStorage.setItem('lucione_zoom_password', password);
+                if (date) localStorage.setItem('lucione_appointment_date', date);
+                if (time) localStorage.setItem('lucione_appointment_time', time);
+                
+                // Mostrar mensaje de éxito
+                showMessage('✅ Datos de Zoom cargados correctamente', 'success');
+            } else {
+                // No hay datos específicos, mostrar mensaje genérico
+                showMessage('📧 Los datos de Zoom llegarán por email en 1-2 minutos', 'info');
+            }
+            
+            // 4. Verificar si venimos de Calendly
+            if (document.referrer.includes('calendly.com')) {
+                console.log('✅ Usuario viene de Calendly');
+                
+                // Podemos intentar extraer más datos del referer
+                setTimeout(tryExtractFromReferer, 1000);
+            }
+        }
         
-        // 6. Botón para copiar datos
-        document.querySelector('.zoom-data').innerHTML += `
-            <button onclick="copiarDatosZoom()" class="btn-copiar">
-                <i class="far fa-copy"></i> Copiar Meeting ID y Contraseña
-            </button>
-        `;
+        // Intentar extraer datos del referer URL
+        function tryExtractFromReferer() {
+            try {
+                const refererUrl = new URL(document.referrer);
+                console.log('Referer URL:', refererUrl.href);
+                
+                // Buscar patrones en el referer
+                const pageContent = `URL: ${refererUrl.href}`;
+                
+                // Patrones para Meeting ID (números de 9-11 dígitos)
+                const meetingIdPattern = /\b(\d{9,11})\b/g;
+                const meetingIdMatch = pageContent.match(meetingIdPattern);
+                
+                if (meetingIdMatch && meetingIdMatch[0]) {
+                    const foundMeetingId = meetingIdMatch[0];
+                    console.log('Posible Meeting ID encontrado:', foundMeetingId);
+                    
+                    // Actualizar si todavía no tenemos datos
+                    if (document.getElementById('meeting-id').textContent === '[Lo recibirá por email]') {
+                        document.getElementById('meeting-id').textContent = foundMeetingId;
+                        document.getElementById('meeting-id-text').textContent = foundMeetingId;
+                        localStorage.setItem('lucione_meeting_id', foundMeetingId);
+                        
+                        showMessage('🔍 Meeting ID detectado automáticamente', 'info');
+                    }
+                }
+            } catch (e) {
+                console.log('No se pudo analizar el referer:', e);
+            }
+        }
         
-        function copiarDatosZoom() {
-            const texto = `Meeting ID: ${meetingId}\nContraseña: ${password}`;
-            navigator.clipboard.writeText(texto).then(() => {
-                alert('✅ Datos copiados al portapapeles');
+        // Función para copiar datos al portapapeles
+        function copyZoomData() {
+            const meetingId = document.getElementById('meeting-id').textContent;
+            const password = document.getElementById('zoom-password').textContent;
+            
+            const textToCopy = `Meeting ID: ${meetingId}\nContraseña: ${password}`;
+            
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showMessage('✅ Datos copiados al portapapeles', 'success');
+            }).catch(err => {
+                // Fallback para navegadores antiguos
+                const textArea = document.createElement('textarea');
+                textArea.value = textToCopy;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showMessage('✅ Datos copiados al portapapeles', 'success');
             });
         }
         
-        // 7. Auto-scroll a la información importante
-        setTimeout(() => {
-            document.querySelector('.zoom-critical').scrollIntoView({
-                behavior: 'smooth',
-                block: 'center'
-            });
-        }, 500);
+        // Función para mostrar mensajes
+        function showMessage(message, type) {
+            // Remover mensajes anteriores
+            const existingMsg = document.getElementById('temp-message');
+            if (existingMsg) existingMsg.remove();
+            
+            // Crear nuevo mensaje
+            const messageDiv = document.createElement('div');
+            messageDiv.id = 'temp-message';
+            messageDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 1rem 1.5rem;
+                background: ${type === 'success' ? '#d1f7d6' : '#e3f2fd'};
+                color: ${type === 'success' ? '#155724' : '#0c5460'};
+                border: 1px solid ${type === 'success' ? '#28a745' : '#17a2b8'};
+                border-radius: 8px;
+                z-index: 10000;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                animation: slideIn 0.3s ease;
+            `;
+            
+            messageDiv.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+                <span style="margin-left: 0.5rem;">${message}</span>
+            `;
+            
+            document.body.appendChild(messageDiv);
+            
+            // Auto-eliminar después de 5 segundos
+            setTimeout(() => {
+                if (messageDiv.parentNode) {
+                    messageDiv.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => messageDiv.remove(), 300);
+                }
+            }, 5000);
+        }
+        
+        // Agregar estilos para animaciones
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Cargar datos cuando la página esté lista
+        document.addEventListener('DOMContentLoaded', loadZoomData);
+        
+        // También intentar cargar datos después de un tiempo
+        setTimeout(loadZoomData, 1000);
     </script>
 </body>
 </html>
