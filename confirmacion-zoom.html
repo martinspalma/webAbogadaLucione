@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✅ Confirmación - Dra. Lucione</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Todos los estilos anteriores que te pasé */
+        /* Copia todo el CSS del archivo anterior aquí */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Todo el HTML anterior -->
+        <!-- Copia todo el HTML del archivo anterior aquí -->
+    </div>
+    
+    <script>
+        // =============================================
+        // CAPTURADOR DE DATOS MEJORADO
+        // =============================================
+        
+        // 1. Intentar obtener datos de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // 2. Si no hay datos en URL, buscar en localStorage (por si viene de otra página)
+        let meetingId = urlParams.get('meetingId') || localStorage.getItem('calendly_meeting_id');
+        let password = urlParams.get('password') || localStorage.getItem('calendly_password');
+        let fecha = urlParams.get('fecha') || localStorage.getItem('calendly_fecha');
+        let horario = urlParams.get('horario') || localStorage.getItem('calendly_horario');
+        
+        // 3. Si aún no hay datos, mostrar instrucciones genéricas
+        if (!meetingId || meetingId === 'null') {
+            meetingId = '[Lo recibirá por email]';
+            password = '[Lo recibirá por email]';
+            
+            // Mostrar alerta
+            document.querySelector('.zoom-data').innerHTML += `
+                <div class="alert alert-warning" style="margin-top: 1rem;">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Los datos de Zoom llegarán por email en 1-2 minutos.</strong>
+                    <p>Si no los recibe, use el protocolo de contingencia abajo.</p>
+                </div>
+            `;
+        } else {
+            // Guardar en localStorage por si acaso
+            localStorage.setItem('calendly_meeting_id', meetingId);
+            localStorage.setItem('calendly_password', password);
+            if (fecha) localStorage.setItem('calendly_fecha', fecha);
+            if (horario) localStorage.setItem('calendly_horario', horario);
+        }
+        
+        // 4. Actualizar la página
+        document.getElementById('meetingId').textContent = meetingId;
+        document.getElementById('password').textContent = password;
+        document.getElementById('meetingIdText').textContent = meetingId;
+        document.getElementById('passwordText').textContent = password;
+        
+        if (fecha && fecha !== 'null') {
+            document.getElementById('fecha').textContent = fecha;
+        }
+        
+        if (horario && horario !== 'null') {
+            document.getElementById('horario').textContent = horario;
+        }
+        
+        // 5. Intentar extraer datos del referer (si viene de Calendly)
+        setTimeout(() => {
+            if (document.referrer.includes('calendly.com')) {
+                console.log('Viene de Calendly, buscando datos en la página...');
+                
+                // Podría intentar leer datos de la URL del referer
+                const refererUrl = new URL(document.referrer);
+                const refererParams = new URLSearchParams(refererUrl.search);
+                
+                // Intentar con diferentes nombres de parámetros
+                const possibleMeetingIds = [
+                    refererParams.get('meeting_id'),
+                    refererParams.get('meetingId'),
+                    refererParams.get('id'),
+                    refererParams.get('zoom_id')
+                ];
+                
+                const possiblePasswords = [
+                    refererParams.get('password'),
+                    refererParams.get('pass'),
+                    refererParams.get('zoom_password')
+                ];
+                
+                const foundMeetingId = possibleMeetingIds.find(id => id && id !== 'null');
+                const foundPassword = possiblePasswords.find(pass => pass && pass !== 'null');
+                
+                if (foundMeetingId && meetingId === '[Lo recibirá por email]') {
+                    meetingId = foundMeetingId;
+                    password = foundPassword || '[Consulte email]';
+                    
+                    document.getElementById('meetingId').textContent = meetingId;
+                    document.getElementById('password').textContent = password;
+                    document.getElementById('meetingIdText').textContent = meetingId;
+                    document.getElementById('passwordText').textContent = password;
+                    
+                    localStorage.setItem('calendly_meeting_id', meetingId);
+                    localStorage.setItem('calendly_password', password);
+                }
+            }
+        }, 1000);
+        
+        // 6. Botón para copiar datos
+        document.querySelector('.zoom-data').innerHTML += `
+            <button onclick="copiarDatosZoom()" class="btn-copiar">
+                <i class="far fa-copy"></i> Copiar Meeting ID y Contraseña
+            </button>
+        `;
+        
+        function copiarDatosZoom() {
+            const texto = `Meeting ID: ${meetingId}\nContraseña: ${password}`;
+            navigator.clipboard.writeText(texto).then(() => {
+                alert('✅ Datos copiados al portapapeles');
+            });
+        }
+        
+        // 7. Auto-scroll a la información importante
+        setTimeout(() => {
+            document.querySelector('.zoom-critical').scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+        }, 500);
+    </script>
+</body>
+</html>
