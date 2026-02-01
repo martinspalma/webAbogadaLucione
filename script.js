@@ -491,7 +491,7 @@ function inicializarFuncionalidadesAvanzadas() {
     initIntersectionObserver();
     initParallaxEffect();
     initCalendlyObserver();
-    initSimpleCoin(); // ← CAMBIADO A SIMPLE COIN
+    initSimpleCoin(); 
 
     console.log('✅ Funcionalidades avanzadas inicializadas');
 }
@@ -653,7 +653,7 @@ window.addEventListener('resize', () => {
 });
 
 // =============================================
-// MONEDA GIRATORIA SIMPLIFICADA
+// MONEDA GIRATORIA SIMPLIFICADA - VERSIÓN MÁS RÁPIDA
 // =============================================
 
 // Datos de las especialidades (versión simplificada)
@@ -744,7 +744,7 @@ const ESPECIALIDADES = [
 let currentEspecialidad = 0;
 let autoRotateInterval;
 
-// Inicializar moneda simplificada
+// Inicializar moneda simplificada - VERSIÓN MÁS RÁPIDA
 function initSimpleCoin() {
     const coin = document.getElementById('simpleCoin');
     const modal = document.getElementById('especialidadModal');
@@ -755,7 +755,15 @@ function initSimpleCoin() {
         return;
     }
 
-    console.log('✅ Inicializando moneda giratoria simplificada');
+    console.log('✅ Inicializando moneda giratoria simplificada (más rápida)');
+
+    // Configuración de velocidad - CAMBIADO PARA SER MÁS RÁPIDO
+    const SPEED_CONFIG = {
+        autoRotateDelay: 1000, // Cambiado de 3000ms a 2000ms (33% más rápido)
+        animationDuration: 400, // Cambiado de 600ms a 400ms (más rápido)
+        resumeAfterModal: 1000, // Cambiado de 2000ms a 1000ms (más rápido)
+        initialDelay: 1500 // Cambiado de 2000ms a 1500ms (más rápido)
+    };
 
     // Actualizar indicador
     function updateIndicator() {
@@ -769,12 +777,12 @@ function initSimpleCoin() {
         if (totalSpan) totalSpan.textContent = ESPECIALIDADES.length;
     }
 
-    // Cambiar especialidad con animación
+    // Cambiar especialidad con animación MÁS RÁPIDA
     function changeEspecialidad() {
         // Aplicar animación de cambio
         coin.classList.add('changing');
 
-        // Cambiar contenido después de la mitad de la animación
+        // Cambiar contenido después de un tiempo más corto
         setTimeout(() => {
             const especialidad = ESPECIALIDADES[currentEspecialidad];
 
@@ -787,7 +795,7 @@ function initSimpleCoin() {
             `;
 
             coin.classList.remove('changing');
-        }, 600);
+        }, SPEED_CONFIG.animationDuration); // Usar configuración de velocidad
     }
 
     // Avanzar a siguiente especialidad
@@ -797,43 +805,117 @@ function initSimpleCoin() {
         changeEspecialidad();
     }
 
-    // Mostrar modal con la especialidad actual
-    function showCurrentModal() {
-        const especialidad = ESPECIALIDADES[currentEspecialidad];
-        const modalIcon = document.getElementById('modalIcon');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalDescription = document.getElementById('modalDescription');
-
-        if (modalIcon) modalIcon.className = `modal-icon ${especialidad.icon}`;
-        if (modalTitle) modalTitle.textContent = especialidad.title;
-        if (modalDescription) modalDescription.innerHTML = especialidad.description;
-
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-
-        // Pausar rotación automática mientras el modal está abierto
-        clearInterval(autoRotateInterval);
+    // Navegación con flechas del teclado (opcional)
+    function handleKeyNavigation(e) {
+        if (e.key === 'ArrowRight') nextEspecialidad();
+        if (e.key === 'ArrowLeft') {
+            currentEspecialidad = (currentEspecialidad - 1 + ESPECIALIDADES.length) % ESPECIALIDADES.length;
+            updateIndicator();
+            changeEspecialidad();
+        }
     }
+
+    // Mostrar modal con la especialidad actual
+function showCurrentModal() {
+    const especialidad = ESPECIALIDADES[currentEspecialidad];
+    const modalIcon = document.getElementById('modalIcon');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDescription = document.getElementById('modalDescription');
+
+    if (modalIcon) modalIcon.className = `modal-icon ${especialidad.icon}`;
+    if (modalTitle) modalTitle.textContent = especialidad.title;
+    if (modalDescription) modalDescription.innerHTML = especialidad.description;
+
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    // Pausar rotación automática mientras el modal está abierto
+    clearInterval(autoRotateInterval);
+    
+    // Añadir navegación por teclado cuando el modal está abierto
+    document.addEventListener('keydown', handleKeyNavigation);
+    
+    // AÑADIR ESTO: Configurar el botón "Consultar ahora" para cerrar el modal
+    setTimeout(() => {
+        const consultarBtn = document.querySelector('.modal-contact-btn');
+        if (consultarBtn) {
+            // Guardar el href original
+            const originalHref = consultarBtn.getAttribute('href');
+            
+            // Remover el event listener anterior si existe
+            consultarBtn.replaceWith(consultarBtn.cloneNode(true));
+            
+            // Obtener el nuevo botón
+            const newConsultarBtn = document.querySelector('.modal-contact-btn');
+            
+            // Añadir nuevo event listener
+            newConsultarBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Cerrar el modal
+                closeModal();
+                
+                // Esperar a que se complete la animación de cierre (300ms)
+                setTimeout(() => {
+                    // Desplazarse al formulario de contacto
+                    const contactoSection = document.querySelector('#contacto');
+                    if (contactoSection) {
+                        const headerHeight = document.querySelector('.header').offsetHeight;
+                        const targetPosition = contactoSection.offsetTop - headerHeight - 20;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Opcional: Resaltar el formulario
+                        const contactForm = document.querySelector('.contact-form');
+                        if (contactForm) {
+                            contactForm.style.boxShadow = '0 0 0 3px rgba(184, 134, 11, 0.3)';
+                            contactForm.style.transition = 'box-shadow 0.5s ease';
+                            
+                            setTimeout(() => {
+                                contactForm.style.boxShadow = '';
+                            }, 2000);
+                        }
+                    }
+                }, 300);
+            });
+        }
+    }, 100); // Pequeño delay para asegurar que el DOM se haya actualizado
+}
 
     // Cerrar modal
     function closeModal() {
         modal.classList.remove('active');
         document.body.style.overflow = 'auto';
+        
+        // Remover el event listener de teclado
+        document.removeEventListener('keydown', handleKeyNavigation);
 
-        // Reanudar rotación automática después de 2 segundos
+        // Reanudar rotación automática después de MENOS tiempo
         setTimeout(() => {
             startAutoRotation();
-        }, 2000);
+        }, SPEED_CONFIG.resumeAfterModal);
     }
 
-    // Iniciar rotación automática
+    // Iniciar rotación automática MÁS RÁPIDA
     function startAutoRotation() {
         clearInterval(autoRotateInterval); // Limpiar cualquier intervalo anterior
-        autoRotateInterval = setInterval(nextEspecialidad, 3000); // 3 segundos
+        autoRotateInterval = setInterval(nextEspecialidad, SPEED_CONFIG.autoRotateDelay); // Usar configuración de velocidad
     }
 
     // Event Listeners
     coin.addEventListener('click', showCurrentModal);
+    
+    // Hacer la moneda focusable para accesibilidad
+    coin.setAttribute('tabindex', '0');
+    coin.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            showCurrentModal();
+        }
+    });
 
     if (modalClose) {
         modalClose.addEventListener('click', closeModal);
@@ -866,17 +948,40 @@ function initSimpleCoin() {
         }
     });
 
+    // Swipe para móviles (opcional)
+    let touchStartX = 0;
+    coin.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    
+    coin.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].clientX;
+        const diff = touchStartX - touchEndX;
+        
+        if (Math.abs(diff) > 50) { // Umbral de swipe
+            if (diff > 0) {
+                // Swipe izquierda = siguiente
+                nextEspecialidad();
+            } else {
+                // Swipe derecha = anterior
+                currentEspecialidad = (currentEspecialidad - 1 + ESPECIALIDADES.length) % ESPECIALIDADES.length;
+                updateIndicator();
+                changeEspecialidad();
+            }
+        }
+    }, { passive: true });
+
     // Inicializar estado
     updateIndicator();
     updateTotal();
     changeEspecialidad();
 
-    // Iniciar rotación automática después de 2 segundos
-    setTimeout(startAutoRotation, 2000);
+    // Iniciar rotación automática después de MENOS tiempo
+    setTimeout(startAutoRotation, SPEED_CONFIG.initialDelay);
 
     // Para debug
     console.log(`🎯 Moneda configurada con ${ESPECIALIDADES.length} especialidades`);
-    console.log(`🔄 Rotación automática cada 3 segundos`);
+    console.log(`⚡ Rotación automática cada ${SPEED_CONFIG.autoRotateDelay / 1000} segundos (antes 3s)`);
 }
 
 console.log('✅ Script.js cargado completamente');
