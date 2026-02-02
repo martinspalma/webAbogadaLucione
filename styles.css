@@ -548,7 +548,7 @@ body {
 }
 
 /* === SECCIÓN VALORES - VOLTEO AUTOMÁTICO === */
-/* === SISTEMA DE DOS PILAS - SIN CONTADOR VISIBLE === */
+/* === SISTEMA DE VALORES OPTIMIZADO === */
 .valores-section {
     margin-top: 6rem;
     position: relative;
@@ -557,7 +557,7 @@ body {
 .valores-section h3 {
     text-align: center;
     font-size: 2.2rem;
-    margin-bottom: 3rem; /* Reducido para más espacio */
+    margin-bottom: 3rem;
     color: var(--primary-color);
     display: flex;
     align-items: center;
@@ -565,26 +565,24 @@ body {
     gap: 0.8rem;
 }
 
-/* CONTENEDOR DE LAS DOS PILAS */
 .pilas-container {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 100px;
     position: relative;
-    min-height: 320px; /* Reducido */
+    min-height: 320px;
     margin: 0 auto;
     max-width: 1000px;
 }
 
-/* CADA PILA */
 .pila-valores {
     position: relative;
     width: 280px;
-    height: 300px; /* Reducido */
+    height: 300px;
 }
 
-/* INDICADORES CIRCULARES */
+/* Indicadores */
 .indicador-pila {
     position: absolute;
     top: -20px;
@@ -608,7 +606,7 @@ body {
     transform: scale(1.2);
 }
 
-/* TARJETA DE VALOR */
+/* Tarjeta Base */
 .tarjeta-valor {
     position: absolute;
     width: 100%;
@@ -616,7 +614,7 @@ body {
     background: white;
     border-radius: 15px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: opacity 0.5s ease, transform 0.5s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -628,27 +626,12 @@ body {
     transform: translateY(20px);
 }
 
-/* TARJETA VISIBLE */
 .tarjeta-valor.visible {
     opacity: 1;
     transform: translateY(0);
 }
 
-/* ESTILOS ESPECÍFICOS PARA CADA VALOR */
-.tarjeta-valor[data-valor="confidencialidad"] .icono-tarjeta {
-    background: linear-gradient(135deg, #7d5ba6, #5d3f8a);
-}
-.tarjeta-valor[data-valor="personalizacion"] .icono-tarjeta {
-    background: linear-gradient(135deg, #3498db, #2980b9);
-}
-.tarjeta-valor[data-valor="comunicacion"] .icono-tarjeta {
-    background: linear-gradient(135deg, #27ae60, #219653);
-}
-.tarjeta-valor[data-valor="disponibilidad"] .icono-tarjeta {
-    background: linear-gradient(135deg, #e74c3c, #c0392b);
-}
-
-/* ICONO */
+/* Iconos y Colores */
 .icono-tarjeta {
     width: 70px;
     height: 70px;
@@ -659,107 +642,50 @@ body {
     color: white;
     font-size: 2rem;
     margin-bottom: 1.5rem;
-    transition: transform 0.5s ease;
 }
 
-/* ANIMACIÓN DE TRANSFERENCIA (4 segundos) - MÁS SUAVE */
+.tarjeta-valor[data-valor="confidencialidad"] .icono-tarjeta { background: linear-gradient(135deg, #7d5ba6, #5d3f8a); }
+.tarjeta-valor[data-valor="personalizacion"] .icono-tarjeta { background: linear-gradient(135deg, #3498db, #2980b9); }
+.tarjeta-valor[data-valor="comunicacion"] .icono-tarjeta { background: linear-gradient(135deg, #27ae60, #219653); }
+.tarjeta-valor[data-valor="disponibilidad"] .icono-tarjeta { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+
+/* Animación de Salida (Rápida para ciclo de 2.5s) */
 @keyframes transferencia {
-    0% {
-        transform: translateX(0) scale(1);
-        opacity: 1;
-        z-index: 10;
-    }
-    25% {
-        transform: translateX(30px) scale(0.98);
-        opacity: 0.9;
-    }
-    50% {
-        transform: translateX(60px) scale(0.96);
-        opacity: 0.7;
-    }
-    75% {
-        transform: translateX(90px) scale(0.94);
-        opacity: 0.4;
-    }
-    100% {
-        transform: translateX(120px) scale(0.9);
-        opacity: 0;
-        z-index: 1;
-    }
+    0% { transform: translateX(0) scale(1); opacity: 1; }
+    100% { transform: translateX(100px) scale(0.9); opacity: 0; }
 }
 
 .tarjeta-transfiriendo {
-    animation: transferencia 4s linear forwards !important;
+    animation: transferencia 0.6s ease forwards !important;
 }
 
-/* RESPONSIVE */
+/* === RESPONSIVE UNIFICADO === */
 @media (max-width: 992px) {
-    .pilas-container {
-        flex-direction: column;
-        gap: 60px;
-        min-height: 650px;
-    }
-    
-    .pila-valores {
-        width: 300px;
-        height: 320px;
-    }
-    
-    .tarjeta-transfiriendo {
-        animation: transferenciaMovil 4s linear forwards !important;
-    }
-    
-    @keyframes transferenciaMovil {
-        0% {
-            transform: translateY(0) scale(1);
-            opacity: 1;
-            z-index: 10;
-        }
-        25% {
-            transform: translateY(20px) scale(0.98);
-            opacity: 0.9;
-        }
-        50% {
-            transform: translateY(40px) scale(0.96);
-            opacity: 0.7;
-        }
-        75% {
-            transform: translateY(60px) scale(0.94);
-            opacity: 0.4;
-        }
-        100% {
-            transform: translateY(80px) scale(0.9);
-            opacity: 0;
-            z-index: 1;
-        }
-    }
+    .pilas-container { gap: 40px; }
 }
 
 @media (max-width: 768px) {
-    .valores-section h3 {
-        font-size: 1.8rem;
-        margin-bottom: 2rem;
-    }
-    
     .pilas-container {
-        gap: 50px;
+        gap: 0;
+        min-height: 320px;
     }
-    
-    .pila-valores {
-        width: 280px;
-        height: 300px;
+
+    .pila-activa {
+        display: none !important; /* Una sola pila en mobile */
     }
-    
-    .tarjeta-valor {
-        padding: 1.5rem;
+
+    .pila-mostrada {
+        width: 100%;
+        max-width: 320px;
     }
-    
-    .icono-tarjeta {
-        width: 60px;
-        height: 60px;
-        font-size: 1.8rem;
+
+    /* Animación de salida para mobile (hacia arriba) */
+    @keyframes transferencia {
+        0% { transform: translateY(0); opacity: 1; }
+        100% { transform: translateY(-40px); opacity: 0; }
     }
 }
+
 
 /* === CONTACTO === */
 .contact-section {
@@ -1749,6 +1675,10 @@ body {
     padding: 1rem;
     border-radius: var(--border-radius);
     border: 1px solid rgba(184, 134, 11, 0.1);
+    aspect-ratio: 295 / 400; /* Proporción exacta según tu viewBox */
+    width: 100%;
+    max-width: 300px; /* Evita que se vea gigante en pantallas muy grandes */
+    height: auto;
 }
 
 /* Asegurar que el SVG se vea bien en todos los dispositivos */

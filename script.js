@@ -822,7 +822,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const indicadoresMostrada = document.querySelector('.indicadores-mostrada');
     
     let indiceActual = 0;
-    const intervaloCambio = 4000; // 4 segundos
+    const intervaloCambio = 2500; // 2. segundos
     let intervalo;
     let enTransicion = false;
 
@@ -877,7 +877,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             indiceActual = siguienteIndice;
             enTransicion = false;
-        }, 4000);
+        }, 600);
     }
 
     // Actualizar contenido de una tarjeta
