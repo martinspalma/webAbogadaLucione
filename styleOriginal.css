@@ -6,26 +6,13 @@
 }
 
 :root {
-    /* COLORES PRINCIPALES - NUEVA PALETA */
-    --primary-color: #1a3a5f;       /* Azul marino más elegante */
-    --secondary-color: #2c3e50;     /* Azul oscuro para textos */
-    --accent-color: #7d5ba6;        /* Morado profesional (reemplaza amarillo) */
-    --highlight-color: #3498db;     /* Azul claro para destacar */
-    --light-color: #f8f9fa;         /* Fondo claro */
-    --text-color: #2c3e50;          /* Texto principal */
-    
-    /* COLORES SECUNDARIOS */
-    --success-color: #27ae60;       /* Verde para confirmaciones */
-    --warning-color: #e74c3c;       /* Rojo para alertas */
-    --neutral-color: #95a5a6;       /* Gris para elementos neutrales */
-    
-    /* GRADIENTES ELEGANTES */
-    --gradient-primary: linear-gradient(135deg, #1a3a5f 0%, #2c3e50 100%);
-    --gradient-accent: linear-gradient(135deg, #7d5ba6 0%, #5d3f8a 100%);
-    
-    /* SOMBRAS Y EFECTOS */
-    --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    --shadow-heavy: 0 8px 30px rgba(0, 0, 0, 0.12);
+    --primary-color: #1a365d;
+    --secondary-color: #2d3748;
+    --accent-color: #2c5282;
+    --highlight-color: #b8860b;
+    --light-color: #f7fafc;
+    --text-color: #2d3748;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     --transition: all 0.3s ease;
     --border-radius: 10px;
 }
@@ -80,10 +67,9 @@ body {
     width: 100%;
     height: 100%;
     background: linear-gradient(135deg, 
-        rgba(26, 58, 95, 0.9) 0%,     /* Azul marino */
-        rgba(44, 62, 80, 0.85) 50%,   /* Azul oscuro */
-        rgba(125, 91, 166, 0.15) 100% /* Toque morado */
-    );
+        rgba(10, 25, 47, 0.85) 0%, 
+        rgba(26, 54, 93, 0.75) 50%,
+        rgba(184, 134, 11, 0.15) 100%);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -113,7 +99,7 @@ body {
 .splash-subtitle {
     font-family: 'Playfair Display', serif;
     font-size: 3rem;
-    color: #d1c4e9;
+    color: var(--highlight-color);
     font-weight: 400;
     font-style: italic;
     letter-spacing: 2px;
@@ -141,11 +127,11 @@ body {
     font-size: 1.8rem;
     color: white;
     font-weight: 500;
-    background: rgba(125, 91, 166, 0.2);
+    background: rgba(184, 134, 11, 0.2);
     padding: 1rem 2rem;
     border-radius: 50px;
     display: inline-block;
-    border: 1px solid rgba(125, 91, 166, 0.3);
+    border: 1px solid rgba(184, 134, 11, 0.3);
 }
 
 @keyframes zoomIn {
@@ -172,7 +158,6 @@ body {
     top: 0;
     z-index: 1000;
     transition: all 0.3s ease;
-    border-bottom: 1px solid rgba(44, 62, 80, 0.1);
 }
 
 .navbar {
@@ -201,7 +186,7 @@ body {
 .logo-secondary {
     font-family: 'Playfair Display', serif;
     font-size: 1rem;
-    color: var(--accent-color);
+    color: var(--highlight-color);
     font-style: italic;
     letter-spacing: 1px;
 }
@@ -232,11 +217,11 @@ body {
     left: 0;
     width: 100%;
     height: 2px;
-    background: var(--accent-color);
+    background: var(--highlight-color);
 }
 
 .btn-agendar {
-    background: var(--gradient-accent);
+    background: var(--accent-color);
     color: white !important;
     padding: 0.8rem 2rem;
     border-radius: 25px;
@@ -245,9 +230,9 @@ body {
 }
 
 .btn-agendar:hover {
-    background: var(--gradient-primary);
+    background: var(--primary-color);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(125, 91, 166, 0.3);
+    box-shadow: 0 4px 12px rgba(44, 82, 130, 0.3);
 }
 
 .btn-agendar:hover::after {
@@ -281,7 +266,7 @@ body {
 }
 
 .badge-abogada {
-   background: var(--gradient-accent);
+    background: linear-gradient(135deg, var(--highlight-color), #d4af37);
     color: white;
     padding: 0.6rem 1.5rem;
     border-radius: 25px;
@@ -291,7 +276,7 @@ body {
     font-weight: 500;
     margin-bottom: 1.5rem;
     font-size: 0.9rem;
-    box-shadow: 0 4px 15px rgba(125, 91, 166, 0.2);
+    box-shadow: 0 4px 15px rgba(184, 134, 11, 0.2);
 }
 
 .hero h1 {
@@ -302,7 +287,7 @@ body {
 }
 
 .highlight {
-    color: var(--accent-color);
+    color: var(--highlight-color);
     font-weight: 700;
 }
 
@@ -328,7 +313,7 @@ body {
 }
 
 .especialidad-tag {
-    background: rgba(125, 91, 166, 0.1); 
+    background: rgba(44, 82, 130, 0.1);
     color: var(--accent-color);
     padding: 0.5rem 1rem;
     border-radius: 20px;
@@ -336,7 +321,7 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    border: 1px solid rgba(125, 91, 166, 0.2);
+    border: 1px solid rgba(44, 82, 130, 0.2);
 }
 
 .button-container {
@@ -360,7 +345,7 @@ body {
 }
 
 .btn-primary {
-     background: var(--gradient-accent);
+    background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
     color: white;
     box-shadow: 0 4px 15px rgba(44, 82, 130, 0.3);
 }
@@ -372,8 +357,8 @@ body {
 
 .btn-secondary {
     background: transparent;
-     border: 2px solid var(--accent-color); /* Borde morado */
     color: var(--accent-color);
+    border: 2px solid var(--accent-color);
 }
 
 .btn-secondary:hover {
@@ -484,7 +469,7 @@ body {
     bottom: -15px;
     left: 50%;
     transform: translateX(-50%);
-    background: var(--gradient-accent);
+    background: var(--highlight-color);
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 25px;
@@ -502,7 +487,7 @@ body {
 }
 
 .abogada-titulo {
-    color: var(--accent-color); 
+    color: var(--highlight-color);
     font-weight: 500;
     margin-bottom: 2rem;
     font-size: 1.1rem;
@@ -539,226 +524,71 @@ body {
 }
 
 .filosofia-texto {
-    background: rgba(125, 91, 166, 0.05);
-    border-left: 3px solid var(--accent-color);
+    background: rgba(184, 134, 11, 0.05);
+    border-left: 3px solid var(--highlight-color);
     padding: 1.5rem;
     border-radius: 0 var(--border-radius) var(--border-radius) 0;
     font-style: italic;
     margin-top: 1rem;
 }
 
-/* === SECCIÓN VALORES - VOLTEO AUTOMÁTICO === */
-/* === SISTEMA DE DOS PILAS - SIN CONTADOR VISIBLE === */
 .valores-section {
-    margin-top: 6rem;
-    position: relative;
+    margin-top: 4rem;
 }
 
 .valores-section h3 {
     text-align: center;
-    font-size: 2.2rem;
-    margin-bottom: 3rem; /* Reducido para más espacio */
+    font-size: 2rem;
+    margin-bottom: 2.5rem;
     color: var(--primary-color);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.8rem;
+    gap: 0.5rem;
 }
 
-/* CONTENEDOR DE LAS DOS PILAS */
-.pilas-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 100px;
-    position: relative;
-    min-height: 320px; /* Reducido */
-    margin: 0 auto;
-    max-width: 1000px;
+.valores-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
 }
 
-/* CADA PILA */
-.pila-valores {
-    position: relative;
-    width: 280px;
-    height: 300px; /* Reducido */
-}
-
-/* INDICADORES CIRCULARES */
-.indicador-pila {
-    position: absolute;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 8px;
-    z-index: 10;
-}
-
-.punto-indicador {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #e0e0e0;
-    transition: all 0.3s ease;
-}
-
-.punto-indicador.activo {
-    background: var(--accent-color);
-    transform: scale(1.2);
-}
-
-/* TARJETA DE VALOR */
-.tarjeta-valor {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+.valor-card {
     background: white;
-    border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     padding: 2rem;
+    border-radius: var(--border-radius);
     text-align: center;
-    overflow: hidden;
-    opacity: 0;
-    transform: translateY(20px);
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease;
 }
 
-/* TARJETA VISIBLE */
-.tarjeta-valor.visible {
-    opacity: 1;
-    transform: translateY(0);
+.valor-card:hover {
+    transform: translateY(-10px);
 }
 
-/* ESTILOS ESPECÍFICOS PARA CADA VALOR */
-.tarjeta-valor[data-valor="confidencialidad"] .icono-tarjeta {
-    background: linear-gradient(135deg, #7d5ba6, #5d3f8a);
-}
-.tarjeta-valor[data-valor="personalizacion"] .icono-tarjeta {
-    background: linear-gradient(135deg, #3498db, #2980b9);
-}
-.tarjeta-valor[data-valor="comunicacion"] .icono-tarjeta {
-    background: linear-gradient(135deg, #27ae60, #219653);
-}
-.tarjeta-valor[data-valor="disponibilidad"] .icono-tarjeta {
-    background: linear-gradient(135deg, #e74c3c, #c0392b);
-}
-
-/* ICONO */
-.icono-tarjeta {
+.valor-icon {
     width: 70px;
     height: 70px;
+    background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0 auto 1.5rem;
     color: white;
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    transition: transform 0.5s ease;
+    font-size: 1.8rem;
 }
 
-/* ANIMACIÓN DE TRANSFERENCIA (4 segundos) - MÁS SUAVE */
-@keyframes transferencia {
-    0% {
-        transform: translateX(0) scale(1);
-        opacity: 1;
-        z-index: 10;
-    }
-    25% {
-        transform: translateX(30px) scale(0.98);
-        opacity: 0.9;
-    }
-    50% {
-        transform: translateX(60px) scale(0.96);
-        opacity: 0.7;
-    }
-    75% {
-        transform: translateX(90px) scale(0.94);
-        opacity: 0.4;
-    }
-    100% {
-        transform: translateX(120px) scale(0.9);
-        opacity: 0;
-        z-index: 1;
-    }
+.valor-card h4 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
 }
 
-.tarjeta-transfiriendo {
-    animation: transferencia 4s linear forwards !important;
-}
-
-/* RESPONSIVE */
-@media (max-width: 992px) {
-    .pilas-container {
-        flex-direction: column;
-        gap: 60px;
-        min-height: 650px;
-    }
-    
-    .pila-valores {
-        width: 300px;
-        height: 320px;
-    }
-    
-    .tarjeta-transfiriendo {
-        animation: transferenciaMovil 4s linear forwards !important;
-    }
-    
-    @keyframes transferenciaMovil {
-        0% {
-            transform: translateY(0) scale(1);
-            opacity: 1;
-            z-index: 10;
-        }
-        25% {
-            transform: translateY(20px) scale(0.98);
-            opacity: 0.9;
-        }
-        50% {
-            transform: translateY(40px) scale(0.96);
-            opacity: 0.7;
-        }
-        75% {
-            transform: translateY(60px) scale(0.94);
-            opacity: 0.4;
-        }
-        100% {
-            transform: translateY(80px) scale(0.9);
-            opacity: 0;
-            z-index: 1;
-        }
-    }
-}
-
-@media (max-width: 768px) {
-    .valores-section h3 {
-        font-size: 1.8rem;
-        margin-bottom: 2rem;
-    }
-    
-    .pilas-container {
-        gap: 50px;
-    }
-    
-    .pila-valores {
-        width: 280px;
-        height: 300px;
-    }
-    
-    .tarjeta-valor {
-        padding: 1.5rem;
-    }
-    
-    .icono-tarjeta {
-        width: 60px;
-        height: 60px;
-        font-size: 1.8rem;
-    }
+.valor-card p {
+    color: var(--secondary-color);
+    font-size: 0.95rem;
+    line-height: 1.6;
 }
 
 /* === CONTACTO === */
@@ -1104,7 +934,7 @@ body {
 }
 
 .footer-col h4 {
-    color: #d1c4e9;
+    color: var(--highlight-color);
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
@@ -1148,7 +978,7 @@ body {
 }
 
 .footer-links a:hover {
-     color: #d1c4e9;
+    color: var(--highlight-color);
 }
 
 /* === ANIMACIONES PARA LA TRANSICIÓN === */
@@ -1318,7 +1148,7 @@ body {
     height: 160px;
     position: relative;
     border-radius: 50%;
-    background: var(--gradient-accent);
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
     color: white;
     display: flex;
     flex-direction: column;
@@ -1326,8 +1156,8 @@ body {
     justify-content: center;
     padding: 1.5rem;
     box-shadow: 
-        0 15px 35px rgba(125, 91, 166, 0.2),
-        inset 0 0 0 4px rgba(52, 152, 219, 0.3);
+        0 15px 35px rgba(45, 27, 105, 0.2),
+        inset 0 0 0 4px rgba(184, 134, 11, 0.3);
     cursor: pointer;
     transition: all 0.5s ease;
     animation: pulseGlow 4s infinite alternate;
@@ -1370,7 +1200,6 @@ body {
 
 .coin-simplified.changing {
     animation: coinChange 1.2s ease;
-     background: var(--gradient-primary);
 }
 
 @keyframes coinChange {
@@ -1490,7 +1319,7 @@ body {
 }
 
 .modal-header {
-    background: var(--gradient-primary);
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
     color: white;
     padding: 2.5rem 2rem 2rem;
     border-radius: 20px 20px 0 0;
@@ -1544,8 +1373,8 @@ body {
 }
 
 .modal-cta {
-    background: rgba(125, 91, 166, 0.05);
-    border-left: 3px solid var(--accent-color);
+    background: rgba(184, 134, 11, 0.05);
+    border-left: 3px solid var(--highlight-color);
     padding: 1.5rem;
     border-radius: 10px;
     text-align: center;

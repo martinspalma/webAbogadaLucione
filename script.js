@@ -1,61 +1,61 @@
 // =============================================
-// LUCIONE & ASOCIADOS - SCRIPT COMPLETO
+// LUCIONE & ASOCIADOS - SCRIPT OPTIMIZADO
 // =============================================
 
-// Configuración
+// CONFIGURACIÓN GLOBAL
 const CONFIG = {
-    splashDuration: 3000,
-    transitionDuration: 1600,
-    calendlyUrl: 'https://calendly.com/lucioneyasociados'
+    splash: {
+        duration: 3000,
+        transitionDuration: 1600
+    },
+    calendly: {
+        url: 'https://calendly.com/lucioneyasociados',
+        initialized: false
+    },
+    web3forms: {
+        accessKey: 'cd2ed93c-93a4-4f47-aae9-0f555317949b',
+        successUrl: 'gracias.html'
+    },
+    coin: {
+        autoRotateDelay: 2000,
+        animationDuration: 400,
+        resumeAfterModal: 1000,
+        initialDelay: 1500
+    }
 };
 
-// Configuración WEB3FORMS
-const WEB3FORMS_CONFIG = {
-    accessKey: 'cd2ed93c-93a4-4f47-aae9-0f555317949b',
-    // IMPORTANTE: Cambiar esto por tu dominio real antes de subir a producción
-    successUrl: 'http://127.0.0.1:5500/gracias.html',
-    successMessage: '¡Consulta enviada! La Dra. Lucione se contactará pronto.'
-};
-
-// Variables globales
+// VARIABLES GLOBALES
 let splashScreen, splashImage, mainContent, heroImage, headerLogo;
-let calendlyInitialized = false;
 
 // =============================================
-// INICIALIZACIÓN PRINCIPAL (MANTENER ESTO)
+// INICIALIZACIÓN PRINCIPAL
 // =============================================
 document.addEventListener('DOMContentLoaded', function () {
     console.log('🚀 Lucione & Asociados - Iniciando...');
 
-    // Referencias a elementos
     splashScreen = document.getElementById('splash-screen');
     splashImage = document.getElementById('splash-image');
     mainContent = document.getElementById('main-content');
     heroImage = document.getElementById('hero-image');
     headerLogo = document.getElementById('header-logo');
 
-    // Validar elementos
     if (!splashScreen || !mainContent) {
-        console.error('❌ Elementos no encontrados');
+        console.error('❌ Elementos críticos no encontrados');
         mostrarContenidoPrincipal();
         return;
     }
 
-    // Configurar año actual
     actualizarAnoActual();
-
-    // Inicializar funcionalidades básicas que no dependen de animación
     initMobileMenu();
     initSmoothScroll();
-    initContactForm(); // ¡Solo una vez!
+    initContactForm();
     initCalendlyCheck();
 
-    // Iniciar animación después de 3 segundos
-    setTimeout(iniciarAnimacionEntrada, CONFIG.splashDuration);
+    setTimeout(iniciarAnimacionEntrada, CONFIG.splash.duration);
 });
 
 // =============================================
-// FORMULARIO CON SISTEMA DE FALLBACK AUTOMÁTICO
+// FORMULARIO DE CONTACTO
 // =============================================
 function initContactForm() {
     const contactForm = document.getElementById('contactForm');
@@ -64,26 +64,12 @@ function initContactForm() {
         return;
     }
 
-    console.log('🔄 Inicializando sistema de formulario...');
+    console.log('📧 Inicializando formulario Web3Forms...');
 
-    // Elementos del DOM
     const formStatus = document.getElementById('form-status');
     const submitBtn = document.getElementById('submit-btn');
     const originalBtnText = submitBtn.innerHTML;
 
-    // Configuraciones
-    const SERVICES = {
-        WEB3FORMS: {
-            url: 'https://api.web3forms.com/submit',
-            accessKey: 'cd2ed93c-93a4-4f47-aae9-0f555317949b'
-        },
-        FORM_SUBMIT: {
-            url: 'https://formsubmit.co/ajax/lucioneyasociados@gmail.com',
-            backup: true
-        }
-    };
-
-    // Función para mostrar mensajes
     function showStatus(message, type = 'info') {
         if (!formStatus) return;
 
@@ -104,190 +90,103 @@ function initContactForm() {
         `;
         formStatus.style.display = 'block';
 
-        // Auto-ocultar mensajes informativos después de 5 segundos
         if (type !== 'success') {
-            setTimeout(() => {
-                formStatus.style.display = 'none';
-            }, 5000);
+            setTimeout(() => formStatus.style.display = 'none', 5000);
         }
     }
 
-    // Función para estado de carga
     function setLoading(isLoading) {
         if (!submitBtn) return;
-
-        if (isLoading) {
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
-        } else {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalBtnText;
-        }
+        
+        submitBtn.disabled = isLoading;
+        submitBtn.innerHTML = isLoading 
+            ? '<i class="fas fa-spinner fa-spin"></i> Enviando...' 
+            : originalBtnText;
     }
 
-    // Función para enviar a Web3Forms (PRIMER INTENTO)
     async function sendToWeb3Forms(formData) {
-        console.log('🔵 Intentando Web3Forms...');
+        console.log('📤 Enviando a Web3Forms...');
 
         const payload = new FormData();
-
-        // Añadir campos obligatorios de Web3Forms
-        payload.append('access_key', SERVICES.WEB3FORMS.accessKey);
+        
+        payload.append('access_key', CONFIG.web3forms.accessKey);
         payload.append('subject', 'Nueva Consulta - Lucione & Asociados');
+        payload.append('from_name', 'Sitio Web Lucione & Asociados');
 
-        // Añadir campos del formulario
         const fields = ['name', 'email', 'phone', 'service', 'message', 'privacy'];
         fields.forEach(field => {
             const value = formData.get(field);
-            if (value) {
-                payload.append(field, value);
-            }
+            if (value) payload.append(field, value);
         });
 
-        // Opciones adicionales
-        payload.append('from_name', 'Sitio Web Lucione & Asociados');
-
-        console.log('📤 Enviando a Web3Forms...', {
-            access_key: SERVICES.WEB3FORMS.accessKey.substring(0, 10) + '...',
-            fields: Array.from(payload.keys())
-        });
-
-        const response = await fetch(SERVICES.WEB3FORMS.url, {
-            method: 'POST',
-            body: payload
-        });
-
-        return await response.json();
+        try {
+            const response = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: payload
+            });
+            
+            return await response.json();
+        } catch (error) {
+            throw new Error('Error de conexión con el servidor');
+        }
     }
 
-    // Función para enviar a FormSubmit (SEGUNDO INTENTO)
-    async function sendToFormSubmit(formData) {
-        console.log('🟡 Intentando FormSubmit.co...');
-
-        const payload = new FormData();
-
-        // Configuración de FormSubmit
-        payload.append('_subject', 'Nueva Consulta - Lucione & Asociados');
-        payload.append('_template', 'table');
-        payload.append('_captcha', 'false');
-        payload.append('_cc', 'lucioneyasociados@gmail.com');
-
-        // Mapear campos (FormSubmit usa nombres diferentes)
-        const fieldMap = {
-            'name': 'nombre',
-            'email': 'email',
-            'phone': 'telefono',
-            'service': 'tipo_consulta',
-            'message': 'mensaje',
-            'privacy': 'acepto_privacidad'
-        };
-
-        Object.entries(fieldMap).forEach(([original, mapped]) => {
-            const value = formData.get(original);
-            if (value) {
-                payload.append(mapped, value);
-            }
-        });
-
-        const response = await fetch(SERVICES.FORM_SUBMIT.url, {
-            method: 'POST',
-            body: payload
-        });
-
-        return await response.json();
-    }
-
-    // Event listener principal
     contactForm.addEventListener('submit', async function (e) {
         e.preventDefault();
-
+        
         console.log('🚀 Iniciando envío de formulario...');
         setLoading(true);
         showStatus('Procesando su consulta...', 'info');
 
         try {
-            // Obtener datos del formulario
             const formData = new FormData(this);
-
-            // Validación básica
+            
             const email = formData.get('email');
             const name = formData.get('name');
-
+            
             if (!email || !name) {
                 throw new Error('Por favor, complete los campos requeridos');
             }
 
-            // INTENTO 1: Web3Forms
-            let result = await sendToWeb3Forms(formData);
-
-            // Si Web3Forms falla, intentar FormSubmit
-            if (!result.success && SERVICES.FORM_SUBMIT.backup) {
-                console.log('⚠️ Web3Forms falló, intentando FormSubmit...');
-                showStatus('Usando servicio alternativo...', 'warning');
-
-                result = await sendToFormSubmit(formData);
-
-                // FormSubmit tiene diferente formato de respuesta
-                if (result.success || result.message === 'success') {
-                    result.success = true;
-                }
-            }
-
-            // Manejar resultado final
+            const result = await sendToWeb3Forms(formData);
+            
             if (result.success) {
                 console.log('✅ Formulario enviado exitosamente');
-                showStatus('✅ ¡Consulta enviada! La Dra. Lucione se contactará pronto.', 'success');
-
+                showStatus('✅ ¡Consulta enviada! Redirigiendo...', 'success');
                 contactForm.reset();
-
-                // Redireccionar después de 2 segundos
-                setTimeout(() => {
-                    window.location.href = 'gracias.html';
-                }, 2000);
-
                 
-
+                setTimeout(() => {
+                    window.location.href = CONFIG.web3forms.successUrl;
+                }, 2000);
+                
             } else {
-                // Ambos servicios fallaron
                 throw new Error(result.message || 'No se pudo enviar el formulario');
             }
-
+            
         } catch (error) {
-            console.error('❌ Error crítico:', error);
-
-            // Mensajes de error amigables
+            console.error('❌ Error:', error);
+            
             let userMessage = 'Error al enviar. ';
-
-            if (error.message.includes('Network') || !navigator.onLine) {
+            if (!navigator.onLine) {
                 userMessage = 'Sin conexión a internet. ';
-            } else if (error.message.includes('Failed to fetch')) {
-                userMessage = 'Error de conexión con el servidor. ';
             } else if (error.message.includes('campos requeridos')) {
                 userMessage = error.message;
-            } else {
-                userMessage += error.message;
             }
-
+            
             userMessage += 'Por favor, contáctenos por teléfono: +54 11 4321-5678';
-
             showStatus(`❌ ${userMessage}`, 'error');
-
+            
         } finally {
             setLoading(false);
         }
     });
 
-    // Validación en tiempo real para mejor UX
     const requiredFields = contactForm.querySelectorAll('[required]');
     requiredFields.forEach(field => {
         field.addEventListener('input', function () {
-            if (this.checkValidity()) {
-                this.style.borderColor = '#38a169';
-            } else {
-                this.style.borderColor = '#cbd5e0';
-            }
+            this.style.borderColor = this.checkValidity() ? '#38a169' : '#cbd5e0';
         });
-
+        
         field.addEventListener('blur', function () {
             if (!this.value.trim() && this.hasAttribute('required')) {
                 this.style.borderColor = '#e53e3e';
@@ -295,11 +194,11 @@ function initContactForm() {
         });
     });
 
-    console.log('✅ Sistema de formulario inicializado');
+    console.log('✅ Formulario inicializado');
 }
 
 // =============================================
-// ANIMACIÓN DE ENTRADA (MANTENER TODO ESTO)
+// ANIMACIÓN DE ENTRADA
 // =============================================
 function iniciarAnimacionEntrada() {
     console.log('🎬 Iniciando animación de entrada...');
@@ -313,51 +212,39 @@ function iniciarAnimacionEntrada() {
         return;
     }
 
-    // Crear clones
     const imageClone = crearCloneImagen();
     const logoClone = crearCloneLogo();
 
-    // Animar
     setTimeout(() => {
-        // Mover imagen al hero
-        imageClone.style.top = heroPos.y + 'px';
-        imageClone.style.left = heroPos.x + 'px';
-        imageClone.style.width = heroPos.width + 'px';
-        imageClone.style.height = heroPos.height + 'px';
+        imageClone.style.top = `${heroPos.y}px`;
+        imageClone.style.left = `${heroPos.x}px`;
+        imageClone.style.width = `${heroPos.width}px`;
+        imageClone.style.height = `${heroPos.height}px`;
         imageClone.style.borderRadius = '15px';
         imageClone.style.opacity = '0.7';
 
-        // Mover logo al header
-        logoClone.style.top = headerPos.y + 'px';
-        logoClone.style.left = headerPos.x + 'px';
+        logoClone.style.top = `${headerPos.y}px`;
+        logoClone.style.left = `${headerPos.x}px`;
         logoClone.style.width = '200px';
         logoClone.style.opacity = '0.5';
         logoClone.style.transform = 'scale(0.3)';
 
-        // Ocultar splash
         splashScreen.style.opacity = '0';
-
     }, 100);
 
-    // Mostrar contenido
     setTimeout(() => {
-        // Limpiar clones
         if (imageClone.parentNode) imageClone.parentNode.removeChild(imageClone);
         if (logoClone.parentNode) logoClone.parentNode.removeChild(logoClone);
 
         mostrarContenidoPrincipal();
         inicializarFuncionalidadesAvanzadas();
-
-    }, CONFIG.transitionDuration);
+    }, CONFIG.splash.transitionDuration);
 }
 
-// =============================================
-// FUNCIONES DE UTILIDAD - ANIMACIÓN (MANTENER)
-// =============================================
 function obtenerPosicionHeroImage() {
     const heroImg = document.querySelector('.hero-main-image');
     if (!heroImg) return null;
-
+    
     const rect = heroImg.getBoundingClientRect();
     return {
         x: rect.left + window.scrollX,
@@ -370,7 +257,7 @@ function obtenerPosicionHeroImage() {
 function obtenerPosicionHeaderLogo() {
     const logoContainer = document.querySelector('.logo-container');
     if (!logoContainer) return null;
-
+    
     const rect = logoContainer.getBoundingClientRect();
     return {
         x: rect.left + window.scrollX,
@@ -384,16 +271,16 @@ function crearCloneImagen() {
     const clone = splashImage.cloneNode(true);
     clone.id = 'image-clone-transition';
     clone.classList.add('image-transition');
-
+    
     const rect = splashImage.getBoundingClientRect();
     clone.style.position = 'fixed';
-    clone.style.top = rect.top + 'px';
-    clone.style.left = rect.left + 'px';
-    clone.style.width = rect.width + 'px';
-    clone.style.height = rect.height + 'px';
+    clone.style.top = `${rect.top}px`;
+    clone.style.left = `${rect.left}px`;
+    clone.style.width = `${rect.width}px`;
+    clone.style.height = `${rect.height}px`;
     clone.style.objectFit = 'cover';
     clone.style.zIndex = '9998';
-
+    
     document.body.appendChild(clone);
     return clone;
 }
@@ -403,15 +290,15 @@ function crearCloneLogo() {
     const clone = logoContainer.cloneNode(true);
     clone.id = 'logo-clone-transition';
     clone.classList.add('image-transition');
-
+    
     const rect = splashImage.getBoundingClientRect();
     clone.style.position = 'fixed';
-    clone.style.top = rect.top + (rect.height / 2 - 100) + 'px';
-    clone.style.left = rect.left + 'px';
-    clone.style.width = rect.width + 'px';
+    clone.style.top = `${rect.top + (rect.height / 2 - 100)}px`;
+    clone.style.left = `${rect.left}px`;
+    clone.style.width = `${rect.width}px`;
     clone.style.textAlign = 'center';
     clone.style.zIndex = '9998';
-
+    
     document.body.appendChild(clone);
     return clone;
 }
@@ -419,41 +306,17 @@ function crearCloneLogo() {
 function mostrarContenidoPrincipal() {
     splashScreen.style.display = 'none';
     mainContent.classList.remove('hidden');
-
+    
     if (headerLogo) headerLogo.classList.add('visible');
     if (heroImage) heroImage.classList.add('loaded');
-
+    
     document.body.classList.add('page-loaded');
     console.log('✅ Contenido principal mostrado');
 }
 
 // =============================================
-// FUNCIONALIDADES BÁSICAS (MANTENER)
+// FUNCIONALIDADES BÁSICAS
 // =============================================
-function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                const headerHeight = document.querySelector('.header').offsetHeight;
-                const targetPosition = targetElement.offsetTop - headerHeight - 20;
-
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-
-                closeMobileMenu();
-            }
-        });
-    });
-    console.log('✅ Scroll suave configurado');
-}
-
 function initMobileMenu() {
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
@@ -469,34 +332,53 @@ function initMobileMenu() {
     });
 
     document.querySelectorAll('.nav-menu a').forEach(link => {
-        link.addEventListener('click', closeMobileMenu);
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
     });
 
     console.log('✅ Menú móvil configurado');
 }
 
-function closeMobileMenu() {
-    const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.nav-menu');
-    if (hamburger) hamburger.classList.remove('active');
-    if (navMenu) navMenu.classList.remove('active');
+function initSmoothScroll() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                const headerHeight = document.querySelector('.header')?.offsetHeight || 0;
+                const targetPosition = targetElement.offsetTop - headerHeight - 20;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+    
+    console.log('✅ Scroll suave configurado');
 }
 
 // =============================================
-// FUNCIONALIDADES AVANZADAS (MANTENER)
+// FUNCIONALIDADES AVANZADAS
 // =============================================
 function inicializarFuncionalidadesAvanzadas() {
     console.log('⚙️ Inicializando funcionalidades avanzadas...');
-
+    
     initIntersectionObserver();
     initParallaxEffect();
     initCalendlyObserver();
-    initSimpleCoin(); 
-
+    initSimpleCoin();
+    
     console.log('✅ Funcionalidades avanzadas inicializadas');
 }
 
-// Observador de intersección para animaciones al scroll
 function initIntersectionObserver() {
     const observerOptions = {
         threshold: 0.1,
@@ -507,12 +389,11 @@ function initIntersectionObserver() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-
-                // Animaciones específicas
+                
                 if (entry.target.classList.contains('valor-card')) {
                     entry.target.style.animation = 'slideUp 0.6s ease forwards';
                 }
-
+                
                 if (entry.target.classList.contains('proceso-step')) {
                     setTimeout(() => {
                         entry.target.style.opacity = '1';
@@ -523,41 +404,37 @@ function initIntersectionObserver() {
         });
     }, observerOptions);
 
-    // Observar elementos
     const elementosObservables = document.querySelectorAll(
         '.section, .valor-card, .proceso-step, .abogada-card'
     );
 
-    elementosObservables.forEach(el => {
-        observer.observe(el);
-    });
-
-    console.log(`✅ Observador de intersección configurado para ${elementosObservables.length} elementos`);
+    elementosObservables.forEach(el => observer.observe(el));
+    console.log(`✅ Observador configurado para ${elementosObservables.length} elementos`);
 }
 
-// Efecto parallax para la imagen del hero
 function initParallaxEffect() {
+    if (!heroImage) return;
+    
     window.addEventListener('scroll', () => {
-        if (heroImage) {
-            const scrolled = window.pageYOffset;
-            if (scrolled < 500) {
-                const rate = scrolled * -0.3;
-                heroImage.style.transform = `translateY(${rate}px)`;
-            }
+        const scrolled = window.pageYOffset;
+        if (scrolled < 500) {
+            const rate = scrolled * -0.3;
+            heroImage.style.transform = `translateY(${rate}px)`;
         }
     });
+    
     console.log('✅ Efecto parallax configurado');
 }
 
 // =============================================
-// CALENDLY (MANTENER)
+// CALENDLY BÁSICO
 // =============================================
 function initCalendlyCheck() {
     setTimeout(() => {
         const calendlyIframe = document.querySelector('.calendly-inline-widget iframe');
         if (calendlyIframe) {
             console.log('✅ Calendly cargado correctamente');
-            calendlyInitialized = true;
+            CONFIG.calendly.initialized = true;
         } else {
             console.warn('⚠️ Calendly no se cargó automáticamente');
             setTimeout(checkCalendlyAgain, 2000);
@@ -585,7 +462,7 @@ function showCalendlyAlternative() {
             <h4>Agendar Consulta</h4>
             <p>Para agendar una consulta con la Dra. Lucione:</p>
             <div class="alternative-buttons">
-                <a href="${CONFIG.calendlyUrl}" 
+                <a href="${CONFIG.calendly.url}" 
                    target="_blank" 
                    class="btn btn-primary">
                     <i class="fas fa-external-link-alt"></i> Ir a Calendly
@@ -610,8 +487,8 @@ function initCalendlyObserver() {
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting && !calendlyInitialized) {
-                console.log('📅 Calendly ahora es visible en pantalla');
+            if (entry.isIntersecting && !CONFIG.calendly.initialized) {
+                console.log('📅 Calendly visible en pantalla');
             }
         });
     }, { threshold: 0.1 });
@@ -620,43 +497,8 @@ function initCalendlyObserver() {
 }
 
 // =============================================
-// FUNCIONES AUXILIARES (MANTENER)
+// MONEDA GIRATORIA (MANTENER)
 // =============================================
-function actualizarAnoActual() {
-    const yearElement = document.getElementById('current-year');
-    if (yearElement) {
-        yearElement.textContent = new Date().getFullYear();
-    }
-    console.log('✅ Año actual actualizado');
-}
-
-// =============================================
-// EVENTOS GLOBALES (MANTENER)
-// =============================================
-window.addEventListener('load', function () {
-    console.log('🎉 Página completamente cargada');
-    document.documentElement.classList.add('loaded');
-});
-
-// Manejo de errores
-window.addEventListener('error', function (e) {
-    console.error('❌ Error detectado:', e.error);
-});
-
-// Manejar redimensionamiento
-let resizeTimer;
-window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-        console.log('🔄 Ventana redimensionada');
-    }, 250);
-});
-
-// =============================================
-// MONEDA GIRATORIA SIMPLIFICADA - VERSIÓN MÁS RÁPIDA
-// =============================================
-
-// Datos de las especialidades (versión simplificada)
 const ESPECIALIDADES = [
     {
         id: 0,
@@ -740,11 +582,9 @@ const ESPECIALIDADES = [
     }
 ];
 
-// Variables para la moneda simplificada
 let currentEspecialidad = 0;
 let autoRotateInterval;
 
-// Inicializar moneda simplificada - VERSIÓN MÁS RÁPIDA
 function initSimpleCoin() {
     const coin = document.getElementById('simpleCoin');
     const modal = document.getElementById('especialidadModal');
@@ -755,160 +595,113 @@ function initSimpleCoin() {
         return;
     }
 
-    console.log('✅ Inicializando moneda giratoria simplificada (más rápida)');
+    console.log('🎯 Inicializando moneda giratoria...');
 
-    // Configuración de velocidad - CAMBIADO PARA SER MÁS RÁPIDO
-    const SPEED_CONFIG = {
-        autoRotateDelay: 1000, // Cambiado de 3000ms a 2000ms (33% más rápido)
-        animationDuration: 400, // Cambiado de 600ms a 400ms (más rápido)
-        resumeAfterModal: 1000, // Cambiado de 2000ms a 1000ms (más rápido)
-        initialDelay: 1500 // Cambiado de 2000ms a 1500ms (más rápido)
-    };
-
-    // Actualizar indicador
     function updateIndicator() {
         const currentSpan = document.querySelector('.simple-current');
         if (currentSpan) currentSpan.textContent = currentEspecialidad + 1;
     }
 
-    // Actualizar total
     function updateTotal() {
         const totalSpan = document.querySelector('.simple-total');
         if (totalSpan) totalSpan.textContent = ESPECIALIDADES.length;
     }
 
-    // Cambiar especialidad con animación MÁS RÁPIDA
     function changeEspecialidad() {
-        // Aplicar animación de cambio
         coin.classList.add('changing');
-
-        // Cambiar contenido después de un tiempo más corto
+        
         setTimeout(() => {
             const especialidad = ESPECIALIDADES[currentEspecialidad];
-
-            // Actualizar contenido de la moneda
             coin.innerHTML = `
                 <div class="coin-simple-front">
                     <i class="${especialidad.icon}"></i>
                     <span>${especialidad.title}</span>
                 </div>
             `;
-
             coin.classList.remove('changing');
-        }, SPEED_CONFIG.animationDuration); // Usar configuración de velocidad
+        }, CONFIG.coin.animationDuration);
     }
 
-    // Avanzar a siguiente especialidad
     function nextEspecialidad() {
         currentEspecialidad = (currentEspecialidad + 1) % ESPECIALIDADES.length;
         updateIndicator();
         changeEspecialidad();
     }
 
-    // Navegación con flechas del teclado (opcional)
-    function handleKeyNavigation(e) {
-        if (e.key === 'ArrowRight') nextEspecialidad();
-        if (e.key === 'ArrowLeft') {
-            currentEspecialidad = (currentEspecialidad - 1 + ESPECIALIDADES.length) % ESPECIALIDADES.length;
-            updateIndicator();
-            changeEspecialidad();
-        }
+    function prevEspecialidad() {
+        currentEspecialidad = (currentEspecialidad - 1 + ESPECIALIDADES.length) % ESPECIALIDADES.length;
+        updateIndicator();
+        changeEspecialidad();
     }
 
-    // Mostrar modal con la especialidad actual
-function showCurrentModal() {
-    const especialidad = ESPECIALIDADES[currentEspecialidad];
-    const modalIcon = document.getElementById('modalIcon');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalDescription = document.getElementById('modalDescription');
+    function startAutoRotation() {
+        clearInterval(autoRotateInterval);
+        autoRotateInterval = setInterval(nextEspecialidad, CONFIG.coin.autoRotateDelay);
+    }
 
-    if (modalIcon) modalIcon.className = `modal-icon ${especialidad.icon}`;
-    if (modalTitle) modalTitle.textContent = especialidad.title;
-    if (modalDescription) modalDescription.innerHTML = especialidad.description;
-
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-
-    // Pausar rotación automática mientras el modal está abierto
-    clearInterval(autoRotateInterval);
-    
-    // Añadir navegación por teclado cuando el modal está abierto
-    document.addEventListener('keydown', handleKeyNavigation);
-    
-    // AÑADIR ESTO: Configurar el botón "Consultar ahora" para cerrar el modal
-    setTimeout(() => {
-        const consultarBtn = document.querySelector('.modal-contact-btn');
-        if (consultarBtn) {
-            // Guardar el href original
-            const originalHref = consultarBtn.getAttribute('href');
-            
-            // Remover el event listener anterior si existe
-            consultarBtn.replaceWith(consultarBtn.cloneNode(true));
-            
-            // Obtener el nuevo botón
-            const newConsultarBtn = document.querySelector('.modal-contact-btn');
-            
-            // Añadir nuevo event listener
-            newConsultarBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Cerrar el modal
-                closeModal();
-                
-                // Esperar a que se complete la animación de cierre (300ms)
-                setTimeout(() => {
-                    // Desplazarse al formulario de contacto
-                    const contactoSection = document.querySelector('#contacto');
-                    if (contactoSection) {
-                        const headerHeight = document.querySelector('.header').offsetHeight;
-                        const targetPosition = contactoSection.offsetTop - headerHeight - 20;
-                        
-                        window.scrollTo({
-                            top: targetPosition,
-                            behavior: 'smooth'
-                        });
-                        
-                        // Opcional: Resaltar el formulario
-                        const contactForm = document.querySelector('.contact-form');
-                        if (contactForm) {
-                            contactForm.style.boxShadow = '0 0 0 3px rgba(184, 134, 11, 0.3)';
-                            contactForm.style.transition = 'box-shadow 0.5s ease';
-                            
-                            setTimeout(() => {
-                                contactForm.style.boxShadow = '';
-                            }, 2000);
-                        }
-                    }
-                }, 300);
-            });
-        }
-    }, 100); // Pequeño delay para asegurar que el DOM se haya actualizado
-}
-
-    // Cerrar modal
     function closeModal() {
         modal.classList.remove('active');
         document.body.style.overflow = 'auto';
-        
-        // Remover el event listener de teclado
         document.removeEventListener('keydown', handleKeyNavigation);
+        
+        setTimeout(startAutoRotation, CONFIG.coin.resumeAfterModal);
+    }
 
-        // Reanudar rotación automática después de MENOS tiempo
+    function handleKeyNavigation(e) {
+        if (e.key === 'ArrowRight') nextEspecialidad();
+        if (e.key === 'ArrowLeft') prevEspecialidad();
+        if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+    }
+
+    function showCurrentModal() {
+        const especialidad = ESPECIALIDADES[currentEspecialidad];
+        const modalIcon = document.getElementById('modalIcon');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDescription = document.getElementById('modalDescription');
+
+        if (modalIcon) modalIcon.className = `modal-icon ${especialidad.icon}`;
+        if (modalTitle) modalTitle.textContent = especialidad.title;
+        if (modalDescription) modalDescription.innerHTML = especialidad.description;
+
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        clearInterval(autoRotateInterval);
+        document.addEventListener('keydown', handleKeyNavigation);
+
         setTimeout(() => {
-            startAutoRotation();
-        }, SPEED_CONFIG.resumeAfterModal);
+            const consultarBtn = document.querySelector('.modal-contact-btn');
+            if (consultarBtn) {
+                const newBtn = consultarBtn.cloneNode(true);
+                consultarBtn.parentNode.replaceChild(newBtn, consultarBtn);
+                
+                newBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    closeModal();
+                    
+                    setTimeout(() => {
+                        const contactoSection = document.querySelector('#contacto');
+                        if (contactoSection) {
+                            const headerHeight = document.querySelector('.header').offsetHeight;
+                            const targetPosition = contactoSection.offsetTop - headerHeight - 20;
+                            
+                            window.scrollTo({
+                                top: targetPosition,
+                                behavior: 'smooth'
+                            });
+                            
+                            const contactForm = document.querySelector('.contact-form');
+                            if (contactForm) {
+                                contactForm.style.boxShadow = '0 0 0 3px rgba(184, 134, 11, 0.3)';
+                                setTimeout(() => contactForm.style.boxShadow = '', 2000);
+                            }
+                        }
+                    }, 300);
+                });
+            }
+        }, 50);
     }
 
-    // Iniciar rotación automática MÁS RÁPIDA
-    function startAutoRotation() {
-        clearInterval(autoRotateInterval); // Limpiar cualquier intervalo anterior
-        autoRotateInterval = setInterval(nextEspecialidad, SPEED_CONFIG.autoRotateDelay); // Usar configuración de velocidad
-    }
-
-    // Event Listeners
     coin.addEventListener('click', showCurrentModal);
-    
-    // Hacer la moneda focusable para accesibilidad
     coin.setAttribute('tabindex', '0');
     coin.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -917,38 +710,19 @@ function showCurrentModal() {
         }
     });
 
-    if (modalClose) {
-        modalClose.addEventListener('click', closeModal);
-    }
-
-    // Cerrar modal con click fuera
+    if (modalClose) modalClose.addEventListener('click', closeModal);
+    
     if (modal) {
         modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal();
-            }
+            if (e.target === modal) closeModal();
         });
     }
 
-    // Cerrar modal con ESC
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('active')) {
-            closeModal();
-        }
-    });
-
-    // Pausar rotación al hover
-    coin.addEventListener('mouseenter', () => {
-        clearInterval(autoRotateInterval);
-    });
-
+    coin.addEventListener('mouseenter', () => clearInterval(autoRotateInterval));
     coin.addEventListener('mouseleave', () => {
-        if (!modal.classList.contains('active')) {
-            startAutoRotation();
-        }
+        if (!modal.classList.contains('active')) startAutoRotation();
     });
 
-    // Swipe para móviles (opcional)
     let touchStartX = 0;
     coin.addEventListener('touchstart', (e) => {
         touchStartX = e.touches[0].clientX;
@@ -958,30 +732,235 @@ function showCurrentModal() {
         const touchEndX = e.changedTouches[0].clientX;
         const diff = touchStartX - touchEndX;
         
-        if (Math.abs(diff) > 50) { // Umbral de swipe
-            if (diff > 0) {
-                // Swipe izquierda = siguiente
-                nextEspecialidad();
-            } else {
-                // Swipe derecha = anterior
-                currentEspecialidad = (currentEspecialidad - 1 + ESPECIALIDADES.length) % ESPECIALIDADES.length;
-                updateIndicator();
-                changeEspecialidad();
-            }
+        if (Math.abs(diff) > 50) {
+            diff > 0 ? nextEspecialidad() : prevEspecialidad();
         }
     }, { passive: true });
 
-    // Inicializar estado
     updateIndicator();
     updateTotal();
     changeEspecialidad();
+    setTimeout(startAutoRotation, CONFIG.coin.initialDelay);
 
-    // Iniciar rotación automática después de MENOS tiempo
-    setTimeout(startAutoRotation, SPEED_CONFIG.initialDelay);
-
-    // Para debug
-    console.log(`🎯 Moneda configurada con ${ESPECIALIDADES.length} especialidades`);
-    console.log(`⚡ Rotación automática cada ${SPEED_CONFIG.autoRotateDelay / 1000} segundos (antes 3s)`);
+    console.log(`✅ Moneda configurada con ${ESPECIALIDADES.length} especialidades`);
 }
+
+// =============================================
+// FUNCIONES AUXILIARES
+// =============================================
+function actualizarAnoActual() {
+    const yearElement = document.getElementById('current-year');
+    if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+    }
+    console.log('📅 Año actual actualizado');
+}
+
+// =============================================
+// EVENTOS GLOBALES
+// =============================================
+window.addEventListener('load', function () {
+    console.log('🎉 Página completamente cargada');
+    document.documentElement.classList.add('loaded');
+});
+
+window.addEventListener('error', function (e) {
+    console.error('❌ Error detectado:', e.error);
+});
+
+let resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        console.log('🔄 Ventana redimensionada');
+    }, 250);
+});
+
+// =============================================
+// VOLTEO AUTOMÁTICO DE FICHAS DE VALORES
+// =============================================
+// =============================================
+// SISTEMA DE VALORES - CAMBIO CADA 4 SEGUNDOS (SIN CONTADOR)
+// =============================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    const valores = [
+        {
+            id: "confidencialidad",
+            icono: "fas fa-user-shield",
+            titulo: "Confidencialidad",
+            descripcion: "Total discreción y protección de su información personal y legal.",
+            color: "#7d5ba6"
+        },
+        {
+            id: "personalizacion",
+            icono: "fas fa-bullseye",
+            titulo: "Enfoque Personalizado",
+            descripcion: "Estrategias legales adaptadas a las necesidades específicas de cada cliente.",
+            color: "#3498db"
+        },
+        {
+            id: "comunicacion",
+            icono: "fas fa-comments",
+            titulo: "Comunicación Clara",
+            descripcion: "Explicamos cada paso del proceso legal en términos comprensibles.",
+            color: "#27ae60"
+        },
+        {
+            id: "disponibilidad",
+            icono: "fas fa-clock",
+            titulo: "Disponibilidad",
+            descripcion: "Atención oportuna y seguimiento constante de su caso.",
+            color: "#e74c3c"
+        }
+    ];
+
+    // Elementos del DOM
+    const pilaActiva = document.querySelector('.pila-activa');
+    const pilaMostrada = document.querySelector('.pila-mostrada');
+    const indicadoresActiva = document.querySelector('.indicadores-activa');
+    const indicadoresMostrada = document.querySelector('.indicadores-mostrada');
+    
+    let indiceActual = 0;
+    const intervaloCambio = 4000; // 4 segundos
+    let intervalo;
+    let enTransicion = false;
+
+    // Crear indicadores (puntitos)
+    function crearIndicadores() {
+        if (indicadoresActiva) indicadoresActiva.innerHTML = '';
+        if (indicadoresMostrada) indicadoresMostrada.innerHTML = '';
+        
+        for (let i = 0; i < 4; i++) {
+            const puntoActiva = document.createElement('div');
+            puntoActiva.className = `punto-indicador ${i === 1 ? 'activo' : ''}`;
+            if (indicadoresActiva) indicadoresActiva.appendChild(puntoActiva);
+            
+            const puntoMostrada = document.createElement('div');
+            puntoMostrada.className = `punto-indicador ${i === 0 ? 'activo' : ''}`;
+            if (indicadoresMostrada) indicadoresMostrada.appendChild(puntoMostrada);
+        }
+    }
+
+    // Actualizar tarjetas
+    function actualizarTarjetas() {
+        if (enTransicion) return;
+        enTransicion = true;
+        
+        // Obtener valores
+        const valorActual = valores[indiceActual];
+        const siguienteIndice = (indiceActual + 1) % valores.length;
+        const valorSiguiente = valores[siguienteIndice];
+        
+        // Actualizar pila activa (próximo valor)
+        const tarjetaActiva = pilaActiva?.querySelector('.tarjeta-valor');
+        if (tarjetaActiva && tarjetaActiva.classList.contains('visible')) {
+            tarjetaActiva.classList.remove('visible');
+            tarjetaActiva.classList.add('tarjeta-transfiriendo');
+        }
+        
+        // Actualizar pila mostrada (valor actual)
+        const tarjetaMostrada = pilaMostrada?.querySelector('.tarjeta-valor');
+        if (tarjetaMostrada && tarjetaMostrada.classList.contains('visible')) {
+            tarjetaMostrada.classList.remove('visible');
+        }
+        
+        // Después de la animación, actualizar contenido
+        setTimeout(() => {
+            if (tarjetaActiva) {
+                tarjetaActiva.classList.remove('tarjeta-transfiriendo');
+                actualizarContenidoTarjeta(pilaActiva, valorSiguiente);
+            }
+            
+            actualizarContenidoTarjeta(pilaMostrada, valorActual);
+            actualizarIndicadores();
+            
+            indiceActual = siguienteIndice;
+            enTransicion = false;
+        }, 4000);
+    }
+
+    // Actualizar contenido de una tarjeta
+    function actualizarContenidoTarjeta(contenedor, valor) {
+        if (!contenedor) return;
+        
+        const tarjeta = contenedor.querySelector('.tarjeta-valor');
+        if (!tarjeta) return;
+        
+        tarjeta.setAttribute('data-valor', valor.id);
+        tarjeta.querySelector('.icono-tarjeta').innerHTML = `<i class="${valor.icono}"></i>`;
+        tarjeta.querySelector('h4').textContent = valor.titulo;
+        tarjeta.querySelector('p').textContent = valor.descripcion;
+        tarjeta.classList.add('visible');
+    }
+
+    // Actualizar indicadores
+    function actualizarIndicadores() {
+        const puntosActiva = document.querySelectorAll('.indicadores-activa .punto-indicador');
+        const puntosMostrada = document.querySelectorAll('.indicadores-mostrada .punto-indicador');
+        
+        const indiceActiva = (indiceActual + 1) % valores.length;
+        const indiceMostrada = indiceActual;
+        
+        puntosActiva.forEach((punto, i) => {
+            punto.classList.toggle('activo', i === indiceActiva);
+        });
+        
+        puntosMostrada.forEach((punto, i) => {
+            punto.classList.toggle('activo', i === indiceMostrada);
+        });
+    }
+
+    // Iniciar ciclo automático
+    function iniciarCiclo() {
+        clearInterval(intervalo);
+        intervalo = setInterval(actualizarTarjetas, intervaloCambio);
+    }
+
+    // Inicializar
+    function inicializar() {
+        crearIndicadores();
+        
+        // Configurar primera tarjeta (pila mostrada)
+        const primerValor = valores[0];
+        actualizarContenidoTarjeta(pilaMostrada, primerValor);
+        
+        // Configurar segunda tarjeta (pila activa)
+        const segundoValor = valores[1];
+        actualizarContenidoTarjeta(pilaActiva, segundoValor);
+        
+        iniciarCiclo();
+    }
+
+    // Interacción manual
+    pilaMostrada?.addEventListener('click', function() {
+        if (enTransicion) return;
+        
+        clearInterval(intervalo);
+        actualizarTarjetas();
+        
+        setTimeout(() => {
+            iniciarCiclo();
+        }, 2000);
+    });
+
+    // Observador de visibilidad
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                if (!intervalo) iniciarCiclo();
+            } else {
+                clearInterval(intervalo);
+                intervalo = null;
+            }
+        });
+    }, { threshold: 0.3 });
+
+    // Iniciar
+    inicializar();
+    
+    const valoresSection = document.querySelector('.valores-section');
+    if (valoresSection) observer.observe(valoresSection);
+});
 
 console.log('✅ Script.js cargado completamente');
