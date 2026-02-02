@@ -798,6 +798,9 @@ body {
     font-size: 0.9rem;
     color: var(--secondary-color);
 }
+input[type="tel"]:valid {
+    border-color: var(--success-color);
+}
 
 /* === AGENDA DE CITA === */
 .cita-section {

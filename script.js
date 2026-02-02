@@ -64,6 +64,14 @@ function initContactForm() {
         return;
     }
 
+    const phoneInput = document.getElementById('phone');
+    if (phoneInput) {
+        // Esto limpia la letra APENAS el usuario la escribe
+        phoneInput.addEventListener('input', function () {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    }
+
     console.log('📧 Inicializando formulario Web3Forms...');
 
     const formStatus = document.getElementById('form-status');
@@ -97,10 +105,10 @@ function initContactForm() {
 
     function setLoading(isLoading) {
         if (!submitBtn) return;
-        
+
         submitBtn.disabled = isLoading;
-        submitBtn.innerHTML = isLoading 
-            ? '<i class="fas fa-spinner fa-spin"></i> Enviando...' 
+        submitBtn.innerHTML = isLoading
+            ? '<i class="fas fa-spinner fa-spin"></i> Enviando...'
             : originalBtnText;
     }
 
@@ -108,7 +116,7 @@ function initContactForm() {
         console.log('📤 Enviando a Web3Forms...');
 
         const payload = new FormData();
-        
+
         payload.append('access_key', CONFIG.web3forms.accessKey);
         payload.append('subject', 'Nueva Consulta - Lucione & Asociados');
         payload.append('from_name', 'Sitio Web Lucione & Asociados');
@@ -124,7 +132,7 @@ function initContactForm() {
                 method: 'POST',
                 body: payload
             });
-            
+
             return await response.json();
         } catch (error) {
             throw new Error('Error de conexión con el servidor');
@@ -133,49 +141,56 @@ function initContactForm() {
 
     contactForm.addEventListener('submit', async function (e) {
         e.preventDefault();
-        
+
         console.log('🚀 Iniciando envío de formulario...');
         setLoading(true);
         showStatus('Procesando su consulta...', 'info');
 
         try {
             const formData = new FormData(this);
-            
+
+            const phoneValue = formData.get('phone');
+
+            if (phoneValue && (/[^0-9]/.test(phoneValue) || phoneValue.length < 8)) {
+                throw new Error('El teléfono debe contener solo números (mínimo 8 dígitos)');
+            }
+
             const email = formData.get('email');
             const name = formData.get('name');
-            
+
             if (!email || !name) {
                 throw new Error('Por favor, complete los campos requeridos');
             }
 
             const result = await sendToWeb3Forms(formData);
-            
+
             if (result.success) {
                 console.log('✅ Formulario enviado exitosamente');
                 showStatus('✅ ¡Consulta enviada! Redirigiendo...', 'success');
                 contactForm.reset();
-                
+
                 setTimeout(() => {
                     window.location.href = CONFIG.web3forms.successUrl;
                 }, 2000);
-                
+
             } else {
                 throw new Error(result.message || 'No se pudo enviar el formulario');
             }
-            
+
         } catch (error) {
             console.error('❌ Error:', error);
-            
-            let userMessage = 'Error al enviar. ';
+
+            let userMessage = error.message;
             if (!navigator.onLine) {
                 userMessage = 'Sin conexión a internet. ';
+               // showStatus(`❌ ${userMessage}. O contáctenos al: +54 11 6489-6416`, 'error');
             } else if (error.message.includes('campos requeridos')) {
                 userMessage = error.message;
             }
-            
-            userMessage += 'Por favor, contáctenos por teléfono: +54 11 4321-5678';
+
+            userMessage += 'Por favor, contáctenos por teléfono: +54 11 6489-6416';
             showStatus(`❌ ${userMessage}`, 'error');
-            
+
         } finally {
             setLoading(false);
         }
@@ -186,7 +201,7 @@ function initContactForm() {
         field.addEventListener('input', function () {
             this.style.borderColor = this.checkValidity() ? '#38a169' : '#cbd5e0';
         });
-        
+
         field.addEventListener('blur', function () {
             if (!this.value.trim() && this.hasAttribute('required')) {
                 this.style.borderColor = '#e53e3e';
@@ -244,7 +259,7 @@ function iniciarAnimacionEntrada() {
 function obtenerPosicionHeroImage() {
     const heroImg = document.querySelector('.hero-main-image');
     if (!heroImg) return null;
-    
+
     const rect = heroImg.getBoundingClientRect();
     return {
         x: rect.left + window.scrollX,
@@ -257,7 +272,7 @@ function obtenerPosicionHeroImage() {
 function obtenerPosicionHeaderLogo() {
     const logoContainer = document.querySelector('.logo-container');
     if (!logoContainer) return null;
-    
+
     const rect = logoContainer.getBoundingClientRect();
     return {
         x: rect.left + window.scrollX,
@@ -271,7 +286,7 @@ function crearCloneImagen() {
     const clone = splashImage.cloneNode(true);
     clone.id = 'image-clone-transition';
     clone.classList.add('image-transition');
-    
+
     const rect = splashImage.getBoundingClientRect();
     clone.style.position = 'fixed';
     clone.style.top = `${rect.top}px`;
@@ -280,7 +295,7 @@ function crearCloneImagen() {
     clone.style.height = `${rect.height}px`;
     clone.style.objectFit = 'cover';
     clone.style.zIndex = '9998';
-    
+
     document.body.appendChild(clone);
     return clone;
 }
@@ -290,7 +305,7 @@ function crearCloneLogo() {
     const clone = logoContainer.cloneNode(true);
     clone.id = 'logo-clone-transition';
     clone.classList.add('image-transition');
-    
+
     const rect = splashImage.getBoundingClientRect();
     clone.style.position = 'fixed';
     clone.style.top = `${rect.top + (rect.height / 2 - 100)}px`;
@@ -298,7 +313,7 @@ function crearCloneLogo() {
     clone.style.width = `${rect.width}px`;
     clone.style.textAlign = 'center';
     clone.style.zIndex = '9998';
-    
+
     document.body.appendChild(clone);
     return clone;
 }
@@ -306,10 +321,10 @@ function crearCloneLogo() {
 function mostrarContenidoPrincipal() {
     splashScreen.style.display = 'none';
     mainContent.classList.remove('hidden');
-    
+
     if (headerLogo) headerLogo.classList.add('visible');
     if (heroImage) heroImage.classList.add('loaded');
-    
+
     document.body.classList.add('page-loaded');
     console.log('✅ Contenido principal mostrado');
 }
@@ -345,15 +360,15 @@ function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            
+
             const targetId = this.getAttribute('href');
             if (targetId === '#') return;
-            
+
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
                 const headerHeight = document.querySelector('.header')?.offsetHeight || 0;
                 const targetPosition = targetElement.offsetTop - headerHeight - 20;
-                
+
                 window.scrollTo({
                     top: targetPosition,
                     behavior: 'smooth'
@@ -361,7 +376,7 @@ function initSmoothScroll() {
             }
         });
     });
-    
+
     console.log('✅ Scroll suave configurado');
 }
 
@@ -370,12 +385,12 @@ function initSmoothScroll() {
 // =============================================
 function inicializarFuncionalidadesAvanzadas() {
     console.log('⚙️ Inicializando funcionalidades avanzadas...');
-    
+
     initIntersectionObserver();
     initParallaxEffect();
     initCalendlyObserver();
     initSimpleCoin();
-    
+
     console.log('✅ Funcionalidades avanzadas inicializadas');
 }
 
@@ -389,11 +404,11 @@ function initIntersectionObserver() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                
+
                 if (entry.target.classList.contains('valor-card')) {
                     entry.target.style.animation = 'slideUp 0.6s ease forwards';
                 }
-                
+
                 if (entry.target.classList.contains('proceso-step')) {
                     setTimeout(() => {
                         entry.target.style.opacity = '1';
@@ -414,7 +429,7 @@ function initIntersectionObserver() {
 
 function initParallaxEffect() {
     if (!heroImage) return;
-    
+
     window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
         if (scrolled < 500) {
@@ -422,7 +437,7 @@ function initParallaxEffect() {
             heroImage.style.transform = `translateY(${rate}px)`;
         }
     });
-    
+
     console.log('✅ Efecto parallax configurado');
 }
 
@@ -609,7 +624,7 @@ function initSimpleCoin() {
 
     function changeEspecialidad() {
         coin.classList.add('changing');
-        
+
         setTimeout(() => {
             const especialidad = ESPECIALIDADES[currentEspecialidad];
             coin.innerHTML = `
@@ -643,7 +658,7 @@ function initSimpleCoin() {
         modal.classList.remove('active');
         document.body.style.overflow = 'auto';
         document.removeEventListener('keydown', handleKeyNavigation);
-        
+
         setTimeout(startAutoRotation, CONFIG.coin.resumeAfterModal);
     }
 
@@ -673,22 +688,22 @@ function initSimpleCoin() {
             if (consultarBtn) {
                 const newBtn = consultarBtn.cloneNode(true);
                 consultarBtn.parentNode.replaceChild(newBtn, consultarBtn);
-                
-                newBtn.addEventListener('click', function(e) {
+
+                newBtn.addEventListener('click', function (e) {
                     e.preventDefault();
                     closeModal();
-                    
+
                     setTimeout(() => {
                         const contactoSection = document.querySelector('#contacto');
                         if (contactoSection) {
                             const headerHeight = document.querySelector('.header').offsetHeight;
                             const targetPosition = contactoSection.offsetTop - headerHeight - 20;
-                            
+
                             window.scrollTo({
                                 top: targetPosition,
                                 behavior: 'smooth'
                             });
-                            
+
                             const contactForm = document.querySelector('.contact-form');
                             if (contactForm) {
                                 contactForm.style.boxShadow = '0 0 0 3px rgba(184, 134, 11, 0.3)';
@@ -711,7 +726,7 @@ function initSimpleCoin() {
     });
 
     if (modalClose) modalClose.addEventListener('click', closeModal);
-    
+
     if (modal) {
         modal.addEventListener('click', (e) => {
             if (e.target === modal) closeModal();
@@ -727,11 +742,11 @@ function initSimpleCoin() {
     coin.addEventListener('touchstart', (e) => {
         touchStartX = e.touches[0].clientX;
     }, { passive: true });
-    
+
     coin.addEventListener('touchend', (e) => {
         const touchEndX = e.changedTouches[0].clientX;
         const diff = touchStartX - touchEndX;
-        
+
         if (Math.abs(diff) > 50) {
             diff > 0 ? nextEspecialidad() : prevEspecialidad();
         }
@@ -783,7 +798,7 @@ window.addEventListener('resize', () => {
 // SISTEMA DE VALORES - CAMBIO CADA 4 SEGUNDOS (SIN CONTADOR)
 // =============================================
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const valores = [
         {
             id: "confidencialidad",
@@ -820,7 +835,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const pilaMostrada = document.querySelector('.pila-mostrada');
     const indicadoresActiva = document.querySelector('.indicadores-activa');
     const indicadoresMostrada = document.querySelector('.indicadores-mostrada');
-    
+
     let indiceActual = 0;
     const intervaloCambio = 2500; // 2. segundos
     let intervalo;
@@ -830,12 +845,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function crearIndicadores() {
         if (indicadoresActiva) indicadoresActiva.innerHTML = '';
         if (indicadoresMostrada) indicadoresMostrada.innerHTML = '';
-        
+
         for (let i = 0; i < 4; i++) {
             const puntoActiva = document.createElement('div');
             puntoActiva.className = `punto-indicador ${i === 1 ? 'activo' : ''}`;
             if (indicadoresActiva) indicadoresActiva.appendChild(puntoActiva);
-            
+
             const puntoMostrada = document.createElement('div');
             puntoMostrada.className = `punto-indicador ${i === 0 ? 'activo' : ''}`;
             if (indicadoresMostrada) indicadoresMostrada.appendChild(puntoMostrada);
@@ -846,35 +861,35 @@ document.addEventListener('DOMContentLoaded', function() {
     function actualizarTarjetas() {
         if (enTransicion) return;
         enTransicion = true;
-        
+
         // Obtener valores
         const valorActual = valores[indiceActual];
         const siguienteIndice = (indiceActual + 1) % valores.length;
         const valorSiguiente = valores[siguienteIndice];
-        
+
         // Actualizar pila activa (próximo valor)
         const tarjetaActiva = pilaActiva?.querySelector('.tarjeta-valor');
         if (tarjetaActiva && tarjetaActiva.classList.contains('visible')) {
             tarjetaActiva.classList.remove('visible');
             tarjetaActiva.classList.add('tarjeta-transfiriendo');
         }
-        
+
         // Actualizar pila mostrada (valor actual)
         const tarjetaMostrada = pilaMostrada?.querySelector('.tarjeta-valor');
         if (tarjetaMostrada && tarjetaMostrada.classList.contains('visible')) {
             tarjetaMostrada.classList.remove('visible');
         }
-        
+
         // Después de la animación, actualizar contenido
         setTimeout(() => {
             if (tarjetaActiva) {
                 tarjetaActiva.classList.remove('tarjeta-transfiriendo');
                 actualizarContenidoTarjeta(pilaActiva, valorSiguiente);
             }
-            
+
             actualizarContenidoTarjeta(pilaMostrada, valorActual);
             actualizarIndicadores();
-            
+
             indiceActual = siguienteIndice;
             enTransicion = false;
         }, 600);
@@ -883,10 +898,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Actualizar contenido de una tarjeta
     function actualizarContenidoTarjeta(contenedor, valor) {
         if (!contenedor) return;
-        
+
         const tarjeta = contenedor.querySelector('.tarjeta-valor');
         if (!tarjeta) return;
-        
+
         tarjeta.setAttribute('data-valor', valor.id);
         tarjeta.querySelector('.icono-tarjeta').innerHTML = `<i class="${valor.icono}"></i>`;
         tarjeta.querySelector('h4').textContent = valor.titulo;
@@ -898,14 +913,14 @@ document.addEventListener('DOMContentLoaded', function() {
     function actualizarIndicadores() {
         const puntosActiva = document.querySelectorAll('.indicadores-activa .punto-indicador');
         const puntosMostrada = document.querySelectorAll('.indicadores-mostrada .punto-indicador');
-        
+
         const indiceActiva = (indiceActual + 1) % valores.length;
         const indiceMostrada = indiceActual;
-        
+
         puntosActiva.forEach((punto, i) => {
             punto.classList.toggle('activo', i === indiceActiva);
         });
-        
+
         puntosMostrada.forEach((punto, i) => {
             punto.classList.toggle('activo', i === indiceMostrada);
         });
@@ -920,25 +935,25 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializar
     function inicializar() {
         crearIndicadores();
-        
+
         // Configurar primera tarjeta (pila mostrada)
         const primerValor = valores[0];
         actualizarContenidoTarjeta(pilaMostrada, primerValor);
-        
+
         // Configurar segunda tarjeta (pila activa)
         const segundoValor = valores[1];
         actualizarContenidoTarjeta(pilaActiva, segundoValor);
-        
+
         iniciarCiclo();
     }
 
     // Interacción manual
-    pilaMostrada?.addEventListener('click', function() {
+    pilaMostrada?.addEventListener('click', function () {
         if (enTransicion) return;
-        
+
         clearInterval(intervalo);
         actualizarTarjetas();
-        
+
         setTimeout(() => {
             iniciarCiclo();
         }, 2000);
@@ -958,9 +973,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Iniciar
     inicializar();
-    
+
     const valoresSection = document.querySelector('.valores-section');
     if (valoresSection) observer.observe(valoresSection);
 });
+
 
 console.log('✅ Script.js cargado completamente');
