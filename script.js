@@ -536,6 +536,11 @@ const ESPECIALIDADES = [
         icon: 'fas fa-briefcase',
         title: 'Sucesiones',
         description: `
+        <div class="banner-simulador">
+                <i class="fas fa-calculator"></i>
+                <span>¿Desea simular la distribución de una herencia?</span>
+                <a href="https://martinspalma.github.io/microServicioSucesiones/" target="_blank">PROBAR SIMULADOR</a>
+            </div>
             <p>Tramitación completa de sucesiones, testamentos y declaratorias de herederos:</p>
             <ul>
                 <li>Apertura de sucesiones intestadas y testamentarias</li>
@@ -552,7 +557,7 @@ const ESPECIALIDADES = [
         icon: 'fas fa-home',
         title: 'Amparos de Salud',
         description: `
-            <p>Defensa de derechos en salud mediante recursos de amparo:</p>
+            <p>Defensa de derechos en salud mediante acción de amparo:</p>
             <ul>
                 <li>Reclamos a obras sociales y prepagas</li>
                 <li>Cobertura de medicamentos y tratamientos</li>
