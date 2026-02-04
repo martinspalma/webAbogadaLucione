@@ -17,10 +17,10 @@ const CONFIG = {
         successUrl: 'gracias.html'
     },
     coin: {
-        autoRotateDelay: 2000,
-        animationDuration: 400,
+        autoRotateDelay: 1500,
+        animationDuration: 300,
         resumeAfterModal: 1000,
-        initialDelay: 1500
+        initialDelay: 1000
     }
 };
 
@@ -536,11 +536,6 @@ const ESPECIALIDADES = [
         icon: 'fas fa-briefcase',
         title: 'Sucesiones',
         description: `
-        <div class="banner-simulador">
-                <i class="fas fa-calculator"></i>
-                <span>¿Desea simular la distribución de una herencia?</span>
-                <a href="https://martinspalma.github.io/microServicioSucesiones/" target="_blank">PROBAR SIMULADOR</a>
-            </div>
             <p>Tramitación completa de sucesiones, testamentos y declaratorias de herederos:</p>
             <ul>
                 <li>Apertura de sucesiones intestadas y testamentarias</li>
@@ -609,6 +604,7 @@ function initSimpleCoin() {
     const coin = document.getElementById('simpleCoin');
     const modal = document.getElementById('especialidadModal');
     const modalClose = document.getElementById('modalClose');
+    const consultarBtn = document.getElementById('consultarBtn'); // Referencia única
 
     if (!coin) {
         console.warn('⚠️ Moneda no encontrada');
@@ -616,16 +612,6 @@ function initSimpleCoin() {
     }
 
     console.log('🎯 Inicializando moneda giratoria...');
-
-    function updateIndicator() {
-        const currentSpan = document.querySelector('.simple-current');
-        if (currentSpan) currentSpan.textContent = currentEspecialidad + 1;
-    }
-
-    function updateTotal() {
-        const totalSpan = document.querySelector('.simple-total');
-        if (totalSpan) totalSpan.textContent = ESPECIALIDADES.length;
-    }
 
     function changeEspecialidad() {
         coin.classList.add('changing');
@@ -644,13 +630,11 @@ function initSimpleCoin() {
 
     function nextEspecialidad() {
         currentEspecialidad = (currentEspecialidad + 1) % ESPECIALIDADES.length;
-        updateIndicator();
         changeEspecialidad();
     }
 
     function prevEspecialidad() {
         currentEspecialidad = (currentEspecialidad - 1 + ESPECIALIDADES.length) % ESPECIALIDADES.length;
-        updateIndicator();
         changeEspecialidad();
     }
 
@@ -663,7 +647,6 @@ function initSimpleCoin() {
         modal.classList.remove('active');
         document.body.style.overflow = 'auto';
         document.removeEventListener('keydown', handleKeyNavigation);
-
         setTimeout(startAutoRotation, CONFIG.coin.resumeAfterModal);
     }
 
@@ -678,47 +661,65 @@ function initSimpleCoin() {
         const modalIcon = document.getElementById('modalIcon');
         const modalTitle = document.getElementById('modalTitle');
         const modalDescription = document.getElementById('modalDescription');
+        const modalBody = document.querySelector('.modal-body');
 
         if (modalIcon) modalIcon.className = `modal-icon ${especialidad.icon}`;
         if (modalTitle) modalTitle.textContent = especialidad.title;
-        if (modalDescription) modalDescription.innerHTML = especialidad.description;
+        
+        modalDescription.innerHTML = especialidad.description;
+
+        // Si es Sucesiones (ID 1), creamos el bloque naranja antes del CTA de contacto
+    if (especialidad.id === 1) {
+        const simContainer = document.createElement('div');
+        simContainer.id = 'simulador-cta';
+        simContainer.className = 'modal-cta cta-simulador'; // Clase nueva para el color naranja
+        simContainer.innerHTML = `
+            <p>¿Desea estimar la distribución de una herencia?</p>
+            <a href="https://martinspalma.github.io/microServicioSucesiones/" 
+               target="_blank" 
+               class="btn btn-primary modal-contact-btn btn-simulador">
+                <i class="fas fa-calculator"></i> Simular sucesión
+            </a>
+        `;
+        // Lo insertamos justo antes del cuadro de consulta violeta (.modal-cta original)
+        const standardCta = document.querySelector('.modal-cta:not(.cta-simulador)');
+        if (standardCta) {
+            standardCta.parentNode.insertBefore(simContainer, standardCta);
+        }
+    }
 
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
         clearInterval(autoRotateInterval);
         document.addEventListener('keydown', handleKeyNavigation);
+        
+    }
 
-        setTimeout(() => {
-            const consultarBtn = document.querySelector('.modal-contact-btn');
-            if (consultarBtn) {
-                const newBtn = consultarBtn.cloneNode(true);
-                consultarBtn.parentNode.replaceChild(newBtn, consultarBtn);
+    
+    if (consultarBtn) {
+        consultarBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            closeModal();
 
-                newBtn.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    closeModal();
+            setTimeout(() => {
+                const contactoSection = document.querySelector('#contacto');
+                if (contactoSection) {
+                    const headerHeight = document.querySelector('.header').offsetHeight;
+                    const targetPosition = contactoSection.offsetTop - headerHeight - 20;
 
-                    setTimeout(() => {
-                        const contactoSection = document.querySelector('#contacto');
-                        if (contactoSection) {
-                            const headerHeight = document.querySelector('.header').offsetHeight;
-                            const targetPosition = contactoSection.offsetTop - headerHeight - 20;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
 
-                            window.scrollTo({
-                                top: targetPosition,
-                                behavior: 'smooth'
-                            });
-
-                            const contactForm = document.querySelector('.contact-form');
-                            if (contactForm) {
-                                contactForm.style.boxShadow = '0 0 0 3px rgba(184, 134, 11, 0.3)';
-                                setTimeout(() => contactForm.style.boxShadow = '', 2000);
-                            }
-                        }
-                    }, 300);
-                });
-            }
-        }, 50);
+                    const contactForm = document.querySelector('.contact-form');
+                    if (contactForm) {
+                        contactForm.style.boxShadow = '0 0 0 3px rgba(184, 134, 11, 0.3)';
+                        setTimeout(() => contactForm.style.boxShadow = '', 2000);
+                    }
+                }
+            }, 300);
+        });
     }
 
     coin.addEventListener('click', showCurrentModal);
@@ -757,8 +758,6 @@ function initSimpleCoin() {
         }
     }, { passive: true });
 
-    updateIndicator();
-    updateTotal();
     changeEspecialidad();
     setTimeout(startAutoRotation, CONFIG.coin.initialDelay);
 
