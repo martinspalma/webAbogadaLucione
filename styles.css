@@ -27,8 +27,10 @@
     --shadow-heavy: 0 8px 30px rgba(0, 0, 0, 0.12);
     --transition: all 0.3s ease;
     --border-radius: 10px;
-    --accent-glow: rgba(125, 91, 166, 0.3);    /* Brillo Morado */
-    --highlight-glow: rgba(52, 152, 219, 0.4); /* Brillo Azul Claro */
+    --accent-glow: rgba(125, 91, 166, 0.3);
+    /* Brillo Morado */
+    --highlight-glow: rgba(52, 152, 219, 0.4);
+    /* Brillo Azul Claro */
 }
 
 body {
@@ -82,11 +84,10 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, 
-        rgba(26, 58, 95, 0.9) 0%, 
-        rgba(44, 62, 80, 0.85) 50%, 
-        rgba(125, 91, 166, 0.15) 100%
-    );
+    background: linear-gradient(135deg,
+            rgba(26, 58, 95, 0.9) 0%,
+            rgba(44, 62, 80, 0.85) 50%,
+            rgba(125, 91, 166, 0.15) 100%);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -152,8 +153,13 @@ body {
 }
 
 @keyframes zoomIn {
-    0% { transform: scale(1.1); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 @keyframes fadeInUp {
@@ -161,6 +167,7 @@ body {
         opacity: 0;
         transform: translateY(40px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);
@@ -288,7 +295,7 @@ body {
 }
 
 .badge-abogada {
-   background: var(--gradient-accent);
+    background: var(--gradient-accent);
     color: white;
     padding: 0.6rem 1.5rem;
     border-radius: 25px;
@@ -335,7 +342,7 @@ body {
 }
 
 .especialidad-tag {
-    background: rgba(125, 91, 166, 0.1); 
+    background: rgba(125, 91, 166, 0.1);
     color: var(--accent-color);
     padding: 0.5rem 1rem;
     border-radius: 20px;
@@ -367,7 +374,7 @@ body {
 }
 
 .btn-primary {
-     background: var(--gradient-accent);
+    background: var(--gradient-accent);
     color: white;
     box-shadow: 0 4px 15px rgba(44, 82, 130, 0.3);
 }
@@ -379,7 +386,7 @@ body {
 
 .btn-secondary {
     background: transparent;
-     border: 2px solid var(--accent-color); 
+    border: 2px solid var(--accent-color);
     color: var(--accent-color);
 }
 
@@ -511,7 +518,7 @@ body {
 }
 
 .abogada-titulo {
-    color: var(--accent-color); 
+    color: var(--accent-color);
     font-weight: 500;
     margin-bottom: 2rem;
     font-size: 1.1rem;
@@ -557,8 +564,24 @@ body {
 }
 
 /* =============================================
-   6. SECCIÓN VALORES
+   6. SECCIÓN VALORES (OPTIMIZADA)
    ============================================= */
+.tarjeta-valor[data-valor="confidencialidad"] {
+    --valor-color: #7d5ba6;
+}
+
+.tarjeta-valor[data-valor="personalizacion"] {
+    --valor-color: #3498db;
+}
+
+.tarjeta-valor[data-valor="comunicacion"] {
+    --valor-color: #45b172;
+}
+
+.tarjeta-valor[data-valor="disponibilidad"] {
+    --valor-color: #f05323;
+}
+
 .valores-section {
     margin-top: 6rem;
     position: relative;
@@ -580,7 +603,6 @@ body {
     justify-content: center;
     align-items: center;
     gap: 100px;
-    position: relative;
     min-height: 320px;
     margin: 0 auto;
     max-width: 1000px;
@@ -590,6 +612,7 @@ body {
     position: relative;
     width: 280px;
     height: 300px;
+    cursor: default;
 }
 
 .indicador-pila {
@@ -607,7 +630,7 @@ body {
     height: 12px;
     border-radius: 50%;
     background: #e0e0e0;
-    transition: all 0.3s ease;
+    transition: var(--transition);
 }
 
 .punto-indicador.activo {
@@ -621,22 +644,21 @@ body {
     height: 100%;
     background: white;
     border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    box-shadow: var(--shadow);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 2rem;
     text-align: center;
-    overflow: hidden;
     opacity: 0;
-    transform: translateY(20px);
+    transform: scale(0.95) translateY(10px);
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .tarjeta-valor.visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: scale(1) translateY(0);
 }
 
 .icono-tarjeta {
@@ -649,55 +671,36 @@ body {
     color: white;
     font-size: 2rem;
     margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, var(--valor-color), var(--primary-color)) !important;
 }
 
-.tarjeta-valor[data-valor="confidencialidad"] .icono-tarjeta { background: linear-gradient(135deg, #7d5ba6, #5d3f8a); }
-.tarjeta-valor[data-valor="personalizacion"] .icono-tarjeta { background: linear-gradient(135deg, #3498db, #2980b9); }
-.tarjeta-valor[data-valor="comunicacion"] .icono-tarjeta { background: linear-gradient(135deg, #27ae60, #219653); }
-.tarjeta-valor[data-valor="disponibilidad"] .icono-tarjeta { background: linear-gradient(135deg, #e74c3c, #c0392b); }
-
 @keyframes transferencia {
-    0% { transform: translateX(0) scale(1); opacity: 1; }
-    100% { transform: translateX(100px) scale(0.9); opacity: 0; }
+    0% {
+        transform: scale(1);
+        opacity: 1;
+        filter: blur(0);
+    }
+
+    100% {
+        transform: scale(0.85);
+        opacity: 0;
+        filter: blur(4px);
+    }
 }
 
 .tarjeta-transfiriendo {
     animation: transferencia 0.6s ease forwards !important;
 }
 
-/* =============================================
-   7. MEDIA QUERIES UNIFICADAS (BLOQUE 1)
-   ============================================= */
-@media (max-width: 992px) {
-    .pilas-container { gap: 40px; }
-}
-
-@media (max-width: 768px) {
-    .pilas-container {
-        gap: 0;
-        min-height: 320px;
-    }
-
-    .pila-activa {
-        display: none !important; 
-    }
-
-    .pila-mostrada {
-        width: 100%;
-        max-width: 320px;
-    }
-
-    @keyframes transferencia {
-        0% { transform: translateY(0); opacity: 1; }
-        100% { transform: translateY(-40px); opacity: 0; }
-    }
+.pila-activa .tarjeta-valor {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 5px 5px 0 rgba(0, 0, 0, 0.04);
 }
 
 /* =============================================
    8. SECCIÓN CONTACTO
    ============================================= */
 .contact-section {
-    background: #f8f9fa;
+    background: var(--light-color);
     padding: 4rem 2rem;
     border-radius: var(--border-radius);
 }
@@ -706,29 +709,6 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
-}
-
-.contact-info h3 {
-    color: var(--primary-color);
-    margin: 2rem 0 0.8rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1.2rem;
-}
-
-.contact-info h3:first-child {
-    margin-top: 0;
-}
-
-.contact-detail {
-    color: var(--secondary-color);
-    margin-bottom: 0.5rem;
-    line-height: 1.6;
-}
-
-.contact-social {
-    margin-top: 2rem;
 }
 
 .social-icons {
@@ -745,26 +725,19 @@ body {
     align-items: center;
     justify-content: center;
     color: white;
-    text-decoration: none;
     transition: var(--transition);
 }
 
-.social-icon.linkedin { background: #0077b5; }
-.social-icon.instagram { background: #e4405f; }
-.social-icon.whatsapp { background: #25d366; }
-.social-icon.facebook { background: #1877f2; }
-
-.social-icon:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+.social-icon.linkedin {
+    background: #0077b5;
 }
 
-.contact-form h3 {
-    color: var(--primary-color);
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+.social-icon.instagram {
+    background: #e4405f;
+}
+
+.social-icon.whatsapp {
+    background: #25d366;
 }
 
 .form-group {
@@ -780,36 +753,33 @@ body {
     border-radius: 8px;
     font-family: 'Roboto', sans-serif;
     font-size: 1rem;
+    color: var(--text-color);
+    background-color: white;
     transition: var(--transition);
 }
 
+/* Estado de Enfoque (Focus) unificado con dorado */
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px rgba(44, 82, 130, 0.1);
+    border-color: var(--gold-color);
+    /* Usamos una sombra basada en el dorado para dar profundidad */
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2); 
+    background-color: #fff;
 }
 
-.form-check {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin: 1.5rem 0;
+/* Estilo para el placeholder */
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #a0aec0;
+    opacity: 0.8;
 }
 
-.form-check input {
-    width: auto;
-}
-
-.form-check label {
-    font-size: 0.9rem;
-    color: var(--secondary-color);
-}
-input[type="tel"]:valid {
+/* Validación visual sutil cuando el campo es válido */
+input[type="tel"]:valid:not(:placeholder-shown) {
     border-color: var(--success-color);
 }
-
 /* =============================================
    9. AGENDA DE CITA Y CALENDLY
    ============================================= */
@@ -1015,11 +985,24 @@ input[type="tel"]:valid {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
+    text-align: center;
 }
 
-.footer-logo {
-    text-align: center;
-    margin-bottom: 3rem;
+/* Forzamos que la ubicación, el tel y el mail se vean */
+.footer-col address,
+.footer-col p,
+.footer-col a {
+    color: white !important; /* Blanco puro para contraste total */
+    text-decoration: none;
+    font-style: normal;
+    line-height: 1.8;
+    font-size: 1rem;
+}
+
+/* Efecto hover solo para que se sepa que son clickeables */
+.footer-col a:hover {
+    color: var(--gold-color) !important;
+    text-decoration: underline;
 }
 
 .footer-logo-text h3 {
@@ -1028,36 +1011,27 @@ input[type="tel"]:valid {
     margin-bottom: 0.5rem;
 }
 
-.footer-logo-text p {
-    color: #cbd5e0;
-    font-size: 1.1rem;
-}
-
 .footer-info {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 2rem;
+    margin-top: 3rem;
     margin-bottom: 3rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding-bottom: 3rem;
 }
 
 .footer-col h4 {
-    color: #d1c4e9;
-    margin-bottom: 1rem;
+    color: #d1c4e9; /* El violeta claro que ya tenías */
+    margin-bottom: 1.2rem;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     font-size: 1.1rem;
 }
 
-.footer-col p {
-    color: #cbd5e0;
-    line-height: 1.8;
-}
-
 .footer-legal {
-    text-align: center;
     padding-top: 2rem;
 }
 
@@ -1070,26 +1044,19 @@ input[type="tel"]:valid {
 .disclaimer {
     color: #a0aec0;
     font-size: 0.85rem;
-    margin-bottom: 1.5rem;
     font-style: italic;
-}
-
-.footer-links {
-    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .footer-links a {
-    color: #cbd5e0;
-    text-decoration: none;
-    margin: 0 0.5rem;
+    color: #cbd5e0 !important;
     font-size: 0.9rem;
-    transition: color 0.3s ease;
+    margin: 0 0.5rem;
 }
 
 .footer-links a:hover {
-     color: #d1c4e9;
+    color: white !important;
 }
-
 /* =============================================
    11. ANIMACIONES Y TRANSICIONES
    ============================================= */
@@ -1135,11 +1102,25 @@ input[type="tel"]:valid {
     animation: slideUpFade 0.8s ease forwards;
 }
 
-.hero h1 { animation-delay: 0.2s; }
-.hero .subtitle { animation-delay: 0.4s; }
-.hero .welcome-text { animation-delay: 0.6s; }
-.especialidades { animation-delay: 0.8s; }
-.button-container { animation-delay: 1s; }
+.hero h1 {
+    animation-delay: 0.2s;
+}
+
+.hero .subtitle {
+    animation-delay: 0.4s;
+}
+
+.hero .welcome-text {
+    animation-delay: 0.6s;
+}
+
+.especialidades {
+    animation-delay: 0.8s;
+}
+
+.button-container {
+    animation-delay: 1s;
+}
 
 @keyframes slideUpFade {
     to {
@@ -1149,7 +1130,7 @@ input[type="tel"]:valid {
 }
 
 /* =============================================
-   12. STATUS Y NOTIFICACIONES
+   12. STATUS Y NOTIFICACIONES (SINCRONIZADO)
    ============================================= */
 .form-status {
     margin-top: 1.5rem;
@@ -1163,26 +1144,27 @@ input[type="tel"]:valid {
     margin: 1rem 0;
     border-radius: 8px;
     animation: slideIn 0.3s ease;
-    border-left: 4px solid;
-    transition: all 0.3s ease;
+    border-left: 5px solid; /* Aumentado de 4px a 5px para mayor énfasis */
+    transition: var(--transition);
 }
 
+/* Colores vinculados al :root */
 .form-notification.success {
-    background-color: rgba(212, 237, 218, 0.9);
-    border-color: #28a745;
-    color: #155724;
+    background-color: rgba(39, 174, 96, 0.1); 
+    border-color: var(--success-color);
+    color: #1a5e38;
 }
 
 .form-notification.error {
-    background-color: rgba(248, 215, 218, 0.9);
-    border-color: #dc3545;
-    color: #721c24;
+    background-color: rgba(231, 76, 60, 0.1); 
+    border-color: var(--warning-color);
+    color: #8a2a21;
 }
 
 .form-notification.info {
-    background-color: rgba(209, 236, 241, 0.9);
-    border-color: #17a2b8;
-    color: #0c5460;
+    background-color: rgba(52, 152, 219, 0.1); 
+    border-color: var(--highlight-color);
+    color: var(--primary-color);
 }
 
 .notification-content {
@@ -1200,26 +1182,15 @@ input[type="tel"]:valid {
     line-height: 1.4;
 }
 
+/* --- ANIMACIONES --- */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .fa-spinner {
@@ -1237,41 +1208,25 @@ input[type="tel"]:valid {
 }
 
 /* =============================================
-   13. MONEDA GIRATORIA
+   13. MONEDA GIRATORIA (CONSOLIDADO)
    ============================================= */
-.especialidades-container {
-    margin: 3rem 0;
-    text-align: center;
-}
-
-.coin-simplified-container {
-    position: relative;
-    display: inline-block;
-}
+.especialidades-container { margin: 3rem 0; text-align: center; }
+.coin-simplified-container { position: relative; display: inline-block; }
 
 .coin-simplified {
-    width: 160px;
-    height: 160px;
-    position: relative;
-    border-radius: 50%;
-    background: var(--gradient-accent);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    width: 160px; height: 160px;
+    position: relative; border-radius: 50%;
+    background: var(--gradient-accent); color: white;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
     padding: 1.5rem;
-    box-shadow: 0 15px 35px var(--accent-glow), 
-                inset 0 0 0 4px var(--highlight-glow);
-    cursor: pointer;
-    transition: all 0.5s ease;
+    box-shadow: 0 15px 35px var(--accent-glow), inset 0 0 0 4px var(--highlight-glow);
+    cursor: pointer; transition: all 0.5s ease;
     animation: pulseGlow 4s infinite alternate;
 }
 
 .coin-simplified:hover {
     transform: scale(1.08);
-    box-shadow: 0 20px 40px var(--accent-glow), 
-                inset 0 0 0 4px var(--gold-color);
+    box-shadow: 0 20px 40px var(--accent-glow), inset 0 0 0 4px var(--gold-color);
 }
 
 @keyframes pulseGlow {
@@ -1279,403 +1234,173 @@ input[type="tel"]:valid {
     100% { box-shadow: 0 15px 35px var(--accent-glow), inset 0 0 0 4px var(--gold-color); }
 }
 
-.coin-simplified i {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.2));
-}
+.coin-simplified i { font-size: 3rem; margin-bottom: 1rem; filter: drop-shadow(0 3px 5px rgba(0,0,0,0.2)); }
+.coin-simplified span { font-size: 1.1rem; font-weight: 600; text-align: center; line-height: 1.3; }
 
-.coin-simplified span {
-    font-size: 1.1rem;
-    font-weight: 600;
-    text-align: center;
-    line-height: 1.3;
-}
-
-.coin-simplified.changing {
-    animation: coinChange 0.2s ease;
-}
+.coin-simplified.changing { animation: coinChange 0.2s ease; }
 
 @keyframes coinChange {
-    0%, 100% {
-        transform: scale(1);
-        background: var(--gradient-accent);
-    }
-    30% {
-        transform: scale(0.9);        
-        background: var(--gradient-gold); 
-    }
-    70% {
-        transform: scale(0.9);
-        background: var(--gradient-gold); 
-    }
-    100% {
-        transform: scale(1);
-        background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-    }
+    0%, 100% { transform: scale(1); background: var(--gradient-accent); }
+    50% { transform: scale(0.9); background: var(--gradient-gold); }
 }
 
+/* Forzamos que el simulador solo sea visible si tiene contenido */
+.cta-simulador:empty {
+    display: none !important;
+}
+
+/* Aseguramos que el bloque original de consulta NO tome colores naranja */
+.modal-cta:not(.cta-simulador) {
+    border-left: 3px solid var(--accent-color);
+    background: rgba(125, 91, 166, 0.05);
+}
 
 /* =============================================
-   14. MODAL ESPECIALIDADES
+   14. MODAL ESPECIALIDADES (CONSOLIDADO)
    ============================================= */
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    padding: 20px;
-    animation: fadeIn 0.3s ease;
+    position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7);
+    display: none; justify-content: center; align-items: center;
+    z-index: 9999; padding: 20px; animation: fadeIn 0.3s ease;
 }
-
-.modal-overlay.active {
-    display: flex;
-}
+.modal-overlay.active { display: flex; }
 
 .modal-content {
-    background: white;
-    border-radius: 20px;
-    width: 100%;
-    max-width: 500px;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-    animation: slideUp 0.4s ease;
-    position: relative;
+    background: white; border-radius: 20px;
+    width: 100%; max-width: 500px; max-height: 90vh;
+    overflow-y: auto; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.4s ease; position: relative;
 }
 
 @keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .modal-close {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: light-color;
-    border: none;
-    font-size: 2rem;
-    color: var(--primary-color);
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-    z-index: 10;
-}
-
-.modal-close:hover {
-    background: rgba(184, 134, 11, 0.1);
-    color: var(--highlight-color);
-    transform: rotate(90deg);
+    position: absolute; top: 15px; right: 15px;
+    background: var(--light-color); border: none; border-radius: 50%;
+    width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; color: var(--primary-color); cursor: pointer; transition: all 0.3s ease;
 }
 
 .modal-header {
-    background: var(--gradient-primary);
-    color: white;
-    padding: 2.5rem 2rem 2rem;
-    border-radius: 20px 20px 0 0;
-    text-align: center;
-    position: relative;
+    background: var(--gradient-primary); color: white;
+    padding: 2.5rem 2rem 2rem; border-radius: 20px 20px 0 0; text-align: center;
 }
 
-.modal-icon {
-    font-size: 3.5rem;
-    margin-bottom: 1rem;
-    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.2));
-}
+.modal-icon { font-size: 3.5rem; margin-bottom: 1rem; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2)); }
+.modal-body { padding: 2rem; }
 
-.modal-header h3 {
-    font-size: 1.8rem;
-    margin: 0;
-    font-family: 'Playfair Display', serif;
-}
+#modalDescription { font-size: 1.05rem; line-height: 1.7; color: var(--text-color); }
+#modalDescription li { position: relative; padding-left: 1.5rem; margin-bottom: 0.5rem; list-style: none; }
+#modalDescription li:before { content: "•"; color: var(--highlight-color); font-weight: bold; position: absolute; left: 0; }
 
-.modal-body {
-    padding: 2rem;
-}
-
-#modalDescription {
-    font-size: 1.05rem;
-    line-height: 1.7;
-    color: var(--text-color);
-    margin-bottom: 2rem;
-}
-
-#modalDescription p {
-    margin-bottom: 1rem;
-}
-
-#modalDescription ul {
-    padding-left: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-#modalDescription li {
-    margin-bottom: 0.5rem;
-    position: relative;
-}
-
-#modalDescription li:before {
-    content: "•";
-    color: var(--highlight-color);
-    font-weight: bold;
-    position: absolute;
-    left: -1rem;
-}
-
+/* Bloques de Acción (CTA) */
 .modal-cta {
-    background: rgba(125, 91, 166, 0.05);
-    border-left: 3px solid var(--accent-color);
-    padding: 1.5rem;
-    border-radius: 10px;
-    text-align: center;
-    margin-top: 2rem;
+    background: rgba(125, 91, 166, 0.05); border-left: 3px solid var(--accent-color);
+    padding: 1.5rem; border-radius: 10px; text-align: center; margin-top: 2rem;
 }
 
-.modal-cta p {
-    color: var(--primary-color);
-    font-weight: 500;
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
-}
-
-.modal-contact-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-/* Bloque específico para el Simulador en el Modal */
 .cta-simulador {
-    background: rgba(212, 175, 55, 0.05) !important; /* Fondo naranja muy sutil */
-    border-left: 3px solid var(--accentMicro) !important; /* El dorado/naranja que elegiste */
+    background: rgba(212, 175, 55, 0.05); border-left: 3px solid var(--accentMicro);
     margin-bottom: 1.5rem;
-    padding: 1.5rem;
-    border-radius: 10px;
-    text-align: center;
-}
-
-.cta-simulador p {
-    color: var(--secondary-color) !important;
 }
 
 .btn-simulador {
-    background: var(--accentMicro) !important;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3) !important;
-    border: none !important;
-    /* Forzamos que se comporte como el button original */
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    color: white !important;
-}
-
-/* Igualamos el comportamiento del ícono */
-.btn-simulador i {
-    margin-right: 0.5rem;
-}
-
-.btn-simulador:hover {
-    filter: brightness(1.1);
-    transform: translateY(-2px);
+    background: var(--accentMicro) !important; color: white !important;
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 1rem 2.2rem; border-radius: 30px; text-decoration: none;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); transition: var(--transition);
 }
 
 /* =============================================
-   15. MEDIA QUERIES UNIFICADAS (BLOQUE 2)
+   15. MEDIA QUERIES UNIFICADAS (TODO AQUÍ)
    ============================================= */
+
+/* TABLETS Y LAPTOPS PEQUEÑAS */
 @media (max-width: 992px) {
-    .hero,
-    .contact-grid,
-    .cita-container,
-    .abogada-principal {
-        grid-template-columns: 1fr;
-        gap: 2rem;
+    .hero, 
+    .contact-grid, 
+    .cita-container, 
+    .abogada-principal,
+    .perfil-destacado { 
+        grid-template-columns: 1fr; 
+        gap: 2rem; 
     }
-    
-    .splash-main-title {
-        font-size: 4rem;
+
+    .pilas-container { 
+        gap: 40px; 
     }
-    
-    .splash-subtitle {
-        font-size: 2.5rem;
-    }
-    
-    .hero h1 {
-        font-size: 2.5rem;
-    }
+
+    .splash-main-title { font-size: 4rem; }
+    .splash-subtitle { font-size: 2.5rem; }
+    .hero h1 { font-size: 2.5rem; }
 }
 
+/* CELULARES GRANDES (TABLETS VERTICAL) */
 @media (max-width: 768px) {
-    .hamburger {
-        display: block;
+    /* Navegación */
+    .hamburger { display: block; }
+    .nav-menu { 
+        position: fixed; left: -100%; top: 70px; 
+        flex-direction: column; background: white; 
+        width: 100%; text-align: center; transition: 0.3s; 
+        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05); padding: 2rem 0; 
+        z-index: 1000; 
     }
+    .nav-menu.active { left: 0; }
+
+    /* Splash Screen */
+    .splash-main-title { font-size: 3rem; }
+    .splash-subtitle { font-size: 1.8rem; }
+    .splash-tagline { font-size: 1.2rem; }
+    .splash-abogada { font-size: 1.4rem; padding: 0.8rem 1.5rem; }
+
+    /* Sección Valores y Moneda */
+    .pilas-container { gap: 0; min-height: 320px; }
+    .pila-activa { display: none !important; }
+    .pila-mostrada { width: 100%; max-width: 320px; }
+    .coin-simplified { width: 140px; height: 140px; }
+    .coin-simplified i { font-size: 2.5rem; }
+    .coin-simplified span { font-size: 1rem; }
+
+    /* Sección Equipo */
+    .asociados-grid { grid-template-columns: 1fr; }
+    .asociados-grid .perfil-foto { max-width: 100%; height: 400px; }
+
+    /* Ajustes generales de Hero y Secciones */
+    .hero { text-align: center; margin: 1rem auto; }
+    .button-container, .especialidades { justify-content: center; }
+    .section h2 { font-size: 2rem; }
     
-    .nav-menu {
-        position: fixed;
-        left: -100%;
-        top: 70px;
-        flex-direction: column;
-        background: white;
-        width: 100%;
-        text-align: center;
-        transition: 0.3s;
-        box-shadow: 0 10px 27px rgba(0,0,0,0.05);
-        padding: 2rem 0;
-        z-index: 1000;
-    }
-    
-    .nav-menu.active {
-        left: 0;
-    }
-    
-    .splash-main-title {
-        font-size: 3rem;
-    }
-    
-    .splash-subtitle {
-        font-size: 1.8rem;
-    }
-    
-    .splash-tagline {
-        font-size: 1.2rem;
-    }
-    
-    .splash-abogada {
-        font-size: 1.4rem;
-        padding: 0.8rem 1.5rem;
-    }
-    
-    .hero {
-        text-align: center;
-        margin: 1rem auto;
-    }
-    
-    .button-container {
-        justify-content: center;
-    }
-    
-    .especialidades {
-        justify-content: center;
-    }
-    
-    .section h2 {
-        font-size: 2rem;
-    }
-    
-    .calendly-embed-wrapper {
-        min-height: 600px;
-    }
-    
-    .calendly-inline-widget {
-        height: 600px !important;
-    }
-    
-    .cita-container {
-        grid-template-columns: 1fr;
-    }
-    
-    .coin-simplified {
-        width: 140px;
-        height: 140px;
-    }
-    
-    .coin-simplified i {
-        font-size: 2.5rem;
-    }
-    
-    .coin-simplified span {
-        font-size: 1rem;
-    }
-    
-    .modal-content {
-        margin: 10px;
-        max-height: 85vh;
-    }
-    
-    .modal-header {
-        padding: 2rem 1.5rem 1.5rem;
-    }
-    
-    .modal-body {
-        padding: 1.5rem;
+    /* Calendly y Modal */
+    .calendly-embed-wrapper, .calendly-inline-widget { height: 600px !important; min-height: 600px; }
+    .modal-content { margin: 10px; max-height: 85vh; }
+    .modal-header { padding: 2rem 1.5rem 1.5rem; }
+    .modal-body { padding: 1.5rem; }
+
+    /* Sobreescritura de animación para móvil (Vertical) */
+    @keyframes transferencia {
+        0% { transform: translateY(0); opacity: 1; }
+        100% { transform: translateY(-40px); opacity: 0; }
     }
 }
 
+/* CELULARES PEQUEÑOS */
 @media (max-width: 480px) {
-    .splash-main-title {
-        font-size: 2.5rem;
-    }
+    .splash-main-title { font-size: 2.5rem; }
+    .splash-subtitle { font-size: 1.5rem; }
+    .splash-abogada { font-size: 1.2rem; }
+    .hero h1 { font-size: 2rem; }
     
-    .splash-subtitle {
-        font-size: 1.5rem;
-    }
+    .btn { width: 100%; justify-content: center; }
+    .button-container { flex-direction: column; }
     
-    .splash-abogada {
-        font-size: 1.2rem;
-    }
-    
-    .hero h1 {
-        font-size: 2rem;
-    }
-    
-    .btn {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .button-container {
-        flex-direction: column;
-    }
-    
-    .calendly-inline-widget {
-        height: 550px !important;
-    }
-    
-    .alternative-buttons .btn {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .coin-simplified {
-        width: 120px;
-        height: 120px;
-    }
-    
-    .coin-simplified i {
-        font-size: 2rem;
-        margin-bottom: 0.8rem;
-    }
-    
-    .coin-simplified span {
-        font-size: 0.9rem;
-    }
-    
-    .simple-indicator {
-        font-size: 0.85rem;
-        padding: 0.4rem 0.8rem;
-    }
-    
-    .simple-current {
-        font-size: 1rem;
-    }
+    .calendly-inline-widget { height: 550px !important; }
+    .coin-simplified { width: 120px; height: 120px; }
+    .coin-simplified i { font-size: 2rem; margin-bottom: 0.8rem; }
+    .coin-simplified span { font-size: 0.9rem; }
 }
 
 /* =============================================
@@ -1688,19 +1413,20 @@ input[type="tel"]:valid {
     margin-bottom: 60px;
 }
 
-.abogada-foto, .asociado-foto-wrapper {
+.abogada-foto,
+.asociado-foto-wrapper {
     position: relative;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .foto-overlay-badge {
     position: absolute;
-    bottom: 15px; 
+    bottom: 15px;
     left: 10px;
     right: 10px;
-    background: rgba(11, 19, 43, 0.9); 
+    background: rgba(11, 19, 43, 0.9);
     color: white;
     padding: 8px;
     border-radius: 6px;
@@ -1714,12 +1440,12 @@ input[type="tel"]:valid {
 
 .asociados-grid {
     display: grid;
-   grid-template-columns: 1fr 1fr;
-   gap: 30px;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
     margin-top: 20px;
     width: 100%;
     justify-content: center;
-    justify-items: center; 
+    justify-items: center;
     align-items: start;
 }
 
@@ -1758,6 +1484,7 @@ input[type="tel"]:valid {
     .asociados-grid {
         grid-template-columns: 1fr;
     }
+
     .perfil-cabecera {
         text-align: center;
     }
@@ -1766,7 +1493,7 @@ input[type="tel"]:valid {
 .asociado-foto-container {
     position: relative;
     width: 100%;
-    height: 250px; 
+    height: 250px;
     border-radius: 10px;
     overflow: hidden;
     background-color: #f0f0f0;
@@ -1780,12 +1507,12 @@ input[type="tel"]:valid {
 }
 
 .asociados-grid .perfil-foto {
-    max-width: 280px; 
-    height: 320px;    
+    max-width: 280px;
+    height: 320px;
     position: relative;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
     margin: 0 auto;
 }
 
@@ -1797,7 +1524,7 @@ input[type="tel"]:valid {
 }
 
 .nombre-overlay {
-    font-size: 0.85rem; 
+    font-size: 0.85rem;
     font-weight: bold;
     margin: 0;
 }
@@ -1827,10 +1554,11 @@ input[type="tel"]:valid {
 
 @media (max-width: 768px) {
     .asociados-grid {
-        grid-template-columns: 1fr; 
+        grid-template-columns: 1fr;
     }
+
     .asociados-grid .perfil-foto {
-        max-width: 100%; 
+        max-width: 100%;
         height: 400px;
     }
 }

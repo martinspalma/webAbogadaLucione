@@ -183,7 +183,7 @@ function initContactForm() {
             let userMessage = error.message;
             if (!navigator.onLine) {
                 userMessage = 'Sin conexión a internet. ';
-               // showStatus(`❌ ${userMessage}. O contáctenos al: +54 11 6489-6416`, 'error');
+                // showStatus(`❌ ${userMessage}. O contáctenos al: +54 11 6489-6416`, 'error');
             } else if (error.message.includes('campos requeridos')) {
                 userMessage = error.message;
             }
@@ -658,63 +658,52 @@ function initSimpleCoin() {
 
     function showCurrentModal() {
         const especialidad = ESPECIALIDADES[currentEspecialidad];
+        document.getElementById('simulador-cta')?.remove();
+
         const modalIcon = document.getElementById('modalIcon');
         const modalTitle = document.getElementById('modalTitle');
         const modalDescription = document.getElementById('modalDescription');
-        const modalBody = document.querySelector('.modal-body');
 
         if (modalIcon) modalIcon.className = `modal-icon ${especialidad.icon}`;
         if (modalTitle) modalTitle.textContent = especialidad.title;
-        
-        modalDescription.innerHTML = especialidad.description;
+        if (modalDescription) modalDescription.innerHTML = especialidad.description;
 
-        // Si es Sucesiones (ID 1), creamos el bloque naranja antes del CTA de contacto
-    if (especialidad.id === 1) {
-        const simContainer = document.createElement('div');
-        simContainer.id = 'simulador-cta';
-        simContainer.className = 'modal-cta cta-simulador'; // Clase nueva para el color naranja
-        simContainer.innerHTML = `
-            <p>¿Desea estimar la distribución de una herencia?</p>
-            <a href="https://martinspalma.github.io/microServicioSucesiones/" 
-               target="_blank" 
-               class="btn btn-primary modal-contact-btn btn-simulador">
-                <i class="fas fa-calculator"></i> Simular sucesión
-            </a>
-        `;
-        // Lo insertamos justo antes del cuadro de consulta violeta (.modal-cta original)
-        const standardCta = document.querySelector('.modal-cta:not(.cta-simulador)');
-        if (standardCta) {
-            standardCta.parentNode.insertBefore(simContainer, standardCta);
+        if (especialidad.id === 1) {
+            const simContainer = document.createElement('div');
+            simContainer.id = 'simulador-cta';
+            simContainer.className = 'modal-cta cta-simulador';
+            simContainer.innerHTML = `
+                <p>¿Desea estimar la distribución de una herencia?</p>
+                <a href="https://martinspalma.github.io/microServicioSucesiones/" 
+                   target="_blank" 
+                   class="btn btn-primary modal-contact-btn btn-simulador">
+                    <i class="fas fa-calculator"></i> Simular sucesión
+                </a>
+            `;
+            const standardCta = document.querySelector('.modal-cta:not(.cta-simulador)');
+            if (standardCta) standardCta.parentNode.insertBefore(simContainer, standardCta);
         }
-    }
 
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
         clearInterval(autoRotateInterval);
         document.addEventListener('keydown', handleKeyNavigation);
-        
     }
 
-    
+    // --- LISTENERS ---
     if (consultarBtn) {
         consultarBtn.addEventListener('click', function (e) {
             e.preventDefault();
             closeModal();
-
             setTimeout(() => {
                 const contactoSection = document.querySelector('#contacto');
                 if (contactoSection) {
                     const headerHeight = document.querySelector('.header').offsetHeight;
                     const targetPosition = contactoSection.offsetTop - headerHeight - 20;
-
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-
+                    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
                     const contactForm = document.querySelector('.contact-form');
                     if (contactForm) {
-                        contactForm.style.boxShadow = '0 0 0 3px rgba(184, 134, 11, 0.3)';
+                        contactForm.style.boxShadow = '0 0 0 3px var(--accent-glow)';
                         setTimeout(() => contactForm.style.boxShadow = '', 2000);
                     }
                 }
@@ -723,16 +712,7 @@ function initSimpleCoin() {
     }
 
     coin.addEventListener('click', showCurrentModal);
-    coin.setAttribute('tabindex', '0');
-    coin.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            showCurrentModal();
-        }
-    });
-
     if (modalClose) modalClose.addEventListener('click', closeModal);
-
     if (modal) {
         modal.addEventListener('click', (e) => {
             if (e.target === modal) closeModal();
@@ -743,20 +723,6 @@ function initSimpleCoin() {
     coin.addEventListener('mouseleave', () => {
         if (!modal.classList.contains('active')) startAutoRotation();
     });
-
-    let touchStartX = 0;
-    coin.addEventListener('touchstart', (e) => {
-        touchStartX = e.touches[0].clientX;
-    }, { passive: true });
-
-    coin.addEventListener('touchend', (e) => {
-        const touchEndX = e.changedTouches[0].clientX;
-        const diff = touchStartX - touchEndX;
-
-        if (Math.abs(diff) > 50) {
-            diff > 0 ? nextEspecialidad() : prevEspecialidad();
-        }
-    }, { passive: true });
 
     changeEspecialidad();
     setTimeout(startAutoRotation, CONFIG.coin.initialDelay);
@@ -795,62 +761,34 @@ window.addEventListener('resize', () => {
     }, 250);
 });
 
+
 // =============================================
-// VOLTEO AUTOMÁTICO DE FICHAS DE VALORES
-// =============================================
-// =============================================
-// SISTEMA DE VALORES - CAMBIO CADA 4 SEGUNDOS (SIN CONTADOR)
+// VOLTEO AUTOMÁTICO DE FICHAS DE VALORES (JS)
 // =============================================
 
 document.addEventListener('DOMContentLoaded', function () {
     const valores = [
-        {
-            id: "confidencialidad",
-            icono: "fas fa-user-shield",
-            titulo: "Confidencialidad",
-            descripcion: "Total discreción y protección de su información personal y legal.",
-            color: "#7d5ba6"
-        },
-        {
-            id: "personalizacion",
-            icono: "fas fa-bullseye",
-            titulo: "Enfoque Personalizado",
-            descripcion: "Estrategias legales adaptadas a las necesidades específicas de cada cliente.",
-            color: "#3498db"
-        },
-        {
-            id: "comunicacion",
-            icono: "fas fa-comments",
-            titulo: "Comunicación Clara",
-            descripcion: "Explicamos cada paso del proceso legal en términos comprensibles.",
-            color: "#27ae60"
-        },
-        {
-            id: "disponibilidad",
-            icono: "fas fa-clock",
-            titulo: "Disponibilidad",
-            descripcion: "Atención oportuna y seguimiento constante de su caso.",
-            color: "#e74c3c"
-        }
+        { id: "confidencialidad", icono: "fas fa-user-shield", titulo: "Confidencialidad", descripcion: "Total discreción y protección de su información personal y legal." },
+        { id: "personalizacion", icono: "fas fa-bullseye", titulo: "Enfoque Personalizado", descripcion: "Estrategias legales adaptadas a las necesidades específicas de cada cliente." },
+        { id: "comunicacion", icono: "fas fa-comments", titulo: "Comunicación Clara", descripcion: "Explicamos cada paso del proceso legal en términos comprensibles." },
+        { id: "disponibilidad", icono: "fas fa-clock", titulo: "Disponibilidad", descripcion: "Atención oportuna y seguimiento constante de su caso." }
     ];
 
-    // Elementos del DOM
     const pilaActiva = document.querySelector('.pila-activa');
     const pilaMostrada = document.querySelector('.pila-mostrada');
     const indicadoresActiva = document.querySelector('.indicadores-activa');
     const indicadoresMostrada = document.querySelector('.indicadores-mostrada');
 
     let indiceActual = 0;
-    const intervaloCambio = 2500; // 2. segundos
+    const intervaloCambio = 2500;
     let intervalo;
     let enTransicion = false;
 
-    // Crear indicadores (puntitos)
     function crearIndicadores() {
         if (indicadoresActiva) indicadoresActiva.innerHTML = '';
         if (indicadoresMostrada) indicadoresMostrada.innerHTML = '';
 
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < valores.length; i++) {
             const puntoActiva = document.createElement('div');
             puntoActiva.className = `punto-indicador ${i === 1 ? 'activo' : ''}`;
             if (indicadoresActiva) indicadoresActiva.appendChild(puntoActiva);
@@ -861,109 +799,80 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Actualizar tarjetas
     function actualizarTarjetas() {
         if (enTransicion) return;
         enTransicion = true;
 
-        // Obtener valores
-        const valorActual = valores[indiceActual];
         const siguienteIndice = (indiceActual + 1) % valores.length;
-        const valorSiguiente = valores[siguienteIndice];
+        const proximoIndice = (siguienteIndice + 1) % valores.length; // Para la pila de espera
 
-        // Actualizar pila activa (próximo valor)
         const tarjetaActiva = pilaActiva?.querySelector('.tarjeta-valor');
-        if (tarjetaActiva && tarjetaActiva.classList.contains('visible')) {
+        const tarjetaMostrada = pilaMostrada?.querySelector('.tarjeta-valor');
+
+        // Fase 1: Iniciar salida (CSS maneja el scale y blur)
+        if (tarjetaActiva) {
             tarjetaActiva.classList.remove('visible');
             tarjetaActiva.classList.add('tarjeta-transfiriendo');
         }
-
-        // Actualizar pila mostrada (valor actual)
-        const tarjetaMostrada = pilaMostrada?.querySelector('.tarjeta-valor');
-        if (tarjetaMostrada && tarjetaMostrada.classList.contains('visible')) {
+        if (tarjetaMostrada) {
             tarjetaMostrada.classList.remove('visible');
         }
 
-        // Después de la animación, actualizar contenido
+        // Fase 2: Actualizar contenido mientras están ocultas
         setTimeout(() => {
             if (tarjetaActiva) {
                 tarjetaActiva.classList.remove('tarjeta-transfiriendo');
-                actualizarContenidoTarjeta(pilaActiva, valorSiguiente);
+                actualizarContenidoTarjeta(pilaActiva, valores[proximoIndice]);
             }
 
-            actualizarContenidoTarjeta(pilaMostrada, valorActual);
+            actualizarContenidoTarjeta(pilaMostrada, valores[siguienteIndice]);
             actualizarIndicadores();
 
             indiceActual = siguienteIndice;
             enTransicion = false;
-        }, 600);
+        }, 600); // Coincide con la duración del CSS
     }
 
-    // Actualizar contenido de una tarjeta
     function actualizarContenidoTarjeta(contenedor, valor) {
         if (!contenedor) return;
-
         const tarjeta = contenedor.querySelector('.tarjeta-valor');
         if (!tarjeta) return;
 
+        // Cambiamos el ID para que el CSS aplique el nuevo color inmediatamente
         tarjeta.setAttribute('data-valor', valor.id);
         tarjeta.querySelector('.icono-tarjeta').innerHTML = `<i class="${valor.icono}"></i>`;
         tarjeta.querySelector('h4').textContent = valor.titulo;
         tarjeta.querySelector('p').textContent = valor.descripcion;
-        tarjeta.classList.add('visible');
+
+        // El navegador aplica la transición de entrada al añadir 'visible'
+        requestAnimationFrame(() => {
+            tarjeta.classList.add('visible');
+        });
     }
 
-    // Actualizar indicadores
     function actualizarIndicadores() {
         const puntosActiva = document.querySelectorAll('.indicadores-activa .punto-indicador');
         const puntosMostrada = document.querySelectorAll('.indicadores-mostrada .punto-indicador');
 
         const indiceActiva = (indiceActual + 1) % valores.length;
-        const indiceMostrada = indiceActual;
 
-        puntosActiva.forEach((punto, i) => {
-            punto.classList.toggle('activo', i === indiceActiva);
-        });
-
-        puntosMostrada.forEach((punto, i) => {
-            punto.classList.toggle('activo', i === indiceMostrada);
-        });
+        puntosActiva.forEach((punto, i) => punto.classList.toggle('activo', i === indiceActiva));
+        puntosMostrada.forEach((punto, i) => punto.classList.toggle('activo', i === indiceActual));
     }
 
-    // Iniciar ciclo automático
     function iniciarCiclo() {
         clearInterval(intervalo);
         intervalo = setInterval(actualizarTarjetas, intervaloCambio);
     }
 
-    // Inicializar
     function inicializar() {
         crearIndicadores();
-
-        // Configurar primera tarjeta (pila mostrada)
-        const primerValor = valores[0];
-        actualizarContenidoTarjeta(pilaMostrada, primerValor);
-
-        // Configurar segunda tarjeta (pila activa)
-        const segundoValor = valores[1];
-        actualizarContenidoTarjeta(pilaActiva, segundoValor);
-
+        actualizarContenidoTarjeta(pilaMostrada, valores[0]);
+        actualizarContenidoTarjeta(pilaActiva, valores[1]);
         iniciarCiclo();
     }
 
-    // Interacción manual
-    pilaMostrada?.addEventListener('click', function () {
-        if (enTransicion) return;
-
-        clearInterval(intervalo);
-        actualizarTarjetas();
-
-        setTimeout(() => {
-            iniciarCiclo();
-        }, 2000);
-    });
-
-    // Observador de visibilidad
+    // Intersection Observer para no consumir recursos si no se ve
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -975,9 +884,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }, { threshold: 0.3 });
 
-    // Iniciar
     inicializar();
-
     const valoresSection = document.querySelector('.valores-section');
     if (valoresSection) observer.observe(valoresSection);
 });
