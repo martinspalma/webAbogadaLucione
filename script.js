@@ -674,10 +674,26 @@ function initSimpleCoin() {
             simContainer.className = 'modal-cta cta-simulador';
             simContainer.innerHTML = `
                 <p>¿Desea estimar la distribución de una herencia?</p>
-                <a href="https://martinspalma.github.io/microServicioSucesiones/" 
+                <a href="https://martinspalma.github.io/microServiciosLegales/sucesiones/" 
                    target="_blank" 
                    class="btn btn-primary modal-contact-btn btn-simulador">
                     <i class="fas fa-calculator"></i> Simular sucesión
+                </a>
+            `;
+            const standardCta = document.querySelector('.modal-cta:not(.cta-simulador)');
+            if (standardCta) standardCta.parentNode.insertBefore(simContainer, standardCta);
+        }
+
+        if (especialidad.id === 4) {
+            const simContainer = document.createElement('div');
+            simContainer.id = 'simulador-cta';
+            simContainer.className = 'modal-cta cta-simulador';
+            simContainer.innerHTML = `
+                <p>¿Desea estimar monto de indemnizacion de un despido sin causa?</p>
+                <a href="https://martinspalma.github.io/microServiciosLegales/indemnizaciones/" 
+                   target="_blank" 
+                   class="btn btn-primary modal-contact-btn btn-simulador">
+                    <i class="fas fa-calculator"></i> Calcular Indemnización
                 </a>
             `;
             const standardCta = document.querySelector('.modal-cta:not(.cta-simulador)');
