@@ -402,6 +402,8 @@ body {
     overflow: hidden;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
     height: 500px;
+    background: linear-gradient(transparent, rgba(72, 76, 83, 0.9));
+    /* desde aca*/
 }
 
 .hero-main-image {
